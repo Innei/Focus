@@ -1,0 +1,40 @@
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+  margin: 0;
+  padding: 0;
+}
+body {
+  color: #333;
+  background: #fff;
+}
+img,
+button {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+}
+.none {
+  display: none;
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
