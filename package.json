@@ -1,7 +1,7 @@
 {
-  "name": "starter",
-  "version": "1.0.0",
-  "description": "My first-rate Nuxt.js project",
+  "name": "Focus",
+  "version": "0.0.1",
+  "description": "What a Blog make you Focus!",
   "author": "Innei",
   "private": true,
   "scripts": {

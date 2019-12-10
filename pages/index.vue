@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <Header />
+    <div id="views">
+      <nuxt-child />
+    </div>
   </div>
 </template>
 
@@ -24,3 +27,17 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+#app {
+  position: relative;
+}
+#views {
+  padding-left: 192px;
+}
+@media (max-width: map-get($map: $viewports, $key: 'mobile')) {
+  #views {
+    padding-left: 0;
+  }
+}
+</style>
