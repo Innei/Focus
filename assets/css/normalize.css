@@ -1,3 +1,6 @@
+/** 
+  - 样式重置
+*/
 html,
 body,
 ul,
@@ -31,13 +34,6 @@ button {
 table {
   border-collapse: collapse;
 }
-.none {
-  display: none;
-}
-.hide {
-  opacity: 0;
-  visibility: hidden;
-}
 
 html {
   font-family: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
@@ -48,4 +44,20 @@ a,
 a:hover,
 a:active {
   color: unset;
+}
+
+/**
+  - 全局类
+*/
+.none {
+  display: none;
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+.top {
+  position: absolute;
+  top: 24px;
+  left: 24px;
 }

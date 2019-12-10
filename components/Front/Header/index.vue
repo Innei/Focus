@@ -17,19 +17,6 @@ export default {
   width: (64 * 3) + px;
   top: 0;
   height: 100vh;
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    height: 100%;
-    top: 0;
-    width: 1px;
-    background-image: linear-gradient(
-      #fff 50%,
-      map-get($map: $colors, $key: 'gray') 150%
-    );
-    opacity: 0.4;
-  }
 }
 .navigation {
   opacity: 0.6;

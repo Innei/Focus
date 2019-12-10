@@ -61,7 +61,7 @@ module.exports = {
   build: {
     transpile: [/^element-ui/],
     styleResources: {
-      scss: '~assets/scss/_color.scss'
+      scss: '~assets/scss/_variables.scss'
     },
     /*
      ** You can extend webpack config here

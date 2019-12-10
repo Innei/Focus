@@ -1,7 +1,7 @@
 <template>
-  <nuxt-link :to="link">
+  <nuxt-link :to="link" style="display: block">
     <div class="nav-item">
-      <div class="icon" :class="icon">
+      <div :class="icon" class="icon">
         <slot name="svg" />
       </div>
 
