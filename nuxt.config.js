@@ -58,6 +58,9 @@ module.exports = {
   /*
    ** Build configuration
    */
+  server: {
+    host: '0.0.0.0'
+  },
   build: {
     transpile: [/^element-ui/],
     styleResources: {

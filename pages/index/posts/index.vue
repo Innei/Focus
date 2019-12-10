@@ -22,19 +22,37 @@
             d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"
           />
         </svg>
-        <a href="/tags/网易云音乐/">网易云音乐</a>,
-        <a href="/tags/进程注入/">进程注入</a>
+        <a href="/tags/网易云音乐/">标签</a>
       </div>
+    </div>
+    <div class="post-body-wrapper">
+      <div class="post-body" v-html="text" v-if="text"></div>
     </div>
   </div>
 </template>
 
 <script>
 // import Basic from '~/layouts/Basic'
+import MD from 'markdown-it'
+const md = new MD({
+  html: true,
+  xhtmlOut: true
+})
 
 export default {
+  async asyncData({ app }) {
+    const { data } = await app.$axios.get('posts')
+    return {
+      text: md.render(data.text)
+    }
+  },
   components: {
     // Basic
+  },
+  data() {
+    return {
+      text: undefined
+    }
   }
 }
 </script>
@@ -66,6 +84,16 @@ export default {
     font-weight: 500;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+}
+.post-body-wrapper {
+  padding: 3rem 10rem;
+  max-width: 1024px;
+  margin: auto;
+}
+@media (max-width: map-get($map: $viewports, $key: 'mobile')) {
+  .post-body-wrapper {
+    padding: 3rem 24px;
   }
 }
 </style>

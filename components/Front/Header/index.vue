@@ -53,10 +53,11 @@ export default {
 
 <style lang="scss" scoped>
 #header {
-  position: absolute;
+  z-index: 3;
   width: (64 * 3) + px;
   top: 0;
   height: 100vh;
+  position: fixed;
 }
 .navigation {
   opacity: 0.6;

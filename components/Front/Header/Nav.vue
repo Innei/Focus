@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import NavItem from './components/Nav-item'
 export default {
   components: {
@@ -94,7 +94,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['viewport'])
+    ...mapGetters(['navActive'])
   },
   mounted() {
     // Why nav -> index -> vuex action
@@ -105,7 +105,14 @@ export default {
     //   }
     // })
   },
-  methods: {}
+  methods: {
+    ...mapActions('Navigation', ['setStatus'])
+  },
+  watch: {
+    active(val) {
+      this.setStatus(val)
+    }
+  }
 }
 </script>
 

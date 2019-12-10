@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <Header />
-    <div id="views">
+    <div id="views" :class="{ 'no-padding': !navActive }">
       <nuxt-child />
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Header from '~/components/Front/Header'
 import utils from '~/utils/index'
 
@@ -19,6 +19,9 @@ export default {
   mounted() {
     this.updateViewport()
     window.addEventListener('resize', utils.debounce(this.updateViewport, 50))
+  },
+  computed: {
+    ...mapGetters(['navActive'])
   },
   methods: {
     ...mapActions({
@@ -34,6 +37,10 @@ export default {
 }
 #views {
   padding-left: 192px;
+  transition: padding 0.8s;
+}
+#views.no-padding {
+  padding: 0;
 }
 @media (max-width: map-get($map: $viewports, $key: 'mobile')) {
   #views {

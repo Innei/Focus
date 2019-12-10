@@ -5,9 +5,9 @@ export const state = () => ({
 export const actions = {
   updateViewport({ state }) {
     state.viewport = {
-      w: window.innerWidth,
+      w: document.documentElement.getBoundingClientRect().width,
       h: window.innerHeight,
-      mobile: window.innerWidth <= 568,
+      mobile: window.screen.width <= 568,
       laptop: window.innerWidth <= 768,
       desktop: window.innerWidth <= 1024
     }
