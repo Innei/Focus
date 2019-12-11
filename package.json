@@ -1,11 +1,12 @@
 {
   "name": "Focus",
   "version": "0.0.1",
-  "description": "What a Blog make you Focus!",
+  "description": "What a Blog make you Focused!",
   "author": "Innei",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev:no-web": "cross-env NODE_ENV=development VUE_ENV=no-web nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
@@ -19,7 +20,9 @@
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
-    "express": "^4.16.4",
+    "express": "^5.0.0-alpha.7",
+    "http-assert": "^1.4.1",
+    "jsonwebtoken": "^8.5.1",
     "markdown-it": "^10.0.0",
     "mongoose": "^5.7.13",
     "nuxt": "^2.0.0"

@@ -1,10 +1,12 @@
 const { Router } = require('express')
+const assert = require('http-assert')
 const Post = require('../../models/Post')
 const router = Router()
 
-router.get('/', async (req, res) => {
-  res.send({
-    text: `<script async defer src="https://buttons.github.io/buttons.js"></script>
+router
+  .get('/', async (req, res) => {
+    res.send({
+      text: `<script async defer src="https://buttons.github.io/buttons.js"></script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 ## 介绍
 
@@ -35,7 +37,37 @@ shizuri.net于2019-02-20号正式启用，作为此博客的新域名。
 <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
 <p id="hitokoto">:D 获取中...</p>
 `
+    })
   })
-})
+  .get('/:id', async (req, res) => {
+    const id = req.params.id
+    assert(id, 400, '不正确的请求')
+    const r = await Post.findById(id)
+    res.send(r)
+  })
+  .post('/', async (req, res) => {
+    const body = req.body
+    assert(body && body != '{}', 400, '空的请求体')
+    const {
+      title = '未命名文章',
+      text = '',
+      status,
+      categoryId,
+      authorId
+    } = body
+
+    const { slug = title } = body
+
+    const r = await Post.create({
+      title,
+      text,
+      status,
+      categoryId,
+      authorId,
+      slug
+    })
+
+    res.send(r)
+  })
 
 module.exports = router

@@ -1,0 +1,45 @@
+@url=http://localhost:3000/api/user
+
+### get
+get {{url}}/5df0d7927fee6f8b5bee5358
+
+### sign up
+post {{url}}/signup
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "1",
+  "url": "https://shizuri.net",
+  "mail": "yiny@shizuri.net"
+}
+
+### modify password
+put {{url}}/password/modify
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJVc2VyIjoidGVzdCIsImNvZGUiOiIweTE3cHh6cjI3b3E5OHpsY2FlYnJtIiwiaWF0IjoxNTc2MDY2NTg4LCJleHAiOjE1NzYzMjU3ODh9.ht54S2RoDYdmP3Q3CBRCCZ4LwGvRKKWrBgufSNEtkaU
+
+
+{
+  "id": "5df0d7927fee6f8b5bee5358",
+  "oldPassword": "2",
+  "password": "1"
+}
+
+### login
+post {{url}}/login
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJVc2VyIjoidGVzdCIsImNvZGUiOiIweTE3cHh6cjI3b3E5OHpsY2FlYnJtIiwiaWF0IjoxNTc2MDY2NTg4LCJleHAiOjE1NzYzMjU3ODh9.ht54S2RoDYdmP3Q3CBRCCZ4LwGvRKKWrBgufSNEtkaU
+
+{
+  "username": "test",
+  "password": "1"
+}
+
+### check Logged
+get {{url}}/check_logged
+
+
+### sign out
+get {{url}}/sign_out
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJVc2VyIjoidGVzdCIsImNvZGUiOiIweTE3cHh6cjI3b3E5OHpsY2FlYnJtIiwiaWF0IjoxNTc2MDY2NTg4LCJleHAiOjE1NzYzMjU3ODh9.ht54S2RoDYdmP3Q3CBRCCZ4LwGvRKKWrBgufSNEtkaU

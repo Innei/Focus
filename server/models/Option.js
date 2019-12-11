@@ -7,7 +7,9 @@ const schema = new Schema({
     required: true,
     index: 1
   },
-  value: {}
+  value: {
+    type: Schema.Types.Mixed
+  }
 })
 
 module.exports = model('Option', schema)

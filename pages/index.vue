@@ -10,7 +10,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Header from '~/components/Front/Header'
-import utils from '~/utils/index'
+import { debounce } from '~/utils/index'
 
 export default {
   components: {
@@ -18,7 +18,7 @@ export default {
   },
   mounted() {
     this.updateViewport()
-    window.addEventListener('resize', utils.debounce(this.updateViewport, 50))
+    window.addEventListener('resize', debounce(this.updateViewport, 50))
   },
   computed: {
     ...mapGetters(['navActive'])

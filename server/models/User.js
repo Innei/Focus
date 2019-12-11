@@ -5,8 +5,9 @@ const schema = new Schema({
   password: {
     type: String,
     set(val) {
-      return hashSync(val, 16)
-    }
+      return hashSync(val, 6)
+    },
+    select: false
   },
   mail: String,
   url: String,
@@ -17,7 +18,11 @@ const schema = new Schema({
   logged: {
     type: Date
   },
-  authCode: String,
+  authCode: {
+    select: false,
+    type: String,
+    required: true
+  },
   apiTokens: Array
 })
 

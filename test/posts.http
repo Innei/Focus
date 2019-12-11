@@ -1,0 +1,15 @@
+@url=http://localhost:3000/api/posts
+
+### Get Posts
+get {{url}}
+
+### Get ID
+get {{url}}/
+
+### Post 
+post {{url}}
+Content-Type: application/json
+
+{
+  "text": "test"
+}

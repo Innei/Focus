@@ -6,7 +6,16 @@ const app = express()
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
+config.no_web = process.env.VUE_ENV === 'no-web'
+// init db
 require('./db')
+
+// global middleware
+app.use(express.json())
+app.use(require('cors')())
+
+// bind routes
+require('./routes/index')(app)
 
 async function start() {
   // Init Nuxt.js
@@ -15,20 +24,15 @@ async function start() {
   const { host, port } = nuxt.options.server
 
   // Build only in dev mode
-  if (config.dev) {
+  if (config.dev && !config.no_web) {
     const builder = new Builder(nuxt)
     await builder.build()
   } else {
     await nuxt.ready()
   }
 
-  // bind routes
-  require('../routes/index')(app)
-
   // Give nuxt middleware to express
   app.use(nuxt.render)
-  app.use(express.json())
-  app.use(require('cors')())
 
   // Listen the server
   app.listen(port, host)
@@ -38,3 +42,12 @@ async function start() {
   })
 }
 start()
+
+// global error handler
+app.use((err, req, res, next) => {
+  if (err) {
+    res
+      .status(err.status || err.statusCode || 500)
+      .send({ msg: err.message, ok: 0 })
+  } else next()
+})

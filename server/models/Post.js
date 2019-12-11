@@ -1,10 +1,10 @@
-const { Schema, model, SchemaTypes } = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const schema = new Schema({
   title: { type: String, index: 1 },
-  slug: { type: String },
+  slug: { type: String, index: 1 },
   categoryId: {
-    type: SchemaTypes.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Category'
   },
   created: {
@@ -19,11 +19,12 @@ const schema = new Schema({
   },
   text: String,
   authorId: {
-    type: SchemaTypes.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  status: String,
-  commentsNum: { type: Number, default: 0 }
+  status: { type: String, default: 'Published' },
+  commentsNum: { type: Number, default: 0 },
+  type: { type: String, default: 'post' }
 })
 
 schema.path('title').validate((val) => {

@@ -1,3 +1,4 @@
+require('dotenv').config()
 module.exports = {
   mode: 'universal',
   /*
@@ -61,11 +62,11 @@ module.exports = {
   server: {
     host: '0.0.0.0'
   },
+  styleResources: {
+    scss: '~assets/scss/_variables.scss'
+  },
   build: {
     transpile: [/^element-ui/],
-    styleResources: {
-      scss: '~assets/scss/_variables.scss'
-    },
     /*
      ** You can extend webpack config here
      */
