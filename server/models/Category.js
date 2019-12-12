@@ -4,13 +4,18 @@ const schema = new Schema({
   name: {
     required: true,
     type: String,
-    index: 1
+    index: {
+      unique: true
+    }
   },
   type: {
-    type: String
+    type: String,
+    default: 'Category'
   },
   slug: {
-    type: String
+    type: String,
+    index: { unique: true },
+    required: true
   },
   count: {
     type: Number,
@@ -22,5 +27,4 @@ const schema = new Schema({
     index: -1
   }
 })
-
 module.exports = model('Category', schema)

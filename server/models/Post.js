@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 
 const schema = new Schema({
   title: { type: String, index: 1 },
-  slug: { type: String, index: 1 },
+  slug: { type: String, index: { unique: true }, required: true },
   categoryId: {
     type: Schema.Types.ObjectId,
     ref: 'Category'
@@ -26,9 +26,5 @@ const schema = new Schema({
   commentsNum: { type: Number, default: 0 },
   type: { type: String, default: 'post' }
 })
-
-schema.path('title').validate((val) => {
-  return !!val
-}, '标题不能为空')
-
+// schema.index({ slug: 1 }, { unique: true })
 module.exports = model('Post', schema)

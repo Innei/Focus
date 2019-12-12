@@ -13,3 +13,12 @@ Content-Type: application/json
 {
   "text": "test"
 }
+
+### Modify 
+put {{url}}/5df217805384523c5ed1b8df
+Content-Type: application/json
+
+{
+  "slug": "slug-1",
+  "text": "test"
+}

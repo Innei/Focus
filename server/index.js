@@ -7,8 +7,10 @@ const app = express()
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 config.no_web = process.env.VUE_ENV === 'no-web'
-// init db
+// connect to db and init db
 require('./db')
+// first time to install
+require('./plugins/checkInit')
 
 // global middleware
 app.use(express.json())

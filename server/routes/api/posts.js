@@ -1,8 +1,8 @@
 const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
-const Post = require('../../models/Post')
-const Category = require('../../models/Category')
+
+const { Post, Category, Option } = require('../../models/index')
 const router = Router()
 
 router
@@ -50,12 +50,15 @@ router
   .post('/', async (req, res) => {
     const body = req.body
     assert(body && body != '{}', 400, '空的请求体')
+    // 提前生成一个 ObjectId, 取代未定义的 slug
+    const _id = Types.ObjectId()
     const {
       title = '未命名文章',
       text = '',
       status,
       categoryId,
-      authorId
+      authorId,
+      slug = _id
     } = body
 
     if (categoryId) {
@@ -67,9 +70,9 @@ router
         return res.status(400).send({ ok: 0, msg: '分类不存在' })
       }
     }
-    const { slug = title } = body
 
     const r = await Post.create({
+      _id,
       title,
       text,
       status,
@@ -104,6 +107,10 @@ router
         text,
         status,
         categoryId: Types.ObjectId(categoryId)
+      },
+      {
+        // 未定义 undefined 不更新
+        omitUndefined: true
       }
     )
 
