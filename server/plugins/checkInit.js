@@ -1,7 +1,7 @@
 const Option = require('../models/Option')
 ;(async () => {
-  const r = await Option.find()
-  if (r.length === 0) {
+  const r = await Option.countDocuments()
+  if (!r) {
     await Option.insertMany([
       {
         name: 'createdDay',

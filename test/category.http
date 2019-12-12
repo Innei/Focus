@@ -1,0 +1,7 @@
+@url=http://localhost:3000/api/categories
+
+### List Category
+get {{url}}
+
+### Get One Category
+get {{url}}

@@ -7,10 +7,20 @@ const Category = require('../../models/Category')
 const router = Router()
 
 router
-  .get('/', async (req, res) => {
-    const r = await Category.find()
-    res.send(r)
-  })
+
+  // 使用 /rest/ 整合
+  // .get('/', async (req, res) => {
+  //   const r = await Category.find()
+  //   res.send({ ok: 1, count: r.length, data: r })
+  // })
+  // .get('/:id', async (req, res) => {
+  //   const { id } = req.params
+  //   assert(id, 400, '缺少唯一标志符')
+  //   const r = await Category.findById(id)
+  //   r
+  //     ? res.send({ ok: 0, msg: '找不到相关的记录' })
+  //     : res.send({ ok: 1, data: r })
+  // })
   /**
    * 创建一个分类
    */
@@ -22,5 +32,12 @@ router
       return res.status(400).send({ ok: 0, msg: '类型不正确' })
     }
     const { slug = name } = req.body
+    const r = await Category.create({
+      name,
+      type,
+      slug
+    })
+
+    res.send({ ok: 1, r })
   })
 module.exports = router

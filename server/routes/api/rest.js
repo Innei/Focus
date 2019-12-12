@@ -1,0 +1,52 @@
+/**
+ * 通用接口
+ */
+
+const { Router } = require('express')
+const assert = require('http-assert')
+
+const router = Router({
+  mergeParams: true
+})
+
+router
+  .use(require('../../middlewares/resource')())
+  .get('/', async (req, res) => {
+    const { page = 1, size = 10 } = req.query
+    assert(size < 20, 400, '要素过多')
+    assert(page > 0, 400, '页数不正确')
+    const data = await req.Model.find({})
+      .skip((page - 1) * size)
+      .limit(Number(size))
+      .sort({ createdTime: -1 })
+    if (data.length === 0 && page !== 1) {
+      return res.send({ ok: 0, msg: '没有下页啦!' })
+    }
+    const total = await req.Model.countDocuments()
+    const totalPage = Math.ceil(total / size)
+    const pageOptions = {
+      size: data.length,
+      currentPage: Number(page),
+      totalPage,
+      total,
+      hasNextPage: totalPage > page,
+      hasPrevPage: Number(page) !== 1
+    }
+
+    res.send({
+      ok: 1,
+      page: pageOptions,
+      data
+    })
+  })
+  .get('/:id', async (req, res) => {
+    const id = req.params.id
+    assert(id, 400, '不正确的请求')
+    const r = await req.Model.findById(id).populate('categoryId')
+    if (r) {
+      res.send({ ok: 1, data: r })
+    } else {
+      res.send({ ok: 0, msg: '不存在此记录' })
+    }
+  })
+module.exports = router
