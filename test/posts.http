@@ -22,3 +22,6 @@ Content-Type: application/json
   "slug": "slug-1",
   "text": "test撒大声地"
 }
+
+### Del
+delete {{url}}/5df23b155e6133060bffec24

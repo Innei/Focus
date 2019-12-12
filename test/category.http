@@ -5,3 +5,22 @@ get {{url}}
 
 ### Get One Category
 get {{url}}
+
+### Create a category
+post {{url}}
+Content-Type: application/json
+
+{
+  "name": "study"
+}
+
+### Modify category
+put {{url}}/5df23515ecbddefd9ee2b10c
+Content-Type: application/json
+
+{
+  "name": "tech2"
+}
+
+### Delete 
+delete {{url}}/5df23515ecbddefd9ee2b10c

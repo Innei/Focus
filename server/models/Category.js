@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose')
-
+const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   name: {
     required: true,
@@ -27,4 +27,5 @@ const schema = new Schema({
     index: -1
   }
 })
+schema.plugin(uniqueValidator)
 module.exports = model('Category', schema)

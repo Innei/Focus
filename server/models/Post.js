@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose')
-
+const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   title: { type: String, index: 1 },
   slug: { type: String, index: { unique: true }, required: true },
@@ -18,13 +18,9 @@ const schema = new Schema({
     index: -1
   },
   text: String,
-  authorId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
   status: { type: String, default: 'Published' },
   commentsNum: { type: Number, default: 0 },
   type: { type: String, default: 'post' }
 })
-// schema.index({ slug: 1 }, { unique: true })
+schema.plugin(uniqueValidator)
 module.exports = model('Post', schema)

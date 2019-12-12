@@ -32,12 +32,31 @@ router
       return res.status(400).send({ ok: 0, msg: '类型不正确' })
     }
     const { slug = name } = req.body
-    const r = await Category.create({
-      name,
-      type,
-      slug
-    })
+    try {
+      const r = await Category.create({
+        name,
+        type,
+        slug
+      })
+      res.send({ ok: 1, r })
+    } catch (e) {
+      return res.send({ ok: 0, msg: e.errors.slug.message })
+    }
+  })
+  // 修改分类
+  .put('/:id', async (req, res) => {
+    const id = req.params.id
+    assert(id, 400, '标识符为空')
+    const { slug, name } = req.body
+    const r = await Category.updateOne(
+      { _id: id },
+      {
+        slug,
+        name
+      },
+      { omitUndefined: true }
+    )
 
-    res.send({ ok: 1, r })
+    res.send({ ...r, msg: r.nModified ? '修改成功' : '修改失败' })
   })
 module.exports = router

@@ -31,9 +31,9 @@ const Option = require('../models/Option')
         name: 'count',
         value: {
           postCount: 0,
-          MomentCount: 0,
-          CommentCount: 0,
-          NoteCount: 0
+          momentCount: 0,
+          commentCount: 0,
+          noteCount: 0
         }
       },
       {
