@@ -20,7 +20,7 @@ router
     const data = await req.Model.find({})
       .skip((page - 1) * size)
       .limit(Number(size))
-      .sort({ createdTime: -1 })
+      .sort({ created: -1 })
     if (data.length === 0 && page !== 1) {
       return res.send({ ok: 0, msg: '没有下页啦!' })
     }

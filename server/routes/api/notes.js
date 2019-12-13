@@ -43,7 +43,7 @@ router
     const r = await Note.updateOne(
       { _id: id },
       {
-        modifiedTime: new Date(),
+        modified: new Date(),
         title,
         text,
         hide,

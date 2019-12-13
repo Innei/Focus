@@ -4,23 +4,24 @@
 get {{url}}
 
 ### Get ID
-get {{url}}/5df217805384523c5ed1b8df
+get {{url}}/5df322aba3968d17e5763354
 
 ### Post 
 post {{url}}
 Content-Type: application/json
 
 {
-  "text": "test"
+  "text": "test",
+  "categoryId": "5df3229fa3968d17e5763353"
 }
 
 ### Modify 
-put {{url}}/5df217805384523c5ed1b8df
+put {{url}}/5df322aba3968d17e5763354
 Content-Type: application/json
 
 {
-  "slug": "slug-1",
-  "text": "test撒大声地"
+  "slug": "test",
+  "text": "这是一条测试 \n ### 标题 "
 }
 
 ### Del

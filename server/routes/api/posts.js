@@ -75,7 +75,7 @@ router
       title,
       text,
       status,
-      categoryId: Types.ObjectId(categoryId),
+      categoryId,
       slug
     })
     if (r.ok) {
@@ -111,7 +111,7 @@ router
     const r = await Post.updateOne(
       { _id: id },
       {
-        modifiedTime: new Date(),
+        modified: new Date(),
         title,
         slug,
         text,
