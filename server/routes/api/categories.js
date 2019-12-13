@@ -9,18 +9,7 @@ const router = Router()
 router
 
   // 使用 /rest/ 整合
-  // .get('/', async (req, res) => {
-  //   const r = await Category.find()
-  //   res.send({ ok: 1, count: r.length, data: r })
-  // })
-  // .get('/:id', async (req, res) => {
-  //   const { id } = req.params
-  //   assert(id, 400, '缺少唯一标志符')
-  //   const r = await Category.findById(id)
-  //   r
-  //     ? res.send({ ok: 0, msg: '找不到相关的记录' })
-  //     : res.send({ ok: 1, data: r })
-  // })
+
   /**
    * 创建一个分类
    */

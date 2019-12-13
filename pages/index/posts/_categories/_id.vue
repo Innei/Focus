@@ -43,12 +43,12 @@ const md = new MD({
 })
 
 export default {
-  async asyncData({ app }) {
+  async asyncData({ app, route }) {
     const { data } = await rest(
       app.$axios,
       'getOne',
       'Post'
-    )('5df322aba3968d17e5763354')
+    )('5df321d7a3968d17e5763351')
 
     return {
       text: md.render(data.text),
