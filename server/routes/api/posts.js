@@ -57,7 +57,6 @@ router
       text = '',
       status,
       categoryId,
-      authorId,
       slug = _id
     } = body
 
@@ -77,7 +76,6 @@ router
       text,
       status,
       categoryId: Types.ObjectId(categoryId),
-      authorId,
       slug
     })
     if (r.ok) {

@@ -54,25 +54,25 @@ router
   .delete('/:id', async (req, res) => {
     const { id } = req.params
     assert(id, 400, '记录不存在')
-    // TODO 优化返回内容
 
     const r = await req.Model.deleteOne({ _id: id })
-    if (r.deletedCount) {
-      await Option.updateOne(
-        {
-          name: 'count'
-        },
-        {
-          $inc: {
-            ['value.' +
-            require('inflection')
-              .classify(req.params.resource)
-              .toLowerCase() +
-            'Count']: -1
-          }
-        }
-      )
-    }
+    // 删除条目后 Option.count 自减吗？
+    // if (r.deletedCount) {
+    //   await Option.updateOne(
+    //     {
+    //       name: 'count'
+    //     },
+    //     {
+    //       $inc: {
+    //         ['value.' +
+    //         require('inflection')
+    //           .classify(req.params.resource)
+    //           .toLowerCase() +
+    //         'Count']: -1
+    //       }
+    //     }
+    //   )
+    // }
     res.send({ ...r, msg: r.deletedCount ? '删除成功' : '删除失败' })
   })
 module.exports = router

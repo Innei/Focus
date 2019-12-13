@@ -30,10 +30,11 @@ const Option = require('../models/Option')
       {
         name: 'count',
         value: {
+          // 建立以来总数量， 删除条目后不减少
           postCount: 0,
           momentCount: 0,
-          commentCount: 0,
-          noteCount: 0
+          noteCount: 0,
+          commentCount: 0
         }
       },
       {
