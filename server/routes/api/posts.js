@@ -6,9 +6,18 @@ const { Post, Category, Option } = require('../../models/index')
 const router = Router({ mergeParams: true })
 
 router
+  //TODO 自动生成 summary
+  // 根据分类和 slug 查找, 因为 slug 是唯一键 所以其实 Category 不需要
+  .get('/:category/:slug', async (req, res) => {
+    const { category, slug } = req.params
+    const r = await Post.findOne({ slug }).populate('categoryId')
+    if (r) {
+      res.send({ ok: 1, ...r.toObject() })
+    } else {
+      res.send({ ok: 0, msg: '不存在记录' })
+    }
+  })
 
-  // 根据分类和 slug 查找
-  .get('/:category/:slug', async (req, res) => {})
   .post('/', async (req, res) => {
     const body = req.body
     assert(body && body != '{}', 400, '空的请求体')
@@ -19,6 +28,7 @@ router
       text = '',
       status,
       categoryId,
+      summary,
       slug = _id
     } = body
 
@@ -37,6 +47,7 @@ router
       title,
       text,
       status,
+      summary,
       categoryId,
       slug
     })
@@ -58,7 +69,7 @@ router
   .put('/:id', async (req, res) => {
     const { id } = req.params
     assert(id, 400, '标识符错误')
-    const { title, slug, text, categoryId, status } = req.body
+    const { title, slug, text, categoryId, status, summary } = req.body
     const origin = await Post.findById(id)
     assert(origin, 400, '需要修改的对象不存在')
     // 更新分类信息
@@ -81,6 +92,7 @@ router
         slug,
         text,
         status,
+        summary,
         categoryId
       },
       {

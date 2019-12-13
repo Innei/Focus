@@ -35,26 +35,30 @@
 import moment from 'moment'
 import MD from 'markdown-it'
 
-import rest from '~/api/rest'
-
+// import rest from '~/api/rest'
+import Post from '~/api/posts'
 const md = new MD({
   html: true,
   xhtmlOut: true
 })
 
 export default {
-  async asyncData({ app, route }) {
-    const { data } = await rest(
-      app.$axios,
-      'getOne',
-      'Post'
-    )('5df321d7a3968d17e5763351')
+  async asyncData({ app, route, error }) {
+    const { category, slug } = route.params
+    const data = await Post(app.$axios, 'getWithSlug')(category, slug)
 
-    return {
-      text: md.render(data.text),
-      title: data.title,
-      category: data.categoryId ? data.categoryId.name : null,
-      time: moment(data.modified).format('YYYY-MM-DD H:mm:ss')
+    if (data.ok === 1) {
+      return {
+        text: md.render(data.text),
+        title: data.title,
+        category: data.categoryId ? data.categoryId.name : null,
+        time: moment(data.modified).format('YYYY-MM-DD H:mm:ss')
+      }
+    } else {
+      error({
+        statusCode: 404,
+        message: data.msg
+      })
     }
   },
   data() {

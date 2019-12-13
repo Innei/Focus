@@ -7,6 +7,12 @@ get {{url}}
 get {{url}}/5df322aba3968d17e5763354
 ### Get ID 
 get {{url}}/5df321d7a3968d17e5763351
+
+### Get Post with slug and category
+get {{url}}/study/test22
+
+### Get None
+get {{url}}/1/1
 ### Post 
 post {{url}}
 Content-Type: application/json

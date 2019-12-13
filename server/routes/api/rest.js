@@ -21,6 +21,8 @@ router
       .skip((page - 1) * size)
       .limit(Number(size))
       .sort({ created: -1 })
+      .populate('categoryId')
+
     if (data.length === 0 && page !== 1) {
       return res.send({ ok: 0, msg: '没有下页啦!' })
     }

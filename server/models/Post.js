@@ -3,6 +3,8 @@ const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   title: { type: String, index: 1, trim: true },
   slug: { type: String, index: { unique: true }, required: true },
+  text: String,
+  summary: String,
   categoryId: {
     type: Schema.Types.ObjectId,
     ref: 'Category'
@@ -17,7 +19,6 @@ const schema = new Schema({
     default: new Date(),
     index: -1
   },
-  text: String,
   status: { type: String, default: 'Published' },
   commentsNum: { type: Number, default: 0 },
   type: { type: String, default: 'post' }
