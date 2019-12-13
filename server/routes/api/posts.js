@@ -115,7 +115,6 @@ router
     const r = await Post.updateOne(
       { _id: id },
       {
-        modified: new Date(),
         title,
         slug,
         text,
@@ -128,7 +127,7 @@ router
       }
     )
 
-    res.send({ ...r, msg: r.nModified ? '修改成功' : '修改失败' })
+    res.send({ ...r, msg: r.nModified ? '修改成功' : '没有文章被修改' })
   })
 
 module.exports = router

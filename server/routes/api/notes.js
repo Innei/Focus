@@ -1,5 +1,4 @@
 const { Router } = require('express')
-const { Types } = require('mongoose')
 const assert = require('http-assert')
 
 const { Note, Option } = require('../../models/index')
@@ -43,7 +42,7 @@ router
     const r = await Note.updateOne(
       { _id: id },
       {
-        modified: new Date(),
+        // modified: new Date(),
         title,
         text,
         hide,
@@ -57,7 +56,7 @@ router
       }
     )
 
-    res.send({ ...r, msg: r.nModified ? '修改成功' : '修改失败' })
+    res.send({ ...r, msg: r.nModified ? '修改成功' : '没有随记被修改' })
   })
 
 module.exports = router

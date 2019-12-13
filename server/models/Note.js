@@ -43,4 +43,10 @@ const schema = new Schema({
   }
 })
 schema.plugin(uniqueValidator)
+// 后置钩子函数 监听 updateOne 实例方法 更新修改时间
+schema.post('updateOne', async function(doc) {
+  if (doc.result.nModified) {
+    await this.updateMany({}, { modified: new Date() })
+  }
+})
 module.exports = model('Note', schema)

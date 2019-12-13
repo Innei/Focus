@@ -21,7 +21,7 @@ put {{url}}/5df321d7a3968d17e5763351
 Content-Type: application/json
 
 {
-  "slug": "test2",
+  "slug": "test22",
   "text": "这是一条测试 \n ### 标题 ",
   "categoryId": "5df3229fa3968d17e5763353"
 }
