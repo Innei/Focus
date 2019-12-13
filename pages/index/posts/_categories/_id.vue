@@ -5,11 +5,11 @@
   <div id="post">
     <div class="post-head-wrapper">
       <div class="post-title">
-        一篇文章
+        {{ title }}
       </div>
       <div class="post-meta">
         <time datetime="2019-05-16T09:20:28.000Z" itemprop="datePublished">
-          2019-05-16 17:20 </time
+          {{ time }} </time
         >&nbsp;
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@
             d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"
           />
         </svg>
-        <a href="/tags/网易云音乐/">标签</a>
+        <a href="/tags/网易云音乐/">{{ category }}</a>
       </div>
     </div>
     <div class="post-body-wrapper">
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-// import Basic from '~/layouts/Basic'
+import moment from 'moment'
 import MD from 'markdown-it'
 
 import rest from '~/api/rest'
@@ -44,23 +44,21 @@ const md = new MD({
 
 export default {
   async asyncData({ app }) {
-    const data = await rest(
+    const { data } = await rest(
       app.$axios,
       'getOne',
       'Post'
     )('5df322aba3968d17e5763354')
 
     return {
-      text: md.render(data.data.text)
+      text: md.render(data.text),
+      title: data.title,
+      category: data.categoryId ? data.categoryId.name : null,
+      time: moment(data.modified).format('YYYY-MM-DD H:mm:ss')
     }
-  },
-  components: {
-    // Basic
   },
   data() {
-    return {
-      text: undefined
-    }
+    return {}
   }
 }
 </script>

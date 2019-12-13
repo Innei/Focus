@@ -3,9 +3,10 @@
 ### Get Posts
 get {{url}}
 
-### Get ID
+### Get ID without category
 get {{url}}/5df322aba3968d17e5763354
-
+### Get ID 
+get {{url}}/5df321d7a3968d17e5763351
 ### Post 
 post {{url}}
 Content-Type: application/json
@@ -16,12 +17,13 @@ Content-Type: application/json
 }
 
 ### Modify 
-put {{url}}/5df322aba3968d17e5763354
+put {{url}}/5df321d7a3968d17e5763351
 Content-Type: application/json
 
 {
-  "slug": "test",
-  "text": "这是一条测试 \n ### 标题 "
+  "slug": "test2",
+  "text": "这是一条测试 \n ### 标题 ",
+  "categoryId": "5df3229fa3968d17e5763353"
 }
 
 ### Del

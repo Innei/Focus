@@ -15,15 +15,15 @@ export default ($axios, api, rest) => {
       return data
     },
     async postNew(body) {
-      const { data } = $axios.post(`${pluralize}`, body)
+      const { data } = await $axios.post(`${pluralize}`, body)
       return data
     },
     async modifyOne(id, body) {
-      const { data } = $axios.put(`${pluralize}/${id}`, body)
+      const { data } = await $axios.put(`${pluralize}/${id}`, body)
       return data
     },
     async deleteOne(id) {
-      const { data } = $axios.delete(`${pluralize}/${id}`)
+      const { data } = await $axios.delete(`${pluralize}/${id}`)
       return data
     }
   }

@@ -103,10 +103,14 @@ router
     if (categoryId && categoryId !== origin.categoryId) {
       const originCategory = await Category.findById(origin.categoryId)
       const newCategory = await Category.findById(categoryId)
-      originCategory.count--
-      await originCategory.save()
-      newCategory.count++
-      await newCategory.save()
+      if (originCategory) {
+        originCategory.count--
+        await originCategory.save()
+      }
+      if (newCategory) {
+        newCategory.count++
+        await newCategory.save()
+      }
     }
     const r = await Post.updateOne(
       { _id: id },
@@ -116,7 +120,7 @@ router
         slug,
         text,
         status,
-        categoryId: Types.ObjectId(categoryId)
+        categoryId
       },
       {
         // 未定义 undefined 不更新
