@@ -3,5 +3,7 @@ module.exports = {
   Option: require('./Option'),
   Post: require('./Post'),
   User: require('./User'),
-  Note: require('./Note')
+  Note: require('./Note'),
+  Comment: require('./Comment'),
+  Danmaku: require('./Danmaku')
 }

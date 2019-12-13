@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 const { hashSync } = require('bcrypt')
 const schema = new Schema({
   nid: { type: Number, index: -1 },
-  title: { type: String, index: 1 },
+  title: { type: String, index: 1, trim: true },
   text: String,
   created: {
     type: Date,

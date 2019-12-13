@@ -6,7 +6,8 @@ const schema = new Schema({
     type: String,
     index: {
       unique: true
-    }
+    },
+    trim: true
   },
   type: {
     type: String,

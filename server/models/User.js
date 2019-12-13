@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 const { hashSync } = require('bcrypt')
 const schema = new Schema({
-  username: { required: true, unique: true, type: String },
+  username: { required: true, unique: true, type: String, trim: true },
   password: {
     type: String,
     set(val) {

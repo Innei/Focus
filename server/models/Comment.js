@@ -3,13 +3,16 @@ const { Schema, model, SchemaTypes } = require('mongoose')
 const schema = new Schema({
   author: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   mail: {
-    type: String
+    type: String,
+    trim: true
   },
   url: {
-    type: String
+    type: String,
+    trim: true
   },
   text: {
     type: String,
@@ -30,4 +33,4 @@ const schema = new Schema({
   agent: String
 })
 
-module.exports = model('CommentPost', schema)
+module.exports = model('Comment', schema)

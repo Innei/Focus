@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
-  title: { type: String, index: 1 },
+  title: { type: String, index: 1, trim: true },
   slug: { type: String, index: { unique: true }, required: true },
   categoryId: {
     type: Schema.Types.ObjectId,
