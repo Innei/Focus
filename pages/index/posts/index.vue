@@ -4,21 +4,6 @@
     <BigHead />
     <div id="post-list-wrap">
       <Item :i="i" v-for="i in data" :key="i._id" />
-      <!-- <nuxt-link
-        :to="`/posts/${i.categoryId ? i.categoryId.name : 'null'}/${i.slug}`"
-        v-for="i in data"
-        :key="i._id"
-      >
-        <div class="post-item-left">
-          <div class="date-day">
-            {{ i.created }}
-          </div>
-        </div>
-        <div class="post-item-right">
-          <h1 class="post-item-title">{{ i.title }}</h1>
-          <div class="post-item-summary">{{ i.text }}</div>
-        </div>
-      </nuxt-link> -->
     </div>
   </div>
 </template>

@@ -62,8 +62,34 @@ a {
 .post-item-left {
   width: 20%;
 
-  .date-year {
+  .date-month-year {
     text-align: center;
+    color: map-get($map: $colors, $key: 'shallow');
+  }
+  .date-day {
+    text-align: center;
+    font-size: 24px;
+  }
+}
+.post-item-right {
+  .post-item-title {
+    font-size: 28px;
+    margin-top: 0px;
+    color: map-get($map: $colors, $key: 'grey-text');
+    transition: color 0.5s;
+  }
+  .post-item-summary {
+    margin-top: 8px;
+    color: map-get($map: $colors, $key: 'shallow');
+    font-size: 18px;
+  }
+}
+
+a:hover {
+  .post-item-right {
+    .post-item-title {
+      color: map-get($map: $colors, $key: 'shallow-red');
+    }
   }
 }
 </style>

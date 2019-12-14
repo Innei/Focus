@@ -38,6 +38,7 @@ table {
 html {
   font-family: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
     'Microsoft YaHei', 'WenQuanYi Micro Hei';
+  line-height: 1.5;
 }
 
 a,
