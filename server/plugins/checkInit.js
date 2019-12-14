@@ -16,6 +16,10 @@ const Option = require('../models/Option')
         value: 'Hello World'
       },
       {
+        name: 'alias',
+        value: 'focus'
+      },
+      {
         name: 'installed',
         value: 1
       },
@@ -36,6 +40,10 @@ const Option = require('../models/Option')
           noteCount: 0,
           commentCount: 0
         }
+      },
+      {
+        name: 'version',
+        value: '0.1'
       },
       {
         name: 'other',

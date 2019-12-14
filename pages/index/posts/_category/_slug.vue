@@ -1,6 +1,6 @@
 <template>
   <!-- <Basic>
-    文章列表
+    文章详情页 /:category/:slug
   </Basic> -->
   <div id="post">
     <div class="post-head-wrapper">
@@ -47,7 +47,7 @@ export default {
     const { category, slug } = route.params
     const data = await Post(app.$axios, 'getWithSlug')(category, slug)
 
-    if (data.ok === 1) {
+    if (data.ok === 1 && data.path === `${category}/${slug}`) {
       return {
         text: md.render(data.text),
         title: data.title,

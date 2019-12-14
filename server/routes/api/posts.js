@@ -12,7 +12,17 @@ router
     const { category, slug } = req.params
     const r = await Post.findOne({ slug }).populate('categoryId')
     if (r) {
-      res.send({ ok: 1, ...r.toObject() })
+      res.send({
+        ok: 1,
+        path: `${
+          !r.categoryId
+            ? 'null'
+            : r.categoryId.name === category
+            ? r.categoryId.name
+            : 'null'
+        }/${slug}`,
+        ...r.toObject()
+      })
     } else {
       res.send({ ok: 0, msg: '不存在记录' })
     }
