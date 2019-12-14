@@ -5,6 +5,8 @@
     <div id="post-list-wrap">
       <Item :i="i" v-for="i in data" :key="i._id" />
     </div>
+
+    TODO 分页器 FOOTER COPYRIGHT
   </div>
 </template>
 

@@ -57,7 +57,7 @@ export default {
     } else {
       error({
         statusCode: 404,
-        message: data.msg
+        message: data.msg || '文章不存在'
       })
     }
   },
