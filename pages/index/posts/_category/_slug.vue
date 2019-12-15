@@ -11,18 +11,22 @@
         <time datetime="2019-05-16T09:20:28.000Z" itemprop="datePublished">
           {{ time }} </time
         >&nbsp;
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path fill="none" d="M0 0h24v24H0V0z" />
-          <path
-            d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"
-          />
-        </svg>
-        <a href="/tags/网易云音乐/">{{ category }}</a>
+        <div class="post-meta-category" v-if="category">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path fill="none" d="M0 0h24v24H0V0z" />
+            <path
+              d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"
+            />
+          </svg>
+          <nuxt-link :to="`/category/${category.slug}`">{{
+            category.name
+          }}</nuxt-link>
+        </div>
       </div>
     </div>
     <div class="post-body-wrapper">
@@ -51,7 +55,8 @@ export default {
       return {
         text: md.render(data.text),
         title: data.title,
-        category: data.categoryId ? data.categoryId.name : null,
+        category: data.categoryId ? data.categoryId : null,
+
         time: moment(data.modified).format('YYYY-MM-DD H:mm:ss')
       }
     } else {
