@@ -2,7 +2,7 @@ import inflection from 'inflection'
 
 export default ($axios, api, rest) => {
   // rest = Post | Note
-  const pluralize = inflection.pluralize(rest)
+  const pluralize = inflection.pluralize(rest).toLowerCase()
   const apis = {
     async getRecently(page = 1, size = 10) {
       const { data } = await $axios.get(

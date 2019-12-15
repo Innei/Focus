@@ -4,17 +4,20 @@
     <div id="views" :class="{ 'no-padding': !navActive }">
       <nuxt-child />
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Header from '~/components/Front/Header'
+import Footer from '~/components/Front/Footer'
 import { debounce } from '~/utils/index'
 
 export default {
   components: {
-    Header
+    Header,
+    Footer
   },
   mounted() {
     this.updateViewport()
