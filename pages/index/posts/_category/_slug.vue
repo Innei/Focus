@@ -30,7 +30,12 @@
       </div>
     </div>
     <div class="post-body-wrapper">
-      <div class="post-body" v-html="text" v-if="text"></div>
+      <div
+        class="post-body"
+        v-html="text"
+        v-if="text"
+        id="markdown-render"
+      ></div>
     </div>
   </div>
 </template>
@@ -38,14 +43,16 @@
 <script>
 import moment from 'moment'
 import MD from 'markdown-it'
-
+import '~/assets/scss/markdown/shizuku.scss'
+import prism from 'markdown-it-prism'
+import 'prismjs/themes/prism.css'
 // import rest from '~/api/rest'
 import Post from '~/api/posts'
 const md = new MD({
   html: true,
   xhtmlOut: true
 })
-
+md.use(prism)
 export default {
   async asyncData({ app, route, error }) {
     const { category, slug } = route.params
