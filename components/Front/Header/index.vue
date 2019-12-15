@@ -54,9 +54,9 @@ export default {
 <style lang="scss" scoped>
 #header {
   z-index: 3;
-  width: (64 * 3) + px;
+  width: 0;
   top: 0;
-  height: 100vh;
+  height: 0;
   position: fixed;
 }
 .navigation {

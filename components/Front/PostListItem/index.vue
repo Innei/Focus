@@ -13,7 +13,13 @@
     </div>
     <div class="post-item-right">
       <h1 class="post-item-title">{{ i.title }}</h1>
-      <div class="post-item-summary">{{ i.text }}</div>
+      <div class="post-item-summary">
+        {{
+          i.desc || i.text.length > 150
+            ? i.text.substr(0, 150) + ' ...'
+            : i.text
+        }}
+      </div>
     </div>
   </nuxt-link>
 </template>
@@ -72,6 +78,7 @@ a {
   }
 }
 .post-item-right {
+  width: 80%;
   .post-item-title {
     font-size: 28px;
     margin-top: 0px;

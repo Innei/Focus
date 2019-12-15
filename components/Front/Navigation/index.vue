@@ -86,6 +86,7 @@ export default {
       deep: true,
       handler() {
         this.pageNav()
+        // 回到 0 0 加载动画
         window.scrollTo(0, 0)
       }
     }

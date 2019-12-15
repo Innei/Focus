@@ -70,6 +70,7 @@ export default {
 <style lang="scss" scoped>
 #post {
   width: 100%;
+  min-height: calc(100vh - 6rem);
 }
 .post-head-wrapper {
   margin-top: -20px;
@@ -79,7 +80,7 @@ export default {
   padding-top: 140px;
 
   .post-title {
-    color: map-get($map: $material, $key: 'dark');
+    color: map-get($map: $colors, $key: 'text');
     padding: 80px 35px 30px 35px;
     font-size: 30px;
     font-weight: 600;
@@ -92,6 +93,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: 500;
+    opacity: 0.8;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }

@@ -33,7 +33,11 @@ module.exports = {
   plugins: [
     {
       src: '~/plugins/axios',
-      ssr: false
+      mode: 'client'
+    },
+    {
+      src: '~plugins/router.js',
+      mode: 'client'
     }
   ],
   /*
@@ -61,6 +65,7 @@ module.exports = {
     prefix: '/api/',
     port: 3000
   },
+
   /*
    ** Build configuration
    */

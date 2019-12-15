@@ -21,7 +21,8 @@ const schema = new Schema({
   },
   status: { type: String, default: 'Published' },
   commentsNum: { type: Number, default: 0 },
-  type: { type: String, default: 'post' }
+  type: { type: String, default: 'post' },
+  desc: { type: String }
 })
 schema.plugin(uniqueValidator)
 

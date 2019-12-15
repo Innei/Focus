@@ -144,11 +144,11 @@ export default {
   // align-items: center;
   padding-left: 24px;
   position: relative;
-  height: 100%;
+  height: 100vh;
+  width: (64 * 3) + px;
   user-select: none;
   background: rgba($color: #fff, $alpha: 0.7);
   backdrop-filter: blur(5px);
-
   transform: translateX(-192px);
   opacity: 0;
   transition: transform 0.8s, opacity 1s;
