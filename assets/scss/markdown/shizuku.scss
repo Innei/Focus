@@ -129,7 +129,7 @@ $background_color_1: transparent;
       margin-top: 16px;
       font-size: 1em;
       font-style: italic;
-      font-weight: bold;
+      font-weight: 600;
     }
     dd {
       padding: 0 16px;
@@ -145,7 +145,7 @@ $background_color_1: transparent;
     overflow: auto;
     border-collapse: collapse;
     th {
-      font-weight: bold;
+      font-weight: 600;
       padding: 5px 10px;
       border: 1px solid rgba(128, 128, 128, 0.1);
       border-collapse: collapse;
@@ -166,8 +166,7 @@ $background_color_1: transparent;
     word-break: break-all;
     font: 95% 'Fira Code', 'Source Code Pro', Consolas, 'Liberation Mono', Menlo,
       Courier, monospace, 'PingFang SC', 'Microsoft YaHei UI';
-    user-select: auto;
-    -webkit-user-select: auto;
+    user-select: text;
     word-wrap: normal;
     overflow: auto;
     font-size: 95%;
@@ -277,8 +276,11 @@ $background_color_1: transparent;
     color: $color_4;
     background: rgba(128, 128, 128, 0.2);
   }
+  strong {
+    font-weight: 500;
+  }
   h1 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -305,7 +307,7 @@ $background_color_1: transparent;
     }
   }
   h2 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -332,7 +334,7 @@ $background_color_1: transparent;
     }
   }
   h3 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -359,7 +361,7 @@ $background_color_1: transparent;
     }
   }
   h4 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -386,7 +388,7 @@ $background_color_1: transparent;
     }
   }
   h5 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -413,7 +415,7 @@ $background_color_1: transparent;
     }
   }
   h6 {
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.25;
     vertical-align: baseline;
     &::before {
@@ -618,7 +620,7 @@ $background_color_1: transparent;
       line-height: 1;
       text-align: left;
       white-space: nowrap;
-      font-weight: bold;
+      font-weight: 600;
       border-top: 0;
     }
     .blob-num {
