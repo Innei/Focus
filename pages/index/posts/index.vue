@@ -6,8 +6,9 @@
       <Item :i="i" v-for="i in data" :key="i._id" />
     </div>
     <Navigation :page="page" @to="handleTo" />
-    <!-- TODO 分页器 FOOTER COPYRIGHT -->
   </div>
+
+  <!-- TODO loading  this.loading -->
 </template>
 
 <script>
@@ -45,7 +46,8 @@ export default {
   data() {
     return {
       page: undefined,
-      data: undefined
+      data: undefined,
+      loading: false
     }
   },
   methods: {
@@ -63,6 +65,7 @@ export default {
     },
     async updateData(page) {
       if (!isNaN(page) && page !== this.page.currentPage) {
+        this.loading = true
         const data = await rest(this.$axios, 'getRecently', 'Post')(page)
         if (data.ok) {
           data.data.map((item) => {
@@ -70,6 +73,7 @@ export default {
           })
           this.data = data.data
           this.page = data.page
+          this.loading = false
           return true
         }
       }

@@ -1,6 +1,8 @@
 <template>
   <div id="footer">
-    <p>{{ year }} &copy;. Innei</p>
+    <p>
+      {{ year }} &copy; <a href="https://innei.ren" target="_blank">Innei.</a>
+    </p>
   </div>
 </template>
 <script>

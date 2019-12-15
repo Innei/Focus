@@ -68,7 +68,7 @@ module.exports = {
     host: '0.0.0.0'
   },
   styleResources: {
-    scss: '~assets/scss/_variables.scss'
+    scss: ['~assets/scss/_variables.scss', '~assets/scss/colors/*']
   },
   build: {
     transpile: [/^element-ui/],

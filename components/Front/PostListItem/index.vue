@@ -64,7 +64,7 @@ a {
 
   .date-month-year {
     text-align: center;
-    color: map-get($map: $colors, $key: 'shallow');
+    color: map-get($map: $material, $key: 'shallow');
   }
   .date-day {
     text-align: center;
@@ -75,7 +75,7 @@ a {
   .post-item-title {
     font-size: 28px;
     margin-top: 0px;
-    color: map-get($map: $colors, $key: 'grey-text');
+    color: map-get($map: $colors, $key: 'text');
     transition: color 0.5s;
   }
   .post-item-summary {
@@ -88,7 +88,7 @@ a {
 a:hover {
   .post-item-right {
     .post-item-title {
-      color: map-get($map: $colors, $key: 'shallow-red');
+      color: map-get($map: $material, $key: 'light');
     }
   }
 }

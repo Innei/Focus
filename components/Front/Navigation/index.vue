@@ -86,6 +86,7 @@ export default {
       deep: true,
       handler() {
         this.pageNav()
+        window.scrollTo(0, 0)
       }
     }
   }
@@ -99,17 +100,17 @@ export default {
   align-items: center;
   user-select: none;
   .page-num.active {
-    color: rgb(255, 204, 168);
+    color: map-get($map: $material, $key: 'light');
   }
   .page-num,
   .btn {
     transition: color 0.5s;
     margin-right: 30px;
     cursor: pointer;
-    color: #1188e8;
-
+    color: map-get($map: $material, $key: 'main');
+    transition: opacity 0.2s;
     &:hover {
-      color: #1187e8c2;
+      opacity: 0.8;
     }
   }
   .btn {
