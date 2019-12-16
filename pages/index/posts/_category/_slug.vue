@@ -43,16 +43,15 @@
 <script>
 import moment from 'moment'
 import MD from 'markdown-it'
-import '~/assets/scss/markdown/shizuku.scss'
 import prism from 'markdown-it-prism'
+import '~/assets/scss/markdown/shizuku.scss'
 import 'prismjs/themes/prism.css'
 // import rest from '~/api/rest'
 import Post from '~/api/posts'
 const md = new MD({
   html: true,
   xhtmlOut: true
-})
-md.use(prism)
+}).use(prism)
 export default {
   async asyncData({ app, route, error }) {
     const { category, slug } = route.params

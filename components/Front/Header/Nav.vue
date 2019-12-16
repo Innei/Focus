@@ -152,6 +152,7 @@ export default {
   transform: translateX(-192px);
   opacity: 0;
   transition: transform 0.8s, opacity 1s;
+  box-sizing: border-box;
 
   &::after {
     content: '';
