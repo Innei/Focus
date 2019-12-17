@@ -40,19 +40,24 @@
         v-if="text"
         class="post-body"
       ></div>
+      <div class="post-tortree">
+        <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
 
-import '~/assets/scss/markdown/shizuku.scss'
-// import 'prismjs/themes/prism.css'
-// import rest from '~/api/rest'
 import Post from '~/api/posts'
+import Tree from '~/components/Front/TorTree'
+
+import '~/assets/scss/markdown/shizuku.scss'
+
 const md = new MD({
   html: true,
   xhtmlOut: true
@@ -60,7 +65,12 @@ const md = new MD({
 
 export default {
   data() {
-    return {}
+    return {
+      tree: []
+    }
+  },
+  components: {
+    Tree
   },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params
@@ -94,9 +104,17 @@ export default {
       // 加载代码行数 别问我为什么不用 prism 自带的插件, 那 sb 不支持 ssr
       this.parseLineNumber()
       this.count = this.countText(this.$refs.md)
+      this.setStatus(false)
     }, 50)
+
+    setTimeout(() => {
+      // 等待回到顶点
+      this.tree = this.parseTree()
+    }, 1000)
   },
   methods: {
+    ...mapActions('Navigation', ['setStatus']),
+
     parseLineNumber() {
       const NEW_LINE_EXP = /\n(?!$)/g
       const code = this.$refs.md.querySelectorAll('pre > code')
@@ -109,7 +127,27 @@ export default {
     },
     countText(dom) {
       return dom.textContent.length
+    },
+    parseTree() {
+      const titles = [
+        ...this.$refs.md.querySelectorAll(
+          '#markdown-render h1,#markdown-render h2,#markdown-render h3,#markdown-render h4,#markdown-render h5,#markdown-render h6'
+        )
+      ]
+      const tree = []
+      titles.map((title, index) => {
+        tree.push({
+          name: title.textContent,
+          y: title.getBoundingClientRect().y,
+          level: title.tagName.slice(1)
+        })
+      })
+
+      return tree
     }
+  },
+  computed: {
+    ...mapGetters(['navActive'])
   }
 }
 </script>
@@ -146,18 +184,34 @@ export default {
   }
 }
 .post-body-wrapper {
-  padding: 3rem 10rem;
+  padding: 3rem 0;
   max-width: 1024px;
   margin: auto;
+  position: relative;
 }
+
+.post-tortree {
+  width: 0;
+  height: 0;
+  top: 0;
+  right: -4px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
 @media (max-width: map-get($map: $viewports, $key: 'mobile')) {
   .post-body-wrapper {
     padding: 3rem 36px;
   }
 }
-@media (max-width: map-get($map: $viewports, $key: 'laptop')) {
+@media (max-width: map-get($map: $viewports, $key: 'hpad')) {
   .post-body-wrapper {
-    padding: 3rem 36px;
+    padding: 3rem 36px !important;
   }
+}
+
+.tree:not(.hide) {
+  transition: opacity 0.5s, visibility 0.5s;
 }
 </style>

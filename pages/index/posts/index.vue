@@ -17,6 +17,7 @@ import rest from '~/api/rest'
 import BigHead from '~/components/Front/BigHead/index'
 import Item from '~/components/Front/PostListItem/index'
 import Navigation from '~/components/Front/Navigation'
+
 export default {
   components: {
     BigHead,
