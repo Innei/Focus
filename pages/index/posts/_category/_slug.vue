@@ -152,7 +152,12 @@ export default {
 }
 @media (max-width: map-get($map: $viewports, $key: 'mobile')) {
   .post-body-wrapper {
-    padding: 3rem 24px;
+    padding: 3rem 36px;
+  }
+}
+@media (max-width: map-get($map: $viewports, $key: 'laptop')) {
+  .post-body-wrapper {
+    padding: 3rem 36px;
   }
 }
 </style>

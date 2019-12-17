@@ -11,39 +11,37 @@
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
       </svg>
     </div>
-    <Nav :active="active" class="navigation" />
+    <Nav class="navigation" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Nav from './Nav'
 
 export default {
   components: { Nav },
   data() {
-    return {
-      // 这里直接拿是拿不到数据的. 只能用 watch
-      active: (this.viewport && this.viewport.mobile) || false
-    }
+    return {}
   },
   methods: {
     handleClickMenu() {
-      this.active = !this.active
-    }
+      this.setStatus(!this.navActive)
+    },
+    ...mapActions('Navigation', ['setStatus'])
   },
   computed: {
-    ...mapGetters(['viewport'])
+    ...mapGetters(['viewport', 'navActive'])
   },
   watch: {
     viewport: {
       deep: true,
       handler(v) {
         // 及时响应变化
-        if (v.mobile) {
-          this.active = false
+        if (v.mobile || v.hpad) {
+          this.setStatus(false)
         } else {
-          this.active = true
+          this.setStatus(true)
         }
       }
     }
@@ -75,6 +73,16 @@ export default {
     padding: 12px;
     cursor: pointer;
     z-index: 3;
+  }
+}
+
+@media (max-width: map-get($map: $viewports, $key: 'mobile')) {
+  .top.menu {
+    opacity: 0.2;
+    transition: opacity 0.5s;
+    &:active {
+      opacity: 1;
+    }
   }
 }
 </style>

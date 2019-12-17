@@ -129,5 +129,9 @@ export default {
   html {
     font-size: 0.8rem;
   }
+
+  a.post-item {
+    display: block;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <!-- 前台入口文件 -->
   <div id="app">
     <Header />
-    <div id="views" :class="{ 'no-padding': !navActive }">
+    <div id="views" :class="{ 'no-padding': !navActive }" @click="handleToggle">
       <nuxt-child />
     </div>
     <Footer />
@@ -25,12 +25,19 @@ export default {
     window.addEventListener('resize', debounce(this.updateViewport, 50))
   },
   computed: {
-    ...mapGetters(['navActive'])
+    ...mapGetters(['navActive', 'viewport'])
   },
   methods: {
     ...mapActions({
-      updateViewport: 'viewport/updateViewport'
-    })
+      updateViewport: 'viewport/updateViewport',
+      setStatus: 'Navigation/setStatus'
+    }),
+    // ...mapActions('Navigation', ['setStatus']),
+    handleToggle() {
+      if (this.viewport.moblie) {
+        this.setStatus(false)
+      }
+    }
   }
 }
 </script>

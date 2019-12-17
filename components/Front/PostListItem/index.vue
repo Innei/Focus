@@ -2,6 +2,7 @@
   <nuxt-link
     :to="`/posts/${i.categoryId ? i.categoryId.name : 'null'}/${i.slug}`"
     ondragstart="return false;"
+    class="post-item"
   >
     <div class="post-item-left">
       <div class="date-day">
@@ -96,6 +97,23 @@ a:hover {
   .post-item-right {
     .post-item-title {
       color: map-get($map: $material, $key: 'light');
+    }
+  }
+}
+
+@media (max-width: map-get($viewports, 'mobile')) {
+  .post-item-left,
+  .post-item-right {
+    float: none;
+    width: unset;
+  }
+
+  .post-item-left {
+    display: flex;
+
+    font-size: 0.8em;
+    .date-day {
+      margin-right: 1ch;
     }
   }
 }

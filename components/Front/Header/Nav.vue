@@ -107,10 +107,15 @@ export default {
   components: {
     NavItem
   },
-  props: {
-    active: {
-      type: Boolean,
-      required: true
+  // props: {
+  //   active: {
+  //     type: Boolean,
+  //     required: true
+  //   }
+  // },
+  data() {
+    return {
+      active: false
     }
   },
   computed: {
@@ -128,9 +133,14 @@ export default {
   methods: {
     ...mapActions('Navigation', ['setStatus'])
   },
+  // watch: {
+  //   active(val) {
+  //     this.setStatus(val)
+  //   }
+  // }
   watch: {
-    active(val) {
-      this.setStatus(val)
+    navActive(val) {
+      this.active = val
     }
   }
 }
