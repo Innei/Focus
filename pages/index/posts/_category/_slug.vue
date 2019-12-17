@@ -45,7 +45,7 @@ import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
 import '~/assets/scss/markdown/shizuku.scss'
-import 'prismjs/themes/prism.css'
+// import 'prismjs/themes/prism.css'
 // import rest from '~/api/rest'
 import Post from '~/api/posts'
 const md = new MD({
