@@ -34,6 +34,7 @@
         id="markdown-render"
         v-html="text"
         v-if="text"
+        ref="md"
         class="post-body"
       ></div>
     </div>
@@ -44,6 +45,7 @@
 import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
+
 import '~/assets/scss/markdown/shizuku.scss'
 // import 'prismjs/themes/prism.css'
 // import rest from '~/api/rest'
@@ -67,8 +69,10 @@ export default {
     const data = await Post(app.$axios, 'getWithSlug')(category, slug)
 
     if (data.ok === 1 && data.path === `${category}/${slug}`) {
+      const text = md.render(data.text)
+
       return {
-        text: md.render(data.text),
+        text,
         title: data.title,
         category: data.categoryId ? data.categoryId : null,
 
@@ -80,6 +84,20 @@ export default {
         message: data.msg || '文章不存在'
       })
     }
+  },
+  mounted() {
+    // 加载代码行数 别问我为什么不用 prism 自带的插件, 那 sb 不支持 ssr
+    setTimeout(() => {
+      const NEW_LINE_EXP = /\n(?!$)/g
+      const code = this.$refs.md.querySelectorAll('pre > code')
+      for (const dom of code) {
+        dom.innerHTML = dom.innerHTML
+          .split(NEW_LINE_EXP)
+          .map((i, j) => `<span class="line-number">${j + 1}</span>${i}`)
+          .join('\n')
+        console.log(dom.innerHTML)
+      }
+    }, 500)
   }
 }
 </script>

@@ -813,3 +813,20 @@ pre[class*='language-'] {
 .token.entity {
   cursor: help;
 }
+
+pre .line-number {
+  user-select: none;
+  width: 3ch;
+  color: #999;
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+    // width: 1px;
+    height: 100%;
+    border-right: 1px solid #999;
+    position: absolute;
+    right: 0;
+  }
+}
