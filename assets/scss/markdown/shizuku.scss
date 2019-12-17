@@ -180,7 +180,7 @@ $background_color_1: transparent;
         display: block;
         width: 25px;
         height: 1px;
-        background: rgba(128, 128, 128, 0.4);
+
         margin: 20px 0;
         -webkit-user-select: none;
       }
@@ -189,12 +189,11 @@ $background_color_1: transparent;
         display: block;
         width: 25px;
         height: 1px;
-        background: rgba(128, 128, 128, 0.4);
         margin: 20px 0;
         -webkit-user-select: none;
       }
     }
-    &:not(.CodeMirror-line).md-focus {
+    & {
       &::before {
         background: var(--shizuku-theme-color);
       }
