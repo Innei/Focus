@@ -43,10 +43,27 @@ $background_color_1: transparent;
   a {
     color: $color_2;
     text-decoration: none;
+    position: relative;
     &:hover {
       color: $color_2;
       text-decoration: none;
     }
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background-color: var(--shizuku-theme-color);
+      transition: width 0.5s;
+    }
+    &:hover::after {
+      width: 100%;
+    }
+
     &:active {
       color: $color_2;
       text-decoration: none;
@@ -816,7 +833,7 @@ pre[class*='language-'] {
 
 pre .line-number {
   user-select: none;
-  width: 3ch;
+  width: 4ch;
   color: #999;
   position: relative;
   display: inline-block;
@@ -827,6 +844,6 @@ pre .line-number {
     height: 100%;
     border-right: 1px solid #999;
     position: absolute;
-    right: 0;
+    right: 1ch;
   }
 }

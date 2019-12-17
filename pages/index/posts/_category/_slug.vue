@@ -7,11 +7,14 @@
       <div class="post-title">
         {{ title }}
       </div>
-      <div class="post-meta">
-        <time datetime="2019-05-16T09:20:28.000Z" itemprop="datePublished">
-          {{ time }} </time
-        >&nbsp;
-        <div v-if="category" class="post-meta-category">
+      <div
+        :title="
+          `创建于 ${ctime}, 修改于 ${mtime}, 分类于 ${category.name}\n全文字数: ${count}`
+        "
+        class="post-meta"
+      >
+        创建于&nbsp;<time>{{ ctime }} </time>&nbsp;
+        <div v-if="category" class="post-meta-category" style="display: flex;">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -32,9 +35,9 @@
     <div class="post-body-wrapper">
       <div
         id="markdown-render"
+        ref="md"
         v-html="text"
         v-if="text"
-        ref="md"
         class="post-body"
       ></div>
     </div>
@@ -75,8 +78,9 @@ export default {
         text,
         title: data.title,
         category: data.categoryId ? data.categoryId : null,
-
-        time: moment(data.modified).format('YYYY-MM-DD H:mm:ss')
+        ctime: moment(data.created).format('M/D/YY H:mm:ss'),
+        mtime: moment(data.modified).format('M/D/YY H:mm:ss'),
+        count: 0
       }
     } else {
       error({
@@ -86,8 +90,14 @@ export default {
     }
   },
   mounted() {
-    // 加载代码行数 别问我为什么不用 prism 自带的插件, 那 sb 不支持 ssr
     setTimeout(() => {
+      // 加载代码行数 别问我为什么不用 prism 自带的插件, 那 sb 不支持 ssr
+      this.parseLineNumber()
+      this.count = this.countText(this.$refs.md)
+    }, 50)
+  },
+  methods: {
+    parseLineNumber() {
       const NEW_LINE_EXP = /\n(?!$)/g
       const code = this.$refs.md.querySelectorAll('pre > code')
       for (const dom of code) {
@@ -95,9 +105,11 @@ export default {
           .split(NEW_LINE_EXP)
           .map((i, j) => `<span class="line-number">${j + 1}</span>${i}`)
           .join('\n')
-        console.log(dom.innerHTML)
       }
-    }, 500)
+    },
+    countText(dom) {
+      return dom.textContent.length
+    }
   }
 }
 </script>
