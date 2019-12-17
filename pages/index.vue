@@ -1,4 +1,5 @@
 <template>
+  <!-- 前台入口文件 -->
   <div id="app">
     <Header />
     <div id="views" :class="{ 'no-padding': !navActive }">

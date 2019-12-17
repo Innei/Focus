@@ -52,10 +52,17 @@ const md = new MD({
   html: true,
   xhtmlOut: true
 }).use(prism)
+
 export default {
-  async asyncData({ app, route, error }) {
-    const { category, slug } = route.params
+  async asyncData({ app, route, error, redirect }) {
+    let { slug } = route.params
+    const { category } = route.params
+    if (/.html$/.test(slug)) {
+      slug = slug.replace(/.html$/, '')
+      redirect(encodeURI(`/posts/${category}/${slug}`))
+    }
     const data = await Post(app.$axios, 'getWithSlug')(category, slug)
+    console.log(data.path)
 
     if (data.ok === 1 && data.path === `${category}/${slug}`) {
       return {
