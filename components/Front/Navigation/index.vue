@@ -1,10 +1,10 @@
 <template>
-  <div class="page-nav" v-if="page && page.totalPage > 1">
+  <div v-if="page && page.totalPage > 1" class="page-nav">
     <div class="page-wrap">
       <div
-        class="prev btn"
         :class="{ hide: page.currentPage === 1 }"
         @click="$emit('to', page.currentPage - 1)"
+        class="prev btn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -21,16 +21,16 @@
         <span
           v-for="n in pages"
           :key="n"
-          class="page-num"
           :class="{ active: n === page.currentPage }"
           @click="$emit('to', n)"
+          class="page-num"
           >{{ n }}</span
         >
       </div>
       <div
-        class="next btn"
         :class="{ hide: page.currentPage + 1 > page.totalPage }"
         @click="$emit('to', page.currentPage + 1)"
+        class="next btn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,15 +57,25 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.pageNav()
-    })
-  },
   data() {
     return {
       pages: []
     }
+  },
+  watch: {
+    page: {
+      deep: true,
+      handler() {
+        this.pageNav()
+        // 回到 0 0 加载动画
+        window.scrollTo(0, 0)
+      }
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.pageNav()
+    })
   },
   methods: {
     pageNav() {
@@ -78,16 +88,6 @@ export default {
         for (let i = 1; i <= this.page.totalPage; i++) {
           this.pages.push(i)
         }
-      }
-    }
-  },
-  watch: {
-    page: {
-      deep: true,
-      handler() {
-        this.pageNav()
-        // 回到 0 0 加载动画
-        window.scrollTo(0, 0)
       }
     }
   }

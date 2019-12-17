@@ -6,7 +6,7 @@ const { Post, Category, Option } = require('../../models/index')
 const router = Router({ mergeParams: true })
 
 router
-  //TODO 自动生成 summary
+  // TODO 自动生成 summary
   // 根据分类和 slug 查找, 因为 slug 是唯一键 所以其实 Category 不需要
   .get('/:category/:slug', async (req, res) => {
     const { category, slug } = req.params

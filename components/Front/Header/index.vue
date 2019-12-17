@@ -11,7 +11,7 @@
         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
       </svg>
     </div>
-    <Nav class="navigation" :active="active" />
+    <Nav :active="active" class="navigation" />
   </div>
 </template>
 
@@ -21,15 +21,15 @@ import Nav from './Nav'
 
 export default {
   components: { Nav },
-  methods: {
-    handleClickMenu() {
-      this.active = !this.active
-    }
-  },
   data() {
     return {
       // 这里直接拿是拿不到数据的. 只能用 watch
       active: (this.viewport && this.viewport.mobile) || false
+    }
+  },
+  methods: {
+    handleClickMenu() {
+      this.active = !this.active
     }
   },
   computed: {

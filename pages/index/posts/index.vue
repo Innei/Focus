@@ -18,6 +18,30 @@ import BigHead from '~/components/Front/BigHead/index'
 import Item from '~/components/Front/PostListItem/index'
 import Navigation from '~/components/Front/Navigation'
 export default {
+  components: {
+    BigHead,
+    Item,
+    Navigation
+  },
+  data() {
+    return {
+      page: undefined,
+      data: undefined,
+      loading: false
+    }
+  },
+  watch: {
+    $route: {
+      deep: true,
+      async handler(val) {
+        console.log(val.query.page, this.page.currentPage)
+
+        if (parseInt(val.query.page) !== this.page.currentPage) {
+          await this.updateData(val.query.page)
+        }
+      }
+    }
+  },
   async asyncData({ app, route, error }) {
     const data = await rest(
       app.$axios,
@@ -37,18 +61,6 @@ export default {
         message: data.msg,
         statusCode: 500
       })
-    }
-  },
-  components: {
-    BigHead,
-    Item,
-    Navigation
-  },
-  data() {
-    return {
-      page: undefined,
-      data: undefined,
-      loading: false
     }
   },
   methods: {
@@ -82,18 +94,6 @@ export default {
       }
       this.$nuxt.$loading.fail()
       return false
-    }
-  },
-  watch: {
-    $route: {
-      deep: true,
-      async handler(val) {
-        console.log(val.query.page, this.page.currentPage)
-
-        if (parseInt(val.query.page) !== this.page.currentPage) {
-          await this.updateData(val.query.page)
-        }
-      }
     }
   }
 }

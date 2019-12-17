@@ -11,7 +11,7 @@
         <time datetime="2019-05-16T09:20:28.000Z" itemprop="datePublished">
           {{ time }} </time
         >&nbsp;
-        <div class="post-meta-category" v-if="category">
+        <div v-if="category" class="post-meta-category">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -31,10 +31,10 @@
     </div>
     <div class="post-body-wrapper">
       <div
-        class="post-body"
+        id="markdown-render"
         v-html="text"
         v-if="text"
-        id="markdown-render"
+        class="post-body"
       ></div>
     </div>
   </div>
@@ -54,6 +54,9 @@ const md = new MD({
 }).use(prism)
 
 export default {
+  data() {
+    return {}
+  },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params
     const { category } = route.params
@@ -62,7 +65,6 @@ export default {
       redirect(encodeURI(`/posts/${category}/${slug}`))
     }
     const data = await Post(app.$axios, 'getWithSlug')(category, slug)
-    console.log(data.path)
 
     if (data.ok === 1 && data.path === `${category}/${slug}`) {
       return {
@@ -78,9 +80,6 @@ export default {
         message: data.msg || '文章不存在'
       })
     }
-  },
-  data() {
-    return {}
   }
 }
 </script>
