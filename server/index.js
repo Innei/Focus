@@ -54,5 +54,12 @@ app.use((err, req, res, next) => {
     res
       .status(err.status || err.statusCode || 500)
       .send({ msg: err.message, ok: 0 })
+
+    if (process.env.NODE_ENV !== 'production') {
+      consola.error({
+        message: err,
+        badge: true
+      })
+    }
   } else next()
 })

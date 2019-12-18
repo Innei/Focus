@@ -7,7 +7,7 @@ module.exports = {
       .toString(36)
       .substring(2, 15),
   getClientIP(req) {
-    var ip =
+    let ip =
       req.headers['x-forwarded-for'] ||
       req.ip ||
       req.connection.remoteAddress ||

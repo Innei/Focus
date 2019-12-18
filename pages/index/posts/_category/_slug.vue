@@ -64,13 +64,13 @@ const md = new MD({
 }).use(prism)
 
 export default {
+  components: {
+    Tree
+  },
   data() {
     return {
       tree: []
     }
-  },
-  components: {
-    Tree
   },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params

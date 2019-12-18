@@ -12,3 +12,20 @@ Content-Type: application/json
 
 ### 
 get {{url}}?state=0
+
+### reply
+post {{url}}/reply/5dfa0ef7af3c127af47b934c
+Content-Type: application/json
+
+{
+  "author": "tww",
+  "content": "### reply",
+  "mail": "y1",
+  "text": "test"
+}
+
+### comments delete
+delete {{url}}/5dfa0eecaf3c127af47b9348
+
+### modify comment state
+put {{url}}/5dfa0c923f7558699a68b0cf/?state=1

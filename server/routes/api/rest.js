@@ -5,7 +5,7 @@
 const { Router } = require('express')
 const assert = require('http-assert')
 
-const { Option } = require('../../models/index')
+// const { Option } = require('../../models/index')
 
 const router = Router({
   mergeParams: true
@@ -19,7 +19,7 @@ router
     assert(page > 0, 400, '页数不正确')
     const queryOptions = {}
     const condition = {}
-    console.log(req.Model.modelName)
+    // console.log(req.Model.modelName)
 
     if (req.Model.modelName === 'Comment') {
       if (req.query.state) {

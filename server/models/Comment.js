@@ -35,6 +35,14 @@ const schema = new Schema({
     type: SchemaTypes.ObjectId,
     ref: 'CommentPost'
   },
+  hasChild: {
+    type: Boolean,
+    default: false
+  },
+  commentsIndex: {
+    type: Number,
+    default: 1
+  },
   key: {
     type: String
   },
