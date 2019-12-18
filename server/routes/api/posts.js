@@ -61,20 +61,19 @@ router
       categoryId,
       slug
     })
-    if (r.ok) {
-      await Option.updateOne(
-        {
-          name: 'count'
-        },
-        {
-          $inc: {
-            'value.postCount': 1
-          }
-        }
-      )
-    }
 
-    res.send(r)
+    await Option.updateOne(
+      {
+        name: 'count'
+      },
+      {
+        $inc: {
+          'value.postCount': 1
+        }
+      }
+    )
+
+    res.send({ ok: 1, data: r })
   })
   .put('/:id', async (req, res) => {
     const { id } = req.params

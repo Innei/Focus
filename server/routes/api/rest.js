@@ -17,16 +17,28 @@ router
     const { page = 1, size = 10 } = req.query
     assert(size < 20, 400, '要素过多')
     assert(page > 0, 400, '页数不正确')
-    const data = await req.Model.find({})
+    const queryOptions = {}
+    const condition = {}
+    console.log(req.Model.modelName)
+
+    if (req.Model.modelName === 'Comment') {
+      if (req.query.state) {
+        condition.state = parseInt(req.query.state)
+      }
+    }
+    if (req.Model.modelName === 'Post') {
+      queryOptions.populate = 'categoryId'
+    }
+    const data = await req.Model.find(condition)
+      .setOptions(queryOptions)
       .skip((page - 1) * size)
       .limit(Number(size))
       .sort({ created: -1 })
-      .populate('categoryId')
 
     if (data.length === 0 && page !== 1) {
       return res.send({ ok: 0, msg: '没有下页啦!' })
     }
-    const total = await req.Model.countDocuments()
+    const total = await req.Model.countDocuments(condition)
     const totalPage = Math.ceil(total / size)
     const pageOptions = {
       size: data.length,

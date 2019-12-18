@@ -27,7 +27,7 @@ export default {
 <style lang="scss" scoped>
 ul {
   font-size: 13.6px;
-  border-left: 2px solid map-get($map: $material, $key: 'main');
+  border-left: 2px solid map-get($map: $material, $key: 'shallow');
   position: fixed;
   overflow: hidden;
 }
@@ -50,7 +50,7 @@ li {
     top: 50%;
     transform: translateY(-50%);
     width: 50px;
-    border-top: 2px solid map-get($map: $material, $key: 'main');
+    border-top: 2px solid map-get($map: $material, $key: 'shallow');
   }
   &:first-child {
     margin-top: 0;

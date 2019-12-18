@@ -1,0 +1,14 @@
+@url=http://localhost:3000/api/comments
+
+post {{url}}/5df5a8feb82e871b57f6245b
+Content-Type: application/json
+
+{
+  "author": "tww",
+  "content": "### reply",
+  "mail": "y1",
+  "text": "test"
+}
+
+### 
+get {{url}}?state=0

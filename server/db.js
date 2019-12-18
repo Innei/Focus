@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const consola = require('consola')
 mongoose
   .connect(process.env.DB_URL || 'mongodb://127.0.0.1:27017/Focus', {
     useFindAndModify: false,
@@ -9,11 +9,12 @@ mongoose
   })
   .then(
     () => {
-      console.log('Connected to db, ready...\nServer is started.')
+      consola.success({ message: 'Connected to db, ready...' })
+      consola.ready({ message: 'Server is started.', badge: true })
     },
     (err) => {
-      console.log(err)
+      consola.error(err)
 
-      console.log('Failed to connect to db. Try again.')
+      consola.error('Failed to connect to db. Try again.')
     }
   )

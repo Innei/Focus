@@ -15,6 +15,7 @@ require('./plugins/checkInit')
 // global middleware
 app.use(express.json())
 app.use(require('cors')())
+app.use(require('express-useragent').express())
 
 // bind routes
 require('./routes/index')(app)
@@ -39,7 +40,9 @@ async function start() {
   // Listen the server
   app.listen(port, host)
   consola.ready({
-    message: `Server listening on http://${host}:${port}`,
+    message: `Server listening on http://${
+      process.env.NODE_ENV !== 'production' ? 'localhost' : host
+    }:${port}`,
     badge: true
   })
 }
