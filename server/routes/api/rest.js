@@ -24,8 +24,13 @@ router
     if (req.Model.modelName === 'Comment') {
       if (req.query.state) {
         condition.state = parseInt(req.query.state)
+        condition.hasParent = false
+        // TODO 处理两级以上的子评论
         queryOptions.populate = {
-          path: 'children'
+          path: 'children',
+          populate: {
+            path: 'children'
+          }
         }
       }
     }

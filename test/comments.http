@@ -13,8 +13,11 @@ Content-Type: application/json
 ### 
 get {{url}}?state=0
 
+### get
+get {{url}}/5dfb30c541acb50562525503
+
 ### reply
-post {{url}}/reply/5dfa0ef7af3c127af47b934c
+post {{url}}/reply/5dfb36931005cd0baab299af
 Content-Type: application/json
 
 {
@@ -25,7 +28,7 @@ Content-Type: application/json
 }
 
 ### comments delete
-delete {{url}}/5dfa0eecaf3c127af47b9348
+delete {{url}}/5dfb30cb41acb50562525505
 
 ### modify comment state
 put {{url}}/5dfa0c923f7558699a68b0cf/?state=1
