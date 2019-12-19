@@ -47,6 +47,7 @@ a {
   color: unset;
   display: inline-block;
   transition: color 0.5s;
+  text-decoration: none;
 }
 a:hover {
   color: map-get($map: $material, $key: 'main');

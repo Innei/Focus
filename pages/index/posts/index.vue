@@ -5,7 +5,7 @@
     <BigHead />
 
     <div id="post-list-wrap" :class="{ loading: loading }">
-      <Item :i="i" v-for="i in data" :key="i._id" />
+      <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
     </div>
 
     <Navigation :page="page" @to="handleTo" />
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import rest from '~/api/rest'
 import BigHead from '~/components/Front/BigHead/index'
 import Item from '~/components/Front/PostListItem/index'
@@ -96,6 +97,9 @@ export default {
       this.$nuxt.$loading.fail()
       return false
     }
+  },
+  computed: {
+    ...mapGetters(['viewport'])
   }
 }
 </script>

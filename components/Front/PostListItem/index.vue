@@ -4,7 +4,7 @@
     ondragstart="return false;"
     class="post-item"
   >
-    <div class="post-item-left">
+    <div class="post-item-left" v-if="viewport && !viewport.mobile">
       <div class="date-day">
         {{ parseDate.day }}
       </div>
@@ -12,6 +12,7 @@
         {{ parseDate.month }} / {{ parseDate.year }}
       </div>
     </div>
+
     <div class="post-item-right">
       <h1 class="post-item-title">{{ i.title }}</h1>
       <div class="post-item-summary">
@@ -20,6 +21,24 @@
             ? i.text.substr(0, 150) + ' ...'
             : i.text
         }}
+      </div>
+      <div class="post-item-meta">
+        <span v-if="viewport && viewport.mobile">
+          <i class="el-icon-alarm-clock"></i>
+
+          {{
+            `${parseDate.year}-${String(parseDate.month).padStart(
+              2,
+              0
+            )}-${String(parseDate.day).padStart(2, 0)}`
+          }}
+        </span>
+        <span>
+          <i class="el-icon-folder"></i>
+          <nuxt-link :to="`/categories/${i.categoryId.slug}`">{{
+            i.categoryId.name
+          }}</nuxt-link>
+        </span>
       </div>
     </div>
   </nuxt-link>
@@ -31,6 +50,12 @@ export default {
     i: {
       type: Object,
       required: true
+    },
+    viewport: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
 
@@ -52,7 +77,7 @@ export default {
   text-overflow: ellipsis;
 }
 
-a {
+a.post-item {
   padding: 2rem 0;
   display: block;
   border-bottom: 1px solid #eee;
@@ -94,6 +119,7 @@ a {
 }
 
 a:hover {
+  color: unset !important;
   .post-item-right {
     .post-item-title {
       color: map-get($map: $material, $key: 'light');
@@ -115,6 +141,16 @@ a:hover {
     .date-day {
       margin-right: 1ch;
     }
+  }
+}
+
+.post-item-meta {
+  opacity: 0.8;
+  font-size: 0.8rem;
+  padding-top: 0.8rem;
+
+  > * {
+    margin-right: 1em;
   }
 }
 </style>
