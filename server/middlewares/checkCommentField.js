@@ -50,8 +50,8 @@ module.exports = (options) => {
         })
       }
     } */
-    req.body.userAgent = req.useragent.source
-    req.body.ipAddress = getClientIP(req)
+    req.body.agent = req.useragent.source
+    req.body.ip = getClientIP(req)
     await next()
   }
 }
