@@ -24,11 +24,7 @@ module.exports = {
     color: '#2bd',
     height: '2px'
   },
-  /*
-   ** Global CSS
-   */
-  // css: ['element-ui/lib/theme-chalk/index.css'],
-  css: ['~/assets/css/normalize.css'],
+
   /*
    ** Plugins to load before mounting the App
    */
@@ -76,7 +72,11 @@ module.exports = {
     host: '0.0.0.0'
   },
   styleResources: {
-    scss: ['~assets/scss/_variables.scss', '~assets/scss/colors/*']
+    scss: [
+      '~assets/scss/colors/*',
+      '~assets/scss/_variables.scss',
+      '~assets/scss/normalize.scss'
+    ]
   },
   build: {
     transpile: [/^element-ui/],

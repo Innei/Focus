@@ -1,8 +1,9 @@
 const { Router } = require('express')
 const assert = require('http-assert')
+const { Types } = require('mongoose')
 
 const isMater = require('../../middlewares/isMaster')
-const Category = require('../../models/Category')
+const { Category, Post } = require('../../models')
 
 const router = Router()
 
@@ -47,5 +48,30 @@ router
     )
 
     res.send({ ...r, msg: r.nModified ? '修改成功' : '修改失败' })
+  })
+  // .get('/slug/:name', async (req, res) => {
+  //   const name = req.params.name
+  //   assert(name, 400, '不正确的 slug')
+  //   const
+  // })
+  .get('/:query', async (req, res) => {
+    const query = req.params.query
+    assert(query, 400, '不正确的请求')
+    const isId = Types.ObjectId.isValid(query)
+
+    const r = isId
+      ? await Category.findById(query).sort({ created: -1 })
+      : await Category.findOne({ slug: query }).sort({ created: -1 })
+    if (r) {
+      if (r.count) {
+        const children = await Post.find({ categoryId: r._id })
+          .select('title created slug')
+          .sort({ created: -1 })
+        return res.send({ ok: 1, data: { ...r.toObject(), children } })
+      }
+      res.send({ ok: 1, data: r })
+    } else {
+      res.send({ ok: 0, msg: '不存在此记录' })
+    }
   })
 module.exports = router

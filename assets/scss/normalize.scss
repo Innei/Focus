@@ -1,0 +1,124 @@
+/** 
+  - 样式重置
+*/
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+  margin: 0;
+  padding: 0;
+}
+body {
+  color: #333;
+  background: #fff;
+}
+* {
+  scroll-behavior: smooth;
+}
+img,
+button {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+}
+
+html {
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
+    'Microsoft YaHei', 'WenQuanYi Micro Hei';
+  line-height: 1.5;
+}
+a {
+  color: unset;
+  display: inline-block;
+  transition: color 0.5s;
+}
+a:hover {
+  color: map-get($map: $material, $key: 'main');
+}
+
+article a {
+  color: map-get($map: $material, $key: 'main');
+  text-decoration: none;
+  position: relative;
+  &:hover {
+    color: map-get($map: $material, $key: 'main');
+    text-decoration: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: map-get($map: $material, $key: 'main');
+    transition: width 0.5s;
+  }
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+/**
+  - 过度
+*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/**
+  - 全局类
+*/
+.none {
+  display: none;
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+.top {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+}
+.wrap {
+  padding: 3rem 12px;
+  max-width: 1024px;
+  margin: auto;
+  position: relative;
+}
+
+@media (min-width: map-get($map: $viewports, $key: 'wider')) {
+  .wrap {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: map-get($map: $viewports, $key: 'widest')) {
+  .wrap {
+    max-width: 1280px;
+  }
+}

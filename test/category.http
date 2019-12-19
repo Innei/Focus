@@ -4,7 +4,9 @@
 get {{url}}
 
 ### Get One Category
-get {{url}}
+get {{url}}/5df3229fa3968d17e5763353
+### Get One Category
+get {{url}}/study
 
 ### Create a category
 post {{url}}

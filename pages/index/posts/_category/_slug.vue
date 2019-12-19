@@ -26,13 +26,13 @@
               d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"
             />
           </svg>
-          <nuxt-link :to="`/category/${category.slug}`">{{
+          <nuxt-link :to="`/categories/${category.slug}`">{{
             category.name
           }}</nuxt-link>
         </div>
       </div>
     </div>
-    <div class="post-body-wrapper">
+    <div class="post-body-wrapper wrap">
       <div
         id="markdown-render"
         ref="md"
@@ -183,12 +183,6 @@ export default {
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 }
-.post-body-wrapper {
-  padding: 3rem 0;
-  max-width: 1024px;
-  margin: auto;
-  position: relative;
-}
 
 .post-tortree {
   width: 0;
@@ -211,7 +205,7 @@ export default {
   }
 }
 
-.tree:not(.hide) {
+.tree {
   transition: opacity 0.5s, visibility 0.5s;
 }
 </style>

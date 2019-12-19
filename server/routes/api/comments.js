@@ -110,17 +110,7 @@ router
       needChecked
     })
   })
-  /**
-   * 获取某一条评论的详细信息
-   */
-  .get('/:id', async (req, res) => {
-    const id = req.params.id
-    assert(id, 400, '无法查看空气哦')
-    const query = await Comment.findById(id).populate('children')
-    query
-      ? res.send({ ok: 1, data: query })
-      : res.send({ ok: 0, msg: '没有查到这条数据呢' })
-  })
+
   .put('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '无法修改空气哦')

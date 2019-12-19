@@ -223,5 +223,11 @@ export default {
     transition-timing-function: ease-in-out;
   }
 }
+
+a,
+a:hover {
+  color: #333 !important;
+}
+
 // width 192px
 </style>

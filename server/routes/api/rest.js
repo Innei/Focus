@@ -66,7 +66,19 @@ router
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
-    const r = await req.Model.findById(id).populate('categoryId')
+    const queryOptions = {}
+    if (req.Model.modelName === 'Post') {
+      queryOptions.populate = 'categoryId'
+    }
+    if (req.Model.modelName === 'Comment') {
+      queryOptions.populate = {
+        path: 'children',
+        populate: {
+          path: 'children'
+        }
+      }
+    }
+    const r = await req.Model.findById(id).setOptions(queryOptions)
     if (r) {
       res.send({ ok: 1, data: r })
     } else {
