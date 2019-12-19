@@ -34,7 +34,10 @@ router
     // parent.post.comments++
     // await parent.post.save()
     await parent.updateOne({
-      hasChild: true,
+      // hasChild: true,
+      $push: {
+        children: query._id
+      },
       $inc: {
         commentsIndex: 1
       }
@@ -137,18 +140,17 @@ router
       try {
         const query = await Comment.findOneAndDelete({
           _id: id
-        }).populate('post')
+        })
 
-        if (query) {
-          // delCount = await delComments(query)
-          if (query.hasChild) {
-            delCount =
-              (
-                await Comment.deleteMany({
-                  key: new RegExp(`^${query.key}`, 'ig')
-                })
-              ).deletedCount + 1
-          }
+        if (query && query.children && query.children.length) {
+          // if (query.hasChild) {
+          delCount =
+            (
+              await Comment.deleteMany({
+                key: new RegExp(`^${query.key}`, 'ig')
+              })
+            ).deletedCount + 1
+          // }
         }
 
         return res.send({ ok: 1, n: 1, deleteCount: delCount || 1 })

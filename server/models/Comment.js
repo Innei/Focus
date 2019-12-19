@@ -35,9 +35,13 @@ const schema = new Schema({
     type: SchemaTypes.ObjectId,
     ref: 'CommentPost'
   },
-  hasChild: {
-    type: Boolean,
-    default: false
+  // hasChild: {
+  //   type: Boolean,
+  //   default: false
+  // },
+  children: {
+    type: [SchemaTypes.ObjectId],
+    ref: 'Comment'
   },
   commentsIndex: {
     type: Number,

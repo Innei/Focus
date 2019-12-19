@@ -24,6 +24,9 @@ router
     if (req.Model.modelName === 'Comment') {
       if (req.query.state) {
         condition.state = parseInt(req.query.state)
+        queryOptions.populate = {
+          path: 'children'
+        }
       }
     }
     if (req.Model.modelName === 'Post') {
