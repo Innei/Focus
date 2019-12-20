@@ -48,12 +48,14 @@ a {
   display: inline-block;
   transition: color 0.5s;
   text-decoration: none;
-}
-a:hover {
-  color: map-get($map: $material, $key: 'main');
+
+  &:hover,
+  &:active {
+    color: map-get($map: $material, $key: 'main');
+  }
 }
 
-article a {
+section a {
   color: map-get($map: $material, $key: 'main');
   text-decoration: none;
   position: relative;

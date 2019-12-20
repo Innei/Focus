@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import rest from '~/api/rest'
 import BigHead from '~/components/Front/BigHead/index'
 import Item from '~/components/Front/PostListItem/index'
@@ -66,6 +66,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('viewport', ['updateViewport']),
     parseDate(date) {
       return {
         year: date.getFullYear(),
@@ -100,6 +101,9 @@ export default {
   },
   computed: {
     ...mapGetters(['viewport'])
+  },
+  mounted() {
+    this.updateViewport()
   }
 }
 </script>

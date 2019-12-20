@@ -1,10 +1,24 @@
 const { Router } = require('express')
 const assert = require('http-assert')
+const { Types } = require('mongoose')
 
 const { Note, Option } = require('../../models/index')
 const router = Router()
 
 router
+  .get('/:id', async (req, res) => {
+    const id = req.params.id
+    assert(id, 400, '不正确的请求')
+    const isId = Types.ObjectId.isValid(id)
+    const r = isId ? await Note.findById(id) : await Note.findOne({ nid: id })
+
+    if (r) {
+      res.send({ ok: 1, data: r })
+    } else {
+      res.send({ ok: 0, msg: '不存在此记录' })
+    }
+  })
+
   .post('/', async (req, res) => {
     const body = req.body
     assert(body && body != '{}', 400, '空的请求体')
@@ -19,7 +33,8 @@ router
     } = body
     // let { password } = body
 
-    const { value } = await Option.find({ name: 'count' })
+    const count = await Option.findOne({ name: 'count' })
+    const value = count.value
     const nid = value.noteCount + 1
 
     const r = await Note.create({
@@ -31,7 +46,11 @@ router
       hide,
       password
     })
-
+    await count.updateOne({
+      $inc: {
+        'value.noteCount': 1
+      }
+    })
     res.send(r)
   })
   .put('/:id', async (req, res) => {

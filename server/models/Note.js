@@ -2,13 +2,13 @@ const { Schema, model } = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const { hashSync } = require('bcrypt')
 const schema = new Schema({
-  nid: { type: Number, index: -1 },
+  nid: { type: Number, index: 0 },
   title: { type: String, index: 1, trim: true },
   text: String,
   created: {
     type: Date,
     default: new Date(),
-    index: -1
+    index: 0
   },
   modified: {
     type: Date,

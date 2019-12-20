@@ -24,7 +24,12 @@ module.exports = {
     color: '#2bd',
     height: '2px'
   },
-
+  css: [
+    {
+      src: '~assets/scss/normalize.scss',
+      lang: 'scss'
+    }
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -72,11 +77,7 @@ module.exports = {
     host: '0.0.0.0'
   },
   styleResources: {
-    scss: [
-      '~assets/scss/colors/*',
-      '~assets/scss/_variables.scss',
-      '~assets/scss/normalize.scss'
-    ]
+    scss: ['~assets/scss/colors/*', '~assets/scss/_variables.scss']
   },
   build: {
     transpile: [/^element-ui/],

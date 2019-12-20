@@ -33,13 +33,13 @@
       </div>
     </div>
     <div class="post-body-wrapper wrap">
-      <div
+      <article
         id="markdown-render"
         ref="md"
         v-html="text"
         v-if="text"
         class="post-body"
-      ></div>
+      ></article>
       <div class="post-tortree">
         <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
       </div>

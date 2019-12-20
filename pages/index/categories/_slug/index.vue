@@ -1,11 +1,11 @@
 <template>
-  <article id="category">
+  <section id="category">
     <div class="wrap">
       <h1>{{ '分类: ' + data.name }}</h1>
-      <ul v-for="year in years" :key="year.year" class="year-post">
-        <h3>{{ year.year }} 年</h3>
+      <ul v-for="(item, year) in years" :key="year" class="year-post">
+        <h3>{{ year.slice(1) }} 年</h3>
         <div class="year">
-          <li v-for="child in year.children" :key="child._id" class="post-item">
+          <li v-for="child in item" :key="child._id" class="post-item">
             <span class="post-created">{{
               `${child.time.month} 月 ${child.time.day} 日`
             }}</span>
@@ -16,7 +16,7 @@
         </div>
       </ul>
     </div>
-  </article>
+  </section>
 </template>
 
 <script>
@@ -31,22 +31,13 @@ export default {
   },
   methods: {
     filterDate(dateArr) {
-      const set = new Set()
+      const years = {}
       for (const i of dateArr) {
         i.time = parseDate(i.created)
-        if (!set.has(i.time.year)) {
-          set.add(i.time.year)
-        }
-      }
-      const years = []
-
-      for (const i of set.values()) {
-        const index = years.push({ year: i, children: [] }) - 1
-        for (const j of dateArr) {
-          if (j.time.year === i) {
-            years[index].children.push(j)
-          }
-        }
+        // 对象键降序处理
+        years['-' + i.time.year] = years['-' + i.time.year]
+          ? years['-' + i.time.year].concat(i)
+          : [i]
       }
 
       return years
@@ -55,6 +46,7 @@ export default {
   mounted() {
     this.years = this.filterDate(this.data.children)
   },
+  computed: {},
   data() {
     return {
       years: []

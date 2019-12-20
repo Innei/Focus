@@ -1,7 +1,9 @@
 <template>
   <div id="basic-layout">
-    <nuxt />
-    <slot />
+    <div class="wrap">
+      <nuxt />
+      <slot />
+    </div>
   </div>
 </template>
 
