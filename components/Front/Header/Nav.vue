@@ -157,7 +157,7 @@ export default {
   height: 100vh;
   width: (64 * 3) + px;
   user-select: none;
-  background: rgba($color: #fff, $alpha: 0.7);
+  background: rgba($color: #fff, $alpha: 0.88);
   backdrop-filter: blur(5px);
   transform: translateX(-192px);
   opacity: 0;

@@ -1,5 +1,11 @@
 <template>
   <div id="header">
+    <transition name="fade">
+      <OverLay
+        v-show="navActive && viewport.mobile"
+        @click.native="handleClickMenu"
+      />
+    </transition>
     <div @click="handleClickMenu" class="top menu">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -18,9 +24,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Nav from './Nav'
+import OverLay from './components/overlay'
 
 export default {
-  components: { Nav },
+  components: { Nav, OverLay },
   data() {
     return {}
   },
