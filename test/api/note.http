@@ -1,0 +1,30 @@
+@url=http://localhost:3000/api/notes
+
+### Get Notes
+get {{url}}
+
+
+### lastest 
+get {{url}}/lastest
+### Get ID 
+get {{url}}/5dfcc68314dc454f0c6ca49b
+
+### Get Nid
+get {{url}}/20
+
+### Get None
+get {{url}}/1/1
+### Post 
+post {{url}}
+Content-Type: application/json
+
+{
+  "text": "test"
+}
+
+### Modify 
+put {{url}}/5df321d7a3968d17e5763351
+Content-Type: application/json
+
+### Del
+delete {{url}}/5df23b155e6133060bffec24

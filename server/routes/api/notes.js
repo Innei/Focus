@@ -1,11 +1,19 @@
 const { Router } = require('express')
 const assert = require('http-assert')
 const { Types } = require('mongoose')
+const { hashSync } = require('bcrypt')
 
 const { Note, Option } = require('../../models/index')
 const router = Router()
 
 router
+  .get('/lastest', async (req, res) => {
+    const r = await Note.findOne().sort({ created: -1 })
+
+    r
+      ? res.send({ ok: 1, data: r })
+      : res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
+  })
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
@@ -13,6 +21,8 @@ router
     const r = isId ? await Note.findById(id) : await Note.findOne({ nid: id })
 
     if (r) {
+      r.count.read++
+      await r.save()
       res.send({ ok: 1, data: r })
     } else {
       res.send({ ok: 0, msg: '不存在此记录' })
@@ -23,14 +33,7 @@ router
     const body = req.body
     assert(body && body != '{}', 400, '空的请求体')
 
-    const {
-      title = '未命名随记',
-      text = '',
-      mood,
-      weather,
-      hide,
-      password
-    } = body
+    const { title = '无题', text = '', mood, weather, hide, password } = body
     // let { password } = body
 
     const count = await Option.findOne({ name: 'count' })
@@ -44,7 +47,7 @@ router
       mood,
       weather,
       hide,
-      password
+      password: password ? hashSync(password, 6) : undefined
     })
     await count.updateOne({
       $inc: {

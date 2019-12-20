@@ -20,5 +20,3 @@ export const parseDate = (date) => {
     s: d.getSeconds()
   }
 }
-
-export default { isMobile, debounce }
