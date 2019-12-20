@@ -15,7 +15,7 @@ import Header from '~/components/Front/Header'
 import Footer from '~/components/Front/Footer'
 import { debounce } from '~/utils/index'
 
-import 'element-ui/lib/theme-chalk/icon.css'
+// import 'element-ui/lib/theme-chalk/icon.css'
 
 export default {
   components: {
@@ -51,6 +51,7 @@ export default {
 #views {
   padding-left: 192px;
   transition: padding 0.8s;
+  min-height: 90vh;
 }
 #views.no-padding {
   padding: 0;

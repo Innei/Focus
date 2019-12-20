@@ -4,10 +4,12 @@ export default ($axios, api, rest) => {
   // rest = Post | Note
   const pluralize = inflection.pluralize(rest).toLowerCase()
   const apis = {
-    async getRecently(page = 1, size = 10) {
-      const { data } = await $axios.get(
-        `${pluralize}/?page=${page}&size=${size}`
-      )
+    async getRecently(page = 1, size = 10, select) {
+      const { data } = !select
+        ? await $axios.get(`${pluralize}/?page=${page}&size=${size}`)
+        : await $axios.get(
+            `${pluralize}/?page=${page}&size=${size}&select=${select}`
+          )
       return data
     },
     async getOne(id) {

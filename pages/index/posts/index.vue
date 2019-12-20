@@ -1,22 +1,22 @@
 <template>
   <!-- 文章列表页 -->
-
   <div class="page-list">
     <BigHead />
+    <client-only>
+      <div id="post-list-wrap" :class="{ loading: loading }">
+        <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
+      </div>
 
-    <div id="post-list-wrap" :class="{ loading: loading }">
-      <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
-    </div>
-
-    <Navigation :page="page" @to="handleTo" />
+      <Navigation :page="page" v-if="page" @to="handleTo" />
+    </client-only>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import rest from '~/api/rest'
-import BigHead from '~/components/Front/BigHead/index'
-import Item from '~/components/Front/PostListItem/index'
+import BigHead from '~/components/Front/BigHead'
+import Item from '~/components/Front/PostListItem'
 import Navigation from '~/components/Front/Navigation'
 
 export default {
@@ -36,35 +36,48 @@ export default {
     $route: {
       deep: true,
       async handler(val) {
-        console.log(val.query.page, this.page.currentPage)
-
         if (parseInt(val.query.page) !== this.page.currentPage) {
           await this.updateData(val.query.page)
         }
       }
     }
   },
-  async asyncData({ app, route, error }) {
+  async created() {
     const data = await rest(
-      app.$axios,
+      this.$axios,
       'getRecently',
       'Post'
-    )(route.query.page || 1, route.query.size || 10)
+    )(this.$route.query.page || 1, this.$route.query.size || 10)
     if (data.ok) {
       data.data.map((item) => {
         item.created = new Date(item.created)
       })
-      return {
-        page: data.page,
-        data: data.data
-      }
-    } else {
-      error({
-        message: data.msg,
-        statusCode: 500
-      })
+
+      this.page = data.page
+      this.data = data.data
     }
   },
+  // async asyncData({ app, route, error }) {
+  //   const data = await rest(
+  //     app.$axios,
+  //     'getRecently',
+  //     'Post'
+  //   )(route.query.page || 1, route.query.size || 10)
+  //   if (data.ok) {
+  //     data.data.map((item) => {
+  //       item.created = new Date(item.created)
+  //     })
+  //     return {
+  //       page: data.page,
+  //       data: data.data
+  //     }
+  //   } else {
+  //     error({
+  //       message: data.msg,
+  //       statusCode: 500
+  //     })
+  //   }
+  // },
   methods: {
     ...mapActions('viewport', ['updateViewport']),
     parseDate(date) {

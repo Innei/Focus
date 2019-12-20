@@ -4,7 +4,7 @@
       :class="'h' + i.level"
       v-for="i in tree"
       :key="i.name"
-      @click="scrollTo(i.y)"
+      @click="scrollTo(i.y, i.name)"
     >
       {{ i.name }}
     </li>
@@ -17,7 +17,8 @@ export default {
     tree: Array
   },
   methods: {
-    scrollTo(y) {
+    scrollTo(y, name) {
+      location.hash = name
       window.scrollTo(0, y)
     }
   }

@@ -35,6 +35,7 @@ module.exports = {
    */
   // plugins: ['@/plugins/element-ui'],
   plugins: [
+    { src: '~/plugins/element-ui.js', mode: 'client' },
     {
       src: '~/plugins/axios',
       mode: 'client'
@@ -80,10 +81,19 @@ module.exports = {
     scss: ['~assets/scss/colors/*', '~assets/scss/_variables.scss']
   },
   build: {
+    // analyze: true,
     transpile: [/^element-ui/],
     /*
      ** You can extend webpack config here
      */
+    babel: {
+      presets({ isServer }) {
+        const targets = isServer
+          ? { node: 'current' }
+          : { chrome: '72', safari: '12' }
+        return [[require.resolve('@nuxt/babel-preset-app'), { targets }]]
+      }
+    },
     extend(config, ctx) {
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({

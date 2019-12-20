@@ -14,13 +14,15 @@ const router = Router({
 router
   .use(require('../../middlewares/resource')())
   .get('/', async (req, res) => {
-    const { page = 1, size = 10 } = req.query
+    const { page = 1, size = 10, select } = req.query
     assert(size < 20, 400, '要素过多')
     assert(page > 0, 400, '页数不正确')
     const queryOptions = {}
     const condition = {}
     // console.log(req.Model.modelName)
-
+    if (select) {
+      queryOptions.select = select
+    }
     if (req.Model.modelName === 'Comment') {
       if (req.query.state) {
         condition.state = parseInt(req.query.state)

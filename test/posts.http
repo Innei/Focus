@@ -1,7 +1,7 @@
 @url=http://localhost:3000/api/posts
 
 ### Get Posts
-get {{url}}
+get {{url}}?select=-text
 
 ### Get ID without category
 get {{url}}/5df322aba3968d17e5763354

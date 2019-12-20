@@ -125,6 +125,7 @@ export default {
           .join('\n')
       }
     },
+
     countText(dom) {
       return dom.textContent.length
     },
@@ -136,6 +137,8 @@ export default {
       ]
       const tree = []
       titles.map((title, index) => {
+        title.setAttribute('id', title.textContent)
+
         tree.push({
           name: title.textContent,
           y: title.getBoundingClientRect().y,

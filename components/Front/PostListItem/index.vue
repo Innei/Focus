@@ -17,9 +17,8 @@
       <h1 class="post-item-title">{{ i.title }}</h1>
       <div class="post-item-summary">
         {{
-          i.desc || i.text.length > 150
-            ? i.text.substr(0, 150) + ' ...'
-            : i.text
+          i.desc ||
+            (i.text.length > 150 ? i.text.substr(0, 150) + ' ...' : i.text)
         }}
       </div>
       <div class="post-item-meta">
@@ -33,7 +32,7 @@
             )}-${String(parseDate.day).padStart(2, 0)}`
           }}
         </span>
-        <span>
+        <span v-if="i.categoryId">
           <i class="el-icon-folder"></i>
           <nuxt-link :to="`/categories/${i.categoryId.slug}`">{{
             i.categoryId.name
