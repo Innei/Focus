@@ -1,9 +1,9 @@
 <template>
   <ul class="tortree">
     <li
-      :class="'h' + i.level"
       v-for="i in tree"
       :key="i.name"
+      :class="{ active: y >= i.y && y < i.nexty }"
       @click="scrollTo(i.y, i.name)"
     >
       {{ i.name }}
@@ -12,15 +12,24 @@
 </template>
 
 <script>
+import { debounce } from '~/utils'
 export default {
   props: {
     tree: Array
+  },
+  data() {
+    return { y: 0 }
   },
   methods: {
     scrollTo(y, name) {
       location.hash = name
       window.scrollTo(0, y)
     }
+  },
+  mounted() {
+    document.onscroll = debounce(() => {
+      this.y = document.documentElement.scrollTop
+    }, 50)
   }
 }
 </script>
@@ -28,9 +37,7 @@ export default {
 <style lang="scss" scoped>
 ul {
   font-size: 13.6px;
-  border-left: 2px solid map-get($map: $material, $key: 'shallow');
   position: fixed;
-  overflow: hidden;
 }
 li {
   color: #888;
@@ -39,19 +46,18 @@ li {
   margin: 1ch;
   position: relative;
   cursor: pointer;
-  @for $var from 1 through 6 {
-    &.h#{$var} {
-      margin-left: 1ch + $var * 0.5ch;
-    }
-  }
-  &::before {
+
+  &.active::before {
     content: '';
     position: absolute;
-    left: -53px;
+    left: -2ch;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    border-top: 2px solid map-get($map: $material, $key: 'shallow');
+
+    width: 5px;
+    height: 5px;
+    background-color: map-get($map: $material, $key: 'shallow');
+    border-radius: 88%;
   }
   &:first-child {
     margin-top: 0;

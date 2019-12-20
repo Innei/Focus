@@ -107,10 +107,15 @@ export default {
       this.setStatus(false)
     }, 50)
 
-    setTimeout(() => {
-      // 等待回到顶点
+    if (document.documentElement.scrollTop === 0) {
       this.tree = this.parseTree()
-    }, 1000)
+    } else {
+      window.scrollTo(0, 0)
+      setTimeout(() => {
+        // 等待回到顶点
+        this.tree = this.parseTree()
+      }, 2000)
+    }
   },
   methods: {
     ...mapActions('Navigation', ['setStatus']),
@@ -141,7 +146,10 @@ export default {
 
         tree.push({
           name: title.textContent,
-          y: title.getBoundingClientRect().y,
+          y: parseInt(title.getBoundingClientRect().y),
+          nexty: titles[index + 1]
+            ? parseInt(titles[index + 1].getBoundingClientRect().y)
+            : document.documentElement.scrollHeight,
           level: title.tagName.slice(1)
         })
       })
@@ -195,6 +203,7 @@ export default {
   position: absolute;
   display: flex;
   align-items: center;
+  animation: fade-in 3s;
 }
 
 @media (max-width: map-get($map: $viewports, $key: 'mobile')) {
