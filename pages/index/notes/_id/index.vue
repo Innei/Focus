@@ -2,11 +2,20 @@
   <Basic>
     <Loading v-show="!data" />
     <Note :data="data" v-if="data" />
-    <Btn class="right">
+    <Btn
+      class="right"
+      v-if="next"
+      @click.native="$router.push(`/notes/${next.nid}`)"
+    >
       <i class="el-icon-arrow-right"></i>
     </Btn>
     <Btn class="right item"><i class="el-icon-more"></i></Btn>
-    <Btn class="left"><i class="el-icon-arrow-left"></i></Btn>
+    <Btn
+      class="left"
+      v-if="prev"
+      @click.native="$router.push(`/notes/${prev.nid}`)"
+      ><i class="el-icon-arrow-left"></i
+    ></Btn>
   </Basic>
 </template>
 
@@ -43,7 +52,7 @@ export default {
     const data = await Rest(app.$axios, 'getOne', 'Note')(params.id)
     if (data.ok) {
       data.data.text = md.render(data.data.text)
-      return { data: data.data }
+      return { data: data.data, prev: data.prev, next: data.next }
     } else {
       Message.error({ message: data.msg })
     }

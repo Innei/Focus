@@ -12,7 +12,17 @@ router
     if (r) {
       r.count.read++
       await r.save()
-      return res.send({ ok: 1, data: r })
+
+      // 是否存在上一条记录 (旧记录)
+      // 统一: next 为较老的记录  prev 为较新的记录
+      const next = await Note.findOne({
+        _id: {
+          $lt: r._id
+        }
+      })
+        .sort({ _id: -1 })
+        .select('nid _id')
+      return res.send({ ok: 1, data: r, next })
     }
     res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
   })
@@ -25,7 +35,19 @@ router
     if (r) {
       r.count.read++
       await r.save()
-      res.send({ ok: 1, data: r })
+      // 获取 nid 的下一条和上一条记录
+      const prev = await Note.findOne({
+        _id: {
+          $gt: r._id
+        }
+      })
+
+      const next = await Note.findOne({
+        _id: {
+          $lt: r._id
+        }
+      }).sort({ _id: -1 })
+      res.send({ ok: 1, data: r, prev, next })
     } else {
       res.send({ ok: 0, msg: '不存在此记录' })
     }
