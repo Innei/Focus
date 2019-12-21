@@ -9,10 +9,12 @@ const router = Router()
 router
   .get('/lastest', async (req, res) => {
     const r = await Note.findOne().sort({ created: -1 })
-
-    r
-      ? res.send({ ok: 1, data: r })
-      : res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
+    if (r) {
+      r.count.read++
+      await r.save()
+      return res.send({ ok: 1, data: r })
+    }
+    res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
   })
   .get('/:id', async (req, res) => {
     const id = req.params.id

@@ -8,7 +8,7 @@
 </template>
 
 <style scoped>
-#basic-layout {
+/* #basic-layout {
   padding: 64px 64px 0;
-}
+} */
 </style>

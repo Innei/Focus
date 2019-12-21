@@ -39,9 +39,14 @@ table {
 }
 
 html {
-  font-family: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
+  font: 16px/1.5 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
     'Microsoft YaHei', 'WenQuanYi Micro Hei';
-  line-height: 1.5;
+}
+
+@media (max-width: map-get($map: $viewports, $key: 'mobile')) {
+  html {
+    font-size: 14px;
+  }
 }
 a {
   color: unset;

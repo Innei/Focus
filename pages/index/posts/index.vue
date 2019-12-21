@@ -32,6 +32,9 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapGetters(['viewport'])
+  },
   watch: {
     $route: {
       deep: true,
@@ -57,6 +60,10 @@ export default {
       this.data = data.data
     }
   },
+  mounted() {
+    this.updateViewport()
+  },
+
   // async asyncData({ app, route, error }) {
   //   const data = await rest(
   //     app.$axios,
@@ -111,12 +118,6 @@ export default {
       this.$nuxt.$loading.fail()
       return false
     }
-  },
-  computed: {
-    ...mapGetters(['viewport'])
-  },
-  mounted() {
-    this.updateViewport()
   }
 }
 </script>

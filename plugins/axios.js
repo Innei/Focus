@@ -5,7 +5,6 @@ export default ({ $axios, redirect }) => {
     if (localStorage.token) {
       config.headers.Authorization = localStorage.token
     }
-    console.log('Making request to ' + config.url)
 
     return config
   })
