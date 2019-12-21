@@ -4,7 +4,7 @@
     ondragstart="return false;"
     class="post-item"
   >
-    <div class="post-item-left" v-if="viewport && !viewport.mobile">
+    <div v-if="viewport && !viewport.mobile" class="post-item-left">
       <div class="date-day">
         {{ parseDate.day }}
       </div>

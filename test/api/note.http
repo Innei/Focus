@@ -19,7 +19,9 @@ post {{url}}
 Content-Type: application/json
 
 {
-  "text": "test"
+  "text": "正文",
+  "mood": "开心",
+  "weather": "晴"
 }
 
 ### Modify 

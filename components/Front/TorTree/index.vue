@@ -20,16 +20,16 @@ export default {
   data() {
     return { y: 0 }
   },
+  mounted() {
+    document.onscroll = debounce(() => {
+      this.y = document.documentElement.scrollTop
+    }, 50)
+  },
   methods: {
     scrollTo(y, name) {
       location.hash = name
       window.scrollTo(0, y)
     }
-  },
-  mounted() {
-    document.onscroll = debounce(() => {
-      this.y = document.documentElement.scrollTop
-    }, 50)
   }
 }
 </script>

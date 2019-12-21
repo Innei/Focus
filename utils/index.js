@@ -1,3 +1,5 @@
+import moment from 'moment'
+moment.locale('zh-cn')
 export const isMobile = () => /mobile/i.test(window.navigator.userAgent)
 export const debounce = (fn, wait) => {
   let timeout = null
@@ -19,4 +21,14 @@ export const parseDate = (date) => {
     h: d.getHours(),
     s: d.getSeconds()
   }
+}
+
+export const formatDate = (date, format) => {
+  return moment(date).format(format)
+}
+export const fromNow = (date) => {
+  return moment(date).fromNow()
+}
+export const sleep = (time) => {
+  return new Promise((resolve, reject) => setTimeout(resolve, time))
 }

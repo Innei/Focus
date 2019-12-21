@@ -33,7 +33,8 @@ const schema = new Schema({
       type: Number,
       default: 0
     }
-  }
+  },
+  options: {}
 })
 schema.plugin(uniqueValidator)
 // 后置钩子函数 监听 updateOne 实例方法 更新修改时间
