@@ -12,8 +12,8 @@ get {{url}}/5dfcc68314dc454f0c6ca49b
 ### Get Nid
 get {{url}}/18
 
-### Get None
-get {{url}}/1/1
+### Get list
+get {{url}}/list/18
 ### Post 
 post {{url}}
 Content-Type: application/json

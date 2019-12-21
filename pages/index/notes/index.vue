@@ -21,6 +21,7 @@ import Mdit from 'markdown-it'
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Front/Loading'
 import Notes from '~/api/notes'
+import Rest from '~/api/rest'
 import Note from '~/components/Front/Note'
 import Btn from '~/components/Front/Note/components/btn'
 
@@ -41,14 +42,18 @@ export default {
   },
 
   data() {
-    return { data: undefined, next: undefined }
+    return { data: undefined, next: undefined, list: undefined }
   },
   async created() {
     const data = await Notes(this.$axios, 'getLastest')()
-    if (data.ok) {
+    const list = await Rest(this.$axios, 'getRecently', 'Note')(1, 10)
+    if (data.ok && list.ok) {
       this.data = data.data
       this.data.text = md.render(this.data.text)
       this.next = data.next
+
+      this.list = list.data
+
       this.setStatus(false)
       history.pushState(
         null,
@@ -56,7 +61,7 @@ export default {
         `${location.origin}/notes/${this.data.nid}`
       )
     } else {
-      Message.error({ message: data.msg })
+      Message.error({ message: data.msg || list.msg })
     }
   },
   methods: {

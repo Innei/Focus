@@ -27,6 +27,7 @@ import Mdit from 'markdown-it'
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Front/Loading'
 import Rest from '~/api/rest'
+import Notes from '~/api/notes'
 import Note from '~/components/Front/Note'
 import Btn from '~/components/Front/Note/components/btn'
 
@@ -50,11 +51,17 @@ export default {
   },
   async asyncData({ app, params }) {
     const data = await Rest(app.$axios, 'getOne', 'Note')(params.id)
-    if (data.ok) {
+    const list = await Notes(app.$axios, 'getList')(params.id)
+    if (data.ok && list.ok) {
       data.data.text = md.render(data.data.text)
-      return { data: data.data, prev: data.prev, next: data.next }
+      return {
+        data: data.data,
+        prev: data.prev,
+        next: data.next,
+        list: list.data
+      }
     } else {
-      Message.error({ message: data.msg })
+      Message.error({ message: data.msg || list.msg })
     }
   },
   mounted() {

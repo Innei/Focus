@@ -26,6 +26,47 @@ router
     }
     res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
   })
+
+  .get('/list/:id', async (req, res) => {
+    const { size = 10 } = req.query
+    const { id } = req.params
+    assert(id, 400, '不正确的请求')
+    const select = 'nid _id title created'
+    const sort = { nid: -1, _id: -1 }
+    const limit = parseInt(size / 2)
+
+    const prevList = Types.ObjectId.isValid(id)
+      ? await Note.find({
+          _id: {
+            $gte: id
+          }
+        }).setOptions({ select, limit })
+      : await Note.find({
+          nid: {
+            $gte: id
+          }
+        }).setOptions({ select, limit })
+
+    const nextList = Types.ObjectId.isValid(id)
+      ? await Note.find({
+          _id: {
+            $lt: id
+          }
+        }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
+      : await Note.find({
+          nid: {
+            $lt: id
+          }
+        }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
+    const list = nextList.reverse().concat(prevList)
+    list.length > 0
+      ? res.send({
+          ok: 1,
+          page: { size: list.length },
+          data: list
+        })
+      : res.send({ ok: 0, msg: '没有更多文章' })
+  })
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')

@@ -5,6 +5,10 @@ export default ($axios, api) => {
     async getLastest() {
       const { data } = await $axios.get(`${prefix}/lastest`)
       return data
+    },
+    async getList(id) {
+      const { data } = await $axios.get(`${prefix}/list/${id}`)
+      return data
     }
   }
   return apis[api]
