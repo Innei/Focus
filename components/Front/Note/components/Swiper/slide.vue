@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { swiperSlide } from 'vue-awesome-swiper'
+// import { swiperSlide } from 'vue-awesome-swiper/dist/ssr'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -44,7 +44,7 @@ export default {
     }
   },
   components: {
-    swiperSlide
+    // swiperSlide
   },
   computed: {
     ...mapGetters(['user'])
@@ -64,7 +64,9 @@ export default {
   color: #989fa7;
   padding: 2rem;
   user-select: none;
-
+  box-shadow: inset 0px -8px 1px 0 rgba(255, 255, 255, 0.1),
+    inset 1px 1px 7px 0 rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.01),
+    2px 3px 5px 1px rgba(0, 0, 0, 0.02), 1px 2px 4px 0 rgba(255, 255, 255, 0.2);
   &.active {
     background-color: #6467f6;
     color: #fff;

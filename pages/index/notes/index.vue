@@ -2,14 +2,27 @@
   <Basic>
     <Loading v-show="!data" />
     <Note :data="data" v-if="data" />
-    <Btn
-      class="right"
-      v-if="next"
-      @click.native="$router.push(`/notes/${next.nid}`)"
-    >
-      <i class="el-icon-arrow-right"></i>
-    </Btn>
-    <Btn class="right item" v-if="next"><i class="el-icon-more"></i></Btn>
+
+    <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
+      <Btn
+        class="right"
+        v-if="next"
+        @click.native="$router.push(`/notes/${next.nid}`)"
+      >
+        <i class="el-icon-arrow-right"></i>
+      </Btn>
+      <Btn
+        class="right item"
+        v-if="next"
+        @click.native="showSwiper = !showSwiper"
+        ><i class="el-icon-more"></i
+      ></Btn>
+    </div>
+    <transition name="slide-down">
+      <div id="swiper" v-show="showSwiper" class="overlay">
+        <Swiper :list="list" class="swiper" />
+      </div>
+    </transition>
   </Basic>
 </template>
 
@@ -24,6 +37,7 @@ import Notes from '~/api/notes'
 import Rest from '~/api/rest'
 import Note from '~/components/Front/Note'
 import Btn from '~/components/Front/Note/components/btn'
+import Swiper from '~/components/Front/Note/components/Swiper'
 
 import '~/assets/scss/markdown/shizuku.scss'
 
@@ -38,11 +52,17 @@ export default {
     Basic,
     Loading,
     Note,
-    Btn
+    Btn,
+    Swiper
   },
 
   data() {
-    return { data: undefined, next: undefined, list: undefined }
+    return {
+      data: undefined,
+      next: undefined,
+      list: undefined,
+      showSwiper: false
+    }
   },
   async created() {
     const data = await Notes(this.$axios, 'getLastest')()
@@ -64,6 +84,7 @@ export default {
       Message.error({ message: data.msg || list.msg })
     }
   },
+
   methods: {
     ...mapActions('Navigation', ['setStatus'])
   }
@@ -71,12 +92,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.right {
-  right: 2rem;
-  bottom: 2rem;
+.overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.1) 6%, transparent);
+  // backdrop-filter: blur(5px);
+}
+#swiper {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
 
-  &.item {
-    bottom: 6rem;
+.btn-wrap {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: bottom 0.5s;
+
+  &.move-top {
+    bottom: 12rem;
   }
+
+  .right {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+
+    &.item {
+      bottom: 6rem;
+    }
+  }
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: transform 0.5s;
+  transform: translateY(0);
+}
+
+.slide-down-enter,
+.slide-down-leave-to {
+  transform: translateY(100%);
 }
 </style>

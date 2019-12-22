@@ -6,7 +6,7 @@
 
 <style lang="scss" scoped>
 .btn {
-  position: fixed;
+  // position: fixed;
   z-index: 2;
   height: 3rem;
   width: 3rem;
