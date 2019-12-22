@@ -102,7 +102,7 @@ export default {
   },
   async mounted() {
     setTimeout(() => {
-      // 加载代码行数 别问我为什么不用 prism 自带的插件, 那 sb 不支持 ssr
+      // 加载代码行数 别问我为什么不用 prism 自带的插件, 因为不支持 ssr
       this.parseLineNumber()
       this.count = this.countText(this.$refs.md)
       this.setStatus(false)

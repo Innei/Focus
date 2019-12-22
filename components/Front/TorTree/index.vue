@@ -3,7 +3,7 @@
     <li
       v-for="i in tree"
       :key="i.name"
-      :class="{ active: y >= i.y && y < i.nexty }"
+      :class="{ active: isActive(i.y, i.nexty, i.name) }"
       @click="scrollTo(i.y, i.name)"
     >
       {{ i.name }}
@@ -23,12 +23,19 @@ export default {
   mounted() {
     document.onscroll = debounce(() => {
       this.y = document.documentElement.scrollTop
-    }, 50)
+    }, 13)
   },
   methods: {
     scrollTo(y, name) {
-      location.hash = name
+      // location.hash = name
       window.scrollTo(0, y)
+    },
+    isActive(y, nexty, name) {
+      const isActive = this.y >= y && this.y < nexty
+      if (isActive) {
+        location.hash = name
+      }
+      return isActive
     }
   }
 }

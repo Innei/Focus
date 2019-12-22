@@ -1,12 +1,17 @@
 <template>
   <div id="bigHead">
-    <div class="head-name">静之森</div>
-    <div class="head-desc">远方你的,还好吗</div>
+    <div class="head-name">{{ name }}</div>
+    <div class="head-desc">{{ desc }}</div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    name: String,
+    desc: String
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -44,7 +44,8 @@ module.exports = {
     {
       src: '~plugins/router.js',
       mode: 'client'
-    }
+    },
+    { src: '~/plugins/preload.js' }
   ],
   /*
    ** Nuxt.js dev-modules

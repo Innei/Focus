@@ -16,7 +16,7 @@ const Option = require('../models/Option')
         value: 'Hello World'
       },
       {
-        name: 'alias',
+        name: 'keywords',
         value: 'focus'
       },
       {

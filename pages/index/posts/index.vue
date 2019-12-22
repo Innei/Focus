@@ -1,7 +1,7 @@
 <template>
   <!-- 文章列表页 -->
   <div class="page-list">
-    <BigHead />
+    <BigHead :name="config.title" :desc="config.desc" />
     <client-only>
       <div id="post-list-wrap" :class="{ loading: loading }">
         <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
@@ -33,7 +33,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['viewport'])
+    ...mapGetters(['viewport', 'config'])
   },
   watch: {
     $route: {

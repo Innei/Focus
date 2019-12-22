@@ -1,7 +1,7 @@
 <template>
   <Basic>
     <Loading v-show="!data" />
-    <Note :data="data" v-if="data" />
+    <!-- <Note :data="data" v-if="data" /> -->
 
     <!-- <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
       <Btn
@@ -56,14 +56,14 @@ export default {
     // Swiper
   },
 
-  // data() {
-  //   return {
-  //     data: undefined,
-  //     next: undefined,
-  //     list: undefined,
-  //     showSwiper: false
-  //   }
-  // },
+  data() {
+    return {
+      data: undefined
+      // next: undefined,
+      // list: undefined,
+      // showSwiper: false
+    }
+  },
   async created() {
     const data = await Notes(this.$axios, 'getLastest')()
     // const list = await Rest(this.$axios, 'getRecently', 'Note')(1, 10)

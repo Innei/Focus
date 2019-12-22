@@ -16,7 +16,7 @@
       class="note-meta"
     >
       <i class="el-icon-s-custom"></i>
-      <div>用户</div>
+      <div>{{ $store.state.config.config.username }}</div>
 
       <i class="el-icon-edit"></i
       ><time
