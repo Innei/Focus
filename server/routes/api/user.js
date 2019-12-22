@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const assert = require('http-assert')
 const { compareSync } = require('bcrypt')
+const sanitize = require('mongo-sanitize')
 const { randomStr } = require('../../utils/index')
 
 const User = require('../../models/User')
@@ -40,14 +41,21 @@ router
     isMaster({ getStatus: true }),
     async (req, res) => {
       const { username, password } = req.body
-      assert(username, 422, '君の名は')
-      assert(password, 422, 'えぃ')
+      const cleanUsername = sanitize(username)
+      assert(
+        typeof cleanUsername === 'string' && cleanUsername,
+        422,
+        '君の名は'
+      )
+      assert(typeof password === 'string' && password, 422, 'えぃ')
 
       if (req.logged) {
         return res.send({ ok: 1, msg: '你已经登陆啦' })
       }
 
-      const doc = await User.findOne({ username }).select('+password')
+      const doc = await User.findOne({ username: cleanUsername }).select(
+        '+password'
+      )
       const verifyUsername = !!doc
       assert(verifyUsername, 400, '你不是我的主人')
       const verifyPass = compareSync(password, doc.password)
@@ -74,8 +82,10 @@ router
    */
   .put('/password/modify', isMaster(), async (req, res) => {
     const { id, password, oldPassword } = req.body
-    assert(password, 400, '新密码不能为空')
-    assert(oldPassword, 400, '密码不正确')
+
+    assert(id, 400, '标识符为空')
+    assert(typeof password === 'string' && password, 400, '新密码不能为空')
+    assert(typeof oldPassword === 'string' && oldPassword, 400, '密码不正确')
     assert(oldPassword !== password, 400, '新旧密码不能为空')
     // TODO 引入 zxc
     // if (process.env.NODE_ENV === 'production') {

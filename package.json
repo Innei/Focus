@@ -28,6 +28,7 @@
     "markdown-it": "^10.0.0",
     "markdown-it-prism": "^2.0.3",
     "moment": "^2.24.0",
+    "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.7.13",
     "mongoose-unique-validator": "^2.0.3",
     "nuxt": "^2.0.0",
