@@ -4,7 +4,7 @@
 
 const { Router } = require('express')
 const assert = require('http-assert')
-
+const clean = require('mongo-sanitize')
 // const { Option } = require('../../models/index')
 
 const router = Router({
@@ -14,9 +14,12 @@ const router = Router({
 router
   .use(require('../../middlewares/resource')())
   .get('/', async (req, res) => {
-    const { page = 1, size = 10, select } = req.query
+    let { page = 1, size = 10, select } = req.query
     assert(size < 20, 400, '要素过多')
     assert(page > 0, 400, '页数不正确')
+    // check NoSql inject and clean
+    ;[page, size, select] = [clean(page), clean(size), clean(select)]
+
     const queryOptions = {}
     const condition = {}
     // console.log(req.Model.modelName)
@@ -65,6 +68,7 @@ router
       data
     })
   })
+
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')

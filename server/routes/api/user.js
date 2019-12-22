@@ -13,6 +13,7 @@ router
   /**
    * Sign Up
    */
+
   .post('/signup', async (req, res) => {
     const { username, password, mail = '', url = '' } = req.body
     assert(username, 400, '用户名不能为空')

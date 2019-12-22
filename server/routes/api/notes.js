@@ -33,6 +33,7 @@ router
     assert(id, 400, '不正确的请求')
     const select = 'nid _id title created'
     const sort = { nid: -1, _id: -1 }
+    // NoSql inject NaN limit => 0
     const limit = parseInt(size / 2)
 
     const prevList = Types.ObjectId.isValid(id)
@@ -40,12 +41,12 @@ router
           _id: {
             $gte: id
           }
-        }).setOptions({ select, limit })
+        }).setOptions({ select, limit: limit || 5 })
       : await Note.find({
           nid: {
             $gte: id
           }
-        }).setOptions({ select, limit })
+        }).setOptions({ select, limit: limit || 5 })
 
     const nextList = Types.ObjectId.isValid(id)
       ? await Note.find({
