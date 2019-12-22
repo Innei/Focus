@@ -3,7 +3,7 @@
     <Loading v-show="!data" />
     <Note :data="data" v-if="data" />
 
-    <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
+    <!-- <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
       <Btn
         class="right"
         v-if="next"
@@ -22,66 +22,67 @@
       <div id="swiper" v-show="showSwiper" class="overlay">
         <Swiper :list="list" class="swiper" />
       </div>
-    </transition>
+    </transition> -->
   </Basic>
 </template>
 
 <script>
 import { Message } from 'element-ui'
 import { mapActions } from 'vuex'
-import Mdit from 'markdown-it'
+// import Mdit from 'markdown-it'
 
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Front/Loading'
 import Notes from '~/api/notes'
-import Rest from '~/api/rest'
-import Note from '~/components/Front/Note'
-import Btn from '~/components/Front/Note/components/btn'
-import Swiper from '~/components/Front/Note/components/Swiper'
+// import Rest from '~/api/rest'
+// import Note from '~/components/Front/Note'
+// import Btn from '~/components/Front/Note/components/btn'
+// import Swiper from '~/components/Front/Note/components/Swiper'
 
-import '~/assets/scss/markdown/shizuku.scss'
+// import '~/assets/scss/markdown/shizuku.scss'
 
-const md = new Mdit({
-  html: true,
-  linkify: true,
-  typographer: true
-})
+// const md = new Mdit({
+//   html: true,
+//   linkify: true,
+//   typographer: true
+// })
 
 export default {
   components: {
     Basic,
-    Loading,
-    Note,
-    Btn,
-    Swiper
+    Loading
+    // Note,
+    // Btn,
+    // Swiper
   },
 
-  data() {
-    return {
-      data: undefined,
-      next: undefined,
-      list: undefined,
-      showSwiper: false
-    }
-  },
+  // data() {
+  //   return {
+  //     data: undefined,
+  //     next: undefined,
+  //     list: undefined,
+  //     showSwiper: false
+  //   }
+  // },
   async created() {
     const data = await Notes(this.$axios, 'getLastest')()
-    const list = await Rest(this.$axios, 'getRecently', 'Note')(1, 10)
-    if (data.ok && list.ok) {
-      this.data = data.data
-      this.data.text = md.render(this.data.text)
-      this.next = data.next
+    // const list = await Rest(this.$axios, 'getRecently', 'Note')(1, 10)
+    if (data.ok /* && list.ok */) {
+      // this.data = data.data
+      // this.data.text = md.render(this.data.text)
+      // this.next = data.next
 
-      this.list = list.data
+      // this.list = list.data
 
       this.setStatus(false)
-      history.pushState(
-        null,
-        this.data.title,
-        `${location.origin}/notes/${this.data.nid}`
-      )
+      // history.pushState(
+      //   null,
+      //   this.data.title,
+      //   `${location.origin}/notes/${this.data.nid}`
+      // )
+      this.$router.push('/notes/' + data.data.nid)
     } else {
-      Message.error({ message: data.msg || list.msg })
+      Message.error({ message: data.msg })
     }
   },
 
@@ -92,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.overlay {
+/* .overlay {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.1) 6%, transparent);
   // backdrop-filter: blur(5px);
 }
@@ -135,5 +136,5 @@ export default {
 .slide-down-enter,
 .slide-down-leave-to {
   transform: translateY(100%);
-}
+} */
 </style>

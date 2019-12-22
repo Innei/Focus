@@ -1,35 +1,35 @@
 <template>
   <swiper :options="swiperOption" class="swiper" ref="swiper">
-    <Slide
+    <!-- <Slide
       v-for="i in list"
       :key="i._id"
       :date="new Date(i.created)"
       :title="i.title"
-    />
+    /> -->
+    <slot />
   </swiper>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 // import { swiper } from 'vue-awesome-swiper/dist/ssr'
-import Slide from './slide'
+// import Slide from './slide'
 
 import 'swiper/dist/css/swiper.css'
 
 export default {
   components: {
     // swiper,
-    Slide
+    // Slide
   },
-  props: {
-    list: {
-      type: Array,
-      required: true
-    }
-  },
+  // props: {
+  //   list: {
+  //     type: Array,
+  //     required: true
+  //   }
+  // },
   data() {
     return {
-      activeItem: 0,
       swiperOption: {
         slidesPerView: 4,
         spaceBetween: 16,
@@ -73,7 +73,7 @@ export default {
 
 <style lang="scss">
 .swiper-wrapper {
-  @for $var from 0 to 6 {
+  @for $var from 0 to 10 {
     & > div.card:nth-child(#{$var + 1}n) {
       animation: scale 0.5s forwards;
       animation-delay: $var * 0.1s;

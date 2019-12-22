@@ -7,9 +7,12 @@ $viewports: (
 );
 
 $colors: (
-  'gray': rgb(68, 75, 84),
+  'gray': #444b54,
   'text': #4c4545,
-  'shallow': #4c4545cb
+  'shallow': #4c4545cb,
+  'white': #fff,
+  'black': #333,
+  'gwhite': #eee
 );
 
 $Serif: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',

@@ -68,22 +68,23 @@ export default {
     inset 1px 1px 7px 0 rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.01),
     2px 3px 5px 1px rgba(0, 0, 0, 0.02), 1px 2px 4px 0 rgba(255, 255, 255, 0.2);
   &.active {
-    background-color: #6467f6;
-    color: #fff;
-    height: 15rem;
+    background-color: map-get($map: $colors, $key: 'gray');
+    color: map-get($map: $colors, $key: 'white');
+    height: 12.5rem;
+    box-shadow: none;
 
     .header {
       .date {
-        color: #fff;
+        color: map-get($map: $colors, $key: 'white');
       }
 
       .type {
         .xtop {
-          color: #c7caff;
+          color: map-get($map: $colors, $key: 'gwhite');
         }
 
         .bottom {
-          color: #b0b3f3;
+          color: map-get($map: $colors, $key: 'gwhite');
         }
       }
     }
@@ -115,7 +116,7 @@ export default {
   }
 
   &.active .body {
-    color: #c7caff;
+    color: map-get($map: $colors, $key: 'gwhite');
   }
 
   .body {
