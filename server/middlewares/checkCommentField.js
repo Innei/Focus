@@ -6,7 +6,7 @@ const { getClientIP } = require('../utils')
  */
 module.exports = (options) => {
   return async (req, res, next) => {
-    const token = req.headers['authorization']
+    const token = req.headers.authorization
     if (!req.params.id && !req.params.cid) {
       return res.status(422).send({ msg: '评论文章不能为空' })
     }

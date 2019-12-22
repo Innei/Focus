@@ -10,7 +10,17 @@ export const debounce = (fn, wait) => {
     timeout = setTimeout(fn, wait)
   }
 }
+export const throttle = (fn, gapTime) => {
+  let _lastTime = null
 
+  return () => {
+    const _nowTime = +new Date()
+    if (_nowTime - _lastTime > gapTime || !_lastTime) {
+      fn()
+      _lastTime = _nowTime
+    }
+  }
+}
 export const parseDate = (date) => {
   const d = new Date(date)
   return {

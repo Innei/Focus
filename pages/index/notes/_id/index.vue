@@ -3,28 +3,33 @@
     <Loading v-show="!data" />
     <Note :data="data" v-if="data" />
 
-    <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
+    <div :class="{ 'move-top': showSwiper }" class="btn-wrap">
       <Btn
-        class="right"
+        :class="{ show: btnShow }"
         v-if="next"
         @click.native="$router.push(`/notes/${next.nid}`)"
+        class="right"
       >
         <i class="el-icon-arrow-right"></i>
       </Btn>
-      <Btn class="right item" @click.native="showSwiper = !showSwiper"
+      <Btn
+        :class="{ show: btnShow }"
+        @click.native="showSwiper = !showSwiper"
+        class="right item"
         ><i class="el-icon-more"></i
       ></Btn>
       <Btn
-        class="left"
+        :class="{ show: btnShow }"
         v-if="prev"
         @click.native="$router.push(`/notes/${prev.nid}`)"
+        class="left"
         ><i class="el-icon-arrow-left"></i
       ></Btn>
     </div>
     <transition name="slide-down">
       <div id="swiper" v-show="showSwiper" class="overlay">
         <client-only>
-          <Swiper class="swiper" ref="swiper">
+          <Swiper ref="swiper" class="swiper">
             <Slide
               v-for="i in list"
               :key="i._id"
@@ -46,6 +51,7 @@
 import { Message } from 'element-ui'
 import { mapActions, mapGetters } from 'vuex'
 import Mdit from 'markdown-it'
+import { throttle } from '~/utils'
 
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Front/Loading'
@@ -78,7 +84,8 @@ export default {
       data: undefined,
       list: undefined,
       showSwiper: false,
-      activeItem: NaN
+      btnShow: true,
+      currentY: 0
     }
   },
   async asyncData({ app, params }) {
@@ -100,6 +107,12 @@ export default {
     if (this.data) {
       this.setStatus(false)
     }
+
+    window.onscroll = throttle(() => {
+      const currentY = document.documentElement.scrollTop
+      this.btnShow = this.currentY >= currentY
+      this.currentY = currentY
+    }, 13)
   },
   methods: {
     ...mapActions('Navigation', ['setStatus']),
@@ -122,6 +135,9 @@ export default {
         )
       }
     }
+  },
+  destroyed() {
+    window.onscroll = null
   }
 }
 </script>
@@ -147,7 +163,14 @@ export default {
 
   .btn {
     position: absolute;
+    transition: transform 0.5s;
+    transform: scale(0);
+    background-color: map-get($map: $colors, $key: 'white');
+    &.show {
+      transform: scale(1);
+    }
   }
+
   &.move-top {
     bottom: 12rem;
   }

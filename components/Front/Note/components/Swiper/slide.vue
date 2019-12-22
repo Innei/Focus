@@ -1,6 +1,6 @@
 <template>
-  <swiper-slide class="card" :class="{ active: isActive }">
-    <div class="normal" v-if="!isBtn">
+  <swiper-slide :class="{ active: isActive }" class="card">
+    <div v-if="!isBtn" class="normal">
       <div class="header">
         <div class="date">{{ date.getDate() || 'N' }}</div>
         <div class="type">
@@ -14,7 +14,7 @@
       </div>
       <div class="body">{{ title }}</div>
     </div>
-    <div class="btn next_btn prev_btn" v-else>
+    <div v-else class="btn next_btn prev_btn">
       <slot />
     </div>
   </swiper-slide>
@@ -25,6 +25,9 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  components: {
+    // swiperSlide
+  },
   props: {
     isActive: {
       type: Boolean,
@@ -42,9 +45,6 @@ export default {
       type: String,
       required: true
     }
-  },
-  components: {
-    // swiperSlide
   },
   computed: {
     ...mapGetters(['user'])

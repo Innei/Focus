@@ -1,5 +1,5 @@
 <template>
-  <swiper :options="swiperOption" class="swiper" ref="swiper">
+  <swiper ref="swiper" :options="swiperOption" class="swiper">
     <!-- <Slide
       v-for="i in list"
       :key="i._id"
