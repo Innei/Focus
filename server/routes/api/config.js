@@ -3,32 +3,40 @@ const { User, Option } = require('./../../models/index')
 const assert = require('http-assert')
 const router = new Router()
 
-router.get('/', async (req, res) => {
-  const user = await User.findOne().select('created username mail url')
-  assert(user, 400, '用户没有完成初始化')
-  const option = await Option.find({
-    $or: [
-      {
-        name: 'title'
-      },
-      {
-        name: 'keywords'
-      },
-      {
-        name: 'desc'
-      },
-      {
-        name: 'createdDay'
-      }
-    ]
-  }).select('name value')
+router
+  /**
+   * 前端渲染前获取的配置
+   * @route GET /config
+   * @summary 前端渲染前获取的配置
+   * @group 配置
+   * @returns { ok, data } 200
+   */
+  .get('/', async (req, res) => {
+    const user = await User.findOne().select('created username mail url')
+    assert(user, 400, '用户没有完成初始化')
+    const option = await Option.find({
+      $or: [
+        {
+          name: 'title'
+        },
+        {
+          name: 'keywords'
+        },
+        {
+          name: 'desc'
+        },
+        {
+          name: 'createdDay'
+        }
+      ]
+    }).select('name value')
 
-  const parsed = {}
-  option.forEach((item) => {
-    parsed[item['name']] = item['value']
+    const parsed = {}
+    option.forEach((item) => {
+      parsed[item['name']] = item['value']
+    })
+
+    res.send({ ok: 1, config: { ...user.toObject(), ...parsed } })
   })
-
-  res.send({ ok: 1, config: { ...user.toObject(), ...parsed } })
-})
 
 module.exports = router

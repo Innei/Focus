@@ -1,8 +1,12 @@
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const app = express()
 
+const app = express()
+if (process.env.NODE_ENV !== 'production') {
+  // api docs
+  require('./docs')(app)
+}
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'

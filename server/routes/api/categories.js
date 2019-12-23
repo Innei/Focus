@@ -2,7 +2,7 @@ const { Router } = require('express')
 const assert = require('http-assert')
 const { Types } = require('mongoose')
 
-const isMater = require('../../middlewares/isMaster')
+// const isMater = require('../../middlewares/isMaster')
 const { Category, Post } = require('../../models')
 
 const router = Router()

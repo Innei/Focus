@@ -1,16 +1,29 @@
 const express = require('express')
 const assert = require('http-assert')
 const consola = require('consola')
+const clean = require('mongo-sanitize')
 const { Post, Option, Comment } = require('../../models/index')
 const checkCommentsField = require('./../../middlewares/checkCommentField')()
 
 const router = express.Router({
   mergeParams: true
 })
-
+/**
+ * @typedef Comment
+ * @property {string} author
+ * @property {string} content
+ * @property {string} mail
+ * @property {string} url
+ */
 router
   /**
    * 处理评论回复的路由
+   * @route POST /comments/reply/{cid}
+   * @group 评论
+   * @summary 处理评论回复的路由
+   * @param {ObjectId} cid.path.required
+   * @param {Comment.model} comment.body.required
+   * @returns {object} 200 | 400
    */
 
   .post('/reply/:cid', checkCommentsField, async (req, res) => {
@@ -26,7 +39,7 @@ router
     const model = {
       parent,
       pid: parent.pid._id,
-      ...req.body,
+      ...clean(req.body),
       hasParent: true
     }
 
@@ -46,7 +59,14 @@ router
 
     res.send({ ok: 1, query })
   })
-
+  /**
+   * 评论接口
+   * @route POST /comments/{id}
+   * @group 评论
+   * @param {ObjectId} id.path.required - 文章的 ObjectId
+   * @summary 评论接口
+   * @returns {object} 200 - eg: { ok, data}
+   */
   .post('/:id', checkCommentsField, async (req, res) => {
     const body = req.body
     const pid = req.params.id
@@ -93,6 +113,10 @@ router
   })
   /**
    * 获取评论各类型的数量的接口
+   * @route GET /comments/info
+   * @summary 获取评论各类型的数量的接口
+   * @group 评论
+   * @returns {object} 200 - eg: { ok: 1, passed: 1, gomi: 1, needChecked: 1}
    */
   .get('/info', async (req, res) => {
     const passed = await Comment.countDocuments({
@@ -110,7 +134,15 @@ router
       needChecked
     })
   })
-
+  /**
+   * 修改评论的状态
+   * @route PUT /comments/{id}
+   * @summary 修改评论的状态
+   * @param {ObjectId} id.path.required
+   * @param {integer} state.body.required
+   * @group 评论
+   * @returns {object} 200
+   */
   .put('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '无法修改空气哦')
@@ -131,7 +163,14 @@ router
       return res.send({ ok: 0, msg: '参数不正确' })
     }
   })
-
+  /**
+   * 删除一条评论，子评论同时被删除
+   * @route DELETE /comments/{id}
+   * @summary 删除一条评论
+   * @param {ObjectId} id.path.required
+   * @group 评论
+   * @returns {object} 200 | 400
+   */
   .delete('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '无法删除空气哦')

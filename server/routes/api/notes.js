@@ -7,6 +7,14 @@ const { Note, Option } = require('../../models/index')
 const router = Router()
 
 router
+  /**
+   * 获取最新发布一篇随记
+   * @route GET /notes/lastest
+   * @summary 获取最新发布一篇随记
+   * @group 随记
+   * @returns {object} 200 - data | msg
+   */
+
   .get('/lastest', async (req, res) => {
     const r = await Note.findOne().sort({ created: -1 })
     if (r) {
@@ -26,7 +34,15 @@ router
     }
     res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
   })
-
+  /**
+   * 以一篇随记为基准的中间 10 篇随记
+   * @route GET /notes/list/{id}
+   * @summary 以一篇随记为基准的中间 10 篇随记, 可指定数量
+   * @param {integer} size.query
+   * @param {string} id.path.required
+   * @group 随记
+   * @returns {object} 200 - data | msg
+   */
   .get('/list/:id', async (req, res) => {
     const { size = 10 } = req.query
     const { id } = req.params
@@ -68,6 +84,14 @@ router
         })
       : res.send({ ok: 0, msg: '没有更多文章' })
   })
+  /**
+   * 获取一篇随记
+   * @route GET /notes/{id}
+   * @summary 获取一篇随记
+   * @param {ObjectId | integer} id.path.required - eg: 12
+   * @group 随记
+   * @returns {object} 200 - data | msg
+   */
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
@@ -94,10 +118,27 @@ router
       res.send({ ok: 0, msg: '不存在此记录' })
     }
   })
-
+  /**
+   * @typedef Note
+   * @property {string} title
+   * @property {string} text.required
+   * @property {string} mood - 心情
+   * @property {string} weather - 天气
+   * @property {string} password
+   * @property {boolean} hide - default: false
+   * @property {string} summary
+   */
+  /**
+   * 发布一篇随记
+   * @route POST /notes
+   * @summary 发布一篇随记
+   * @group 随记
+   * @param {Note.model} note.body.required
+   * @returns {object} 200 - data | msg
+   */
   .post('/', async (req, res) => {
     const body = req.body
-    assert(body && body != '{}', 400, '空的请求体')
+    assert(body && body !== '{}', 400, '空的请求体')
 
     const { title = '无题', text = '', mood, weather, hide, password } = body
     // let { password } = body
@@ -122,13 +163,22 @@ router
     })
     res.send(r)
   })
+  /**
+   * 修改一篇随记
+   * @route PUT /notes/{id}
+   * @param {integer | ObjectId} id.path.required
+   * @summary 修改一篇随记
+   * @param {Note.model} note.body.required
+   * @group 随记
+   * @returns {Object} 200 { ok }
+   */
   .put('/:id', async (req, res) => {
     const { id } = req.params
     assert(id, 400, '标识符错误')
     const { title, text, mood, weather, password, hide } = req.body
 
     const r = await Note.updateOne(
-      { _id: id },
+      { $or: [{ _id: id }, { nid: id }] },
       {
         // modified: new Date(),
         title,
