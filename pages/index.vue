@@ -15,8 +15,6 @@ import Header from '~/components/Front/Header'
 import Footer from '~/components/Front/Footer'
 import { debounce } from '~/utils/index'
 
-// import 'element-ui/lib/theme-chalk/icon.css'
-
 export default {
   components: {
     Header,

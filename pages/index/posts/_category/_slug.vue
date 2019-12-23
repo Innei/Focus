@@ -1,6 +1,6 @@
 <template>
   <!-- <Basic>
-    文章详情页 /:category/:slug
+    文章详情页 /posts/:category/:slug
   </Basic> -->
   <div id="post">
     <div class="post-head-wrapper">
@@ -9,7 +9,9 @@
       </div>
       <div
         :title="
-          `创建于 ${ctime}, 修改于 ${mtime}, 分类于 ${category.name}\n全文字数: ${count}`
+          `创建于 ${ctime}, 修改于 ${mtime}, ${
+            category ? `分类于${category.name}` : ''
+          }\n全文字数: ${count}`
         "
         class="post-meta"
       >
@@ -88,7 +90,7 @@ export default {
       return {
         text,
         title: data.title,
-        category: data.categoryId ? data.categoryId : null,
+        category: data.categoryId ?? null,
         ctime: moment(data.created).format('M/D/YY H:mm:ss'),
         mtime: moment(data.modified).format('M/D/YY H:mm:ss'),
         count: 0
@@ -130,14 +132,16 @@ export default {
     ...mapActions('Navigation', ['setStatus']),
 
     parseLineNumber() {
-      const NEW_LINE_EXP = /\n(?!$)/g
-      const code = this.$refs.md.querySelectorAll('pre > code')
-      for (const dom of code) {
-        dom.innerHTML = dom.innerHTML
-          .split(NEW_LINE_EXP)
-          .map((i, j) => `<span class="line-number">${j + 1}</span>${i}`)
-          .join('\n')
-      }
+      try {
+        const NEW_LINE_EXP = /\n(?!$)/g
+        const code = this.$refs.md.querySelectorAll('pre > code')
+        for (const dom of code) {
+          dom.innerHTML = dom.innerHTML
+            .split(NEW_LINE_EXP)
+            .map((i, j) => `<span class="line-number">${j + 1}</span>${i}`)
+            .join('\n')
+        }
+      } catch (e) {}
     },
 
     countText(dom) {

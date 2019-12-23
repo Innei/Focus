@@ -5,7 +5,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name || 'Focus',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -94,7 +94,11 @@ module.exports = {
           ? { node: 'current' }
           : { chrome: '72', safari: '12' }
         return [[require.resolve('@nuxt/babel-preset-app'), { targets }]]
-      }
+      },
+      plugins: [
+        '@babel/plugin-proposal-optional-chaining',
+        '@babel/plugin-proposal-nullish-coalescing-operator'
+      ]
     },
     extend(config, ctx) {
       if (ctx.isDev && ctx.isClient) {

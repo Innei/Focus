@@ -17,9 +17,9 @@ export default ({ $axios, redirect }) => {
     }
   })
   $axios.onError((error) => {
-    const code = parseInt(error.response && error.response.status)
+    const code = parseInt(error.response?.status)
     Message({
-      message: error.response.msg,
+      message: error.response?.msg,
       type: 'error'
     })
     if (code === 401) {
