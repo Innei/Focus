@@ -16,7 +16,9 @@ router
    */
 
   .get('/lastest', async (req, res) => {
-    const r = await Note.findOne().sort({ created: -1 })
+    const r = await Note.findOne({
+      hide: false
+    }).sort({ created: -1 })
     if (r) {
       r.count.read++
       await r.save()

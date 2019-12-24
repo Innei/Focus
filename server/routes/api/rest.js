@@ -41,6 +41,10 @@ router
     }
     if (req.Model.modelName === 'Post') {
       queryOptions.populate = 'categoryId'
+      // TODO 限制获取 hide
+    }
+    if (req.Model.modelName === 'Post' || req.Model.modelName === 'Note') {
+      condition.hide = false
     }
     const data = await req.Model.find(condition)
       .setOptions(queryOptions)

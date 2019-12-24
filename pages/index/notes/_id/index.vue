@@ -131,7 +131,8 @@ export default {
             (item) =>
               item.nid === parseInt(this.$route.params.id) ||
               item._id === this.$route.params.id
-          )
+          ),
+          500
         )
       }
     }

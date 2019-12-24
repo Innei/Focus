@@ -24,6 +24,10 @@ const Option = require('../models/Option')
         value: 1
       },
       {
+        name: 'domain',
+        value: 'http://localhost:3000'
+      },
+      {
         name: 'AccessNumber',
         value: {
           PV: 0,
