@@ -5,3 +5,7 @@
 - timeline
 - admin
 - null
+- feed
+- sitemap.xml
+
+先设置环境变量

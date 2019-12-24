@@ -12,5 +12,5 @@ module.exports = (app) => {
   router.use('/:resource', require('./api/rest'))
 
   app.use('/api', router)
-  app.use('/feed', require('./feed'))
+  app.use('/', require('./xml'))
 }
