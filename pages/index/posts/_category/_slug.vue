@@ -189,7 +189,7 @@ export default {
   padding-top: 140px;
 
   .post-title {
-    color: map-get($map: $colors, $key: 'text');
+    color: var(--text);
     padding: 80px 35px 30px 35px;
     font-size: 30px;
     font-weight: 600;

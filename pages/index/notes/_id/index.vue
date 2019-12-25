@@ -166,7 +166,7 @@ export default {
     position: absolute;
     transition: transform 0.5s;
     transform: scale(0);
-    background-color: map-get($map: $colors, $key: 'white');
+    background-color: var(--white);
     &.show {
       transform: scale(1);
     }

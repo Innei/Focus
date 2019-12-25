@@ -14,7 +14,32 @@ $colors: (
   'black': #333,
   'gwhite': #eee
 );
-
+:root {
+  --gray: #444b54;
+  --text: #4c4545;
+  --shallow: #4c4545cb;
+  --white: #fff;
+  --black: #333;
+  --gwhite: #eee;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gray: #dfdbdb;
+    --text: #d3cece;
+    --shallow: #d3cececb;
+    --white: #161716;
+    --black: #eee;
+    --gwhite: #333;
+  }
+}
+html.dark {
+  --gray: #dfdbdb;
+  --text: #d3cece;
+  --shallow: #d3cececb;
+  --white: hsl(120, 2%, 9%);
+  --black: #eee;
+  --gwhite: #333;
+}
 $Serif: 'Noto Serif SC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC',
   'Microsoft YaHei', 'WenQuanYi Micro Hei';
 

@@ -107,12 +107,12 @@ a.post-item {
   .post-item-title {
     font-size: 28px;
     margin-top: 0px;
-    color: map-get($map: $colors, $key: 'text');
+    color: var(--text);
     transition: color 0.5s;
   }
   .post-item-summary {
     margin-top: 8px;
-    color: map-get($map: $colors, $key: 'shallow');
+    color: var(--shallow);
     font-size: 18px;
   }
 }

@@ -23,7 +23,7 @@ export default {
   padding-top: 140px;
 }
 .head-name {
-  color: #4c4545;
+  color: var(--shallow);
   padding: 80px 35px 30px 35px;
   font-size: 30px;
   font-weight: 600;

@@ -58,7 +58,7 @@ export default {
 <style lang="scss" scoped>
 .wrap {
   max-width: 50rem;
-  margin-top: 6rem;
+  padding-top: 9rem;
   > * {
     margin-bottom: 1em;
   }

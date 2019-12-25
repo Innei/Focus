@@ -63,28 +63,6 @@ export default {
   mounted() {
     this.updateViewport()
   },
-
-  // async asyncData({ app, route, error }) {
-  //   const data = await rest(
-  //     app.$axios,
-  //     'getRecently',
-  //     'Post'
-  //   )(route.query.page || 1, route.query.size || 10)
-  //   if (data.ok) {
-  //     data.data.map((item) => {
-  //       item.created = new Date(item.created)
-  //     })
-  //     return {
-  //       page: data.page,
-  //       data: data.data
-  //     }
-  //   } else {
-  //     error({
-  //       message: data.msg,
-  //       statusCode: 500
-  //     })
-  //   }
-  // },
   methods: {
     ...mapActions('viewport', ['updateViewport']),
     parseDate(date) {

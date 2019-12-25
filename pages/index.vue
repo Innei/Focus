@@ -1,7 +1,7 @@
 <template>
   <!-- 前台入口文件 -->
   <div id="app">
-    <Header />
+    <Sidebar />
     <div id="views" :class="{ 'no-padding': !navActive }">
       <nuxt-child />
     </div>
@@ -11,13 +11,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Header from '~/components/Front/Header'
+import Sidebar from '~/components/Front/Sidebar'
 import Footer from '~/components/Front/Footer'
 import { debounce } from '~/utils/index'
 
 export default {
   components: {
-    Header,
+    Sidebar,
     Footer
   },
   mounted() {

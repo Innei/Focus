@@ -27,4 +27,20 @@
       inset 0 -1px 1px 0 rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.01);
   }
 }
+@media (prefers-color-scheme: dark) {
+  .btn {
+    background-color: var(--gwhite) !important;
+    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+      inset 0 -1px 1px 0 rgba(233, 233, 233, 0.04),
+      0 0 0 1px rgba(233, 233, 233, 0.01),
+      2px 3px 5px 1px rgba(233, 233, 233, 0.06),
+      0 9px 14px 0 rgba(12, 20, 12, 0.2);
+
+    &:hover {
+      box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+        inset 0 -1px 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 0 1px rgba(255, 255, 255, 0.01);
+    }
+  }
+}
 </style>
