@@ -5,5 +5,6 @@ module.exports = {
   User: require('./User'),
   Note: require('./Note'),
   Comment: require('./Comment'),
-  Danmaku: require('./Danmaku')
+  Danmaku: require('./Danmaku'),
+  Page: require('./Page')
 }
