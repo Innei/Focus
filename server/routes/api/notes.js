@@ -34,7 +34,7 @@ router
         .select('nid _id')
       return res.send({ ok: 1, data: r, next })
     }
-    res.send({ ok: 0, msg: '作者还没有发布一篇随记!' })
+    res.status(400).send({ ok: 0, msg: '作者还没有发布一篇随记!' })
   })
   /**
    * 以一篇随记为基准的中间 10 篇随记
@@ -84,7 +84,7 @@ router
           page: { size: list.length },
           data: list
         })
-      : res.send({ ok: 0, msg: '没有更多文章' })
+      : res.status(400).send({ ok: 0, msg: '没有更多文章' })
   })
   /**
    * 获取一篇随记
@@ -117,7 +117,7 @@ router
       }).sort({ _id: -1 })
       res.send({ ok: 1, data: r, prev, next })
     } else {
-      res.send({ ok: 0, msg: '不存在此记录' })
+      res.status(400).send({ ok: 0, msg: '不存在此记录' })
     }
   })
   /**

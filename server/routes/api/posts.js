@@ -33,7 +33,7 @@ router
         ...r.toObject()
       })
     } else {
-      res.send({ ok: 0, msg: '不存在记录' })
+      res.status(400).send({ ok: 0, msg: '不存在记录' })
     }
   })
   /**

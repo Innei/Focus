@@ -53,7 +53,7 @@ router
       .sort({ created: -1 })
 
     if (data.length === 0 && page !== 1) {
-      return res.send({ ok: 0, msg: '没有下页啦!' })
+      return res.status(400).send({ ok: 0, msg: '没有下页啦!' })
     }
     const total = await req.Model.countDocuments(condition)
     const totalPage = Math.ceil(total / size)
@@ -92,7 +92,7 @@ router
     if (r) {
       res.send({ ok: 1, data: r })
     } else {
-      res.send({ ok: 0, msg: '不存在此记录' })
+      res.status(400).send({ ok: 0, msg: '不存在此记录' })
     }
   })
   .delete('/:id', async (req, res) => {

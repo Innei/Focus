@@ -160,7 +160,7 @@ router
       return res.send(query)
     } catch (e) {
       consola.error(e)
-      return res.send({ ok: 0, msg: '参数不正确' })
+      return res.status(400).send({ ok: 0, msg: '参数不正确' })
     }
   })
   /**
@@ -196,10 +196,10 @@ router
         return res.send({ ok: 1, n: 1, deleteCount: delCount || 1 })
       } catch (e) {
         consola.error(e)
-        return res.send({ ok: 0, msg: '参数不正确' })
+        return res.status(400).send({ ok: 0, msg: '参数不正确' })
       }
     }
-    return res.send({ ok: 0, msg: '请输入正确的ID' })
+    return res.status(400).send({ ok: 0, msg: '请输入正确的ID' })
   })
 
 module.exports = router
