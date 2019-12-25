@@ -460,6 +460,7 @@ article {
     font-size: inherit;
   }
   li {
+    list-style: unset;
     & + li {
       margin-top: 0.25em;
     }

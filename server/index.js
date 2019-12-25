@@ -46,7 +46,7 @@ async function start() {
   consola.ready({
     message: `Server listening on http://${
       process.env.NODE_ENV !== 'production' ? 'localhost' : host
-    }:${port}`,
+    }:${port}${config.no_web ? '/api-docs' : ''}`,
     badge: true
   })
 }

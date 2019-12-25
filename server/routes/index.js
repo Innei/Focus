@@ -8,6 +8,7 @@ module.exports = (app) => {
   router.use('/notes', require('./api/notes'))
   router.use('/categories', require('./api/categories'))
   router.use('/comments', require('./api/comments'))
+  router.use('/pages', require('./api/pages'))
   router.use('/config', require('./api/config'))
   router.use('/:resource', require('./api/rest'))
 

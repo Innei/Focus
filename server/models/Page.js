@@ -20,6 +20,13 @@ const schema = new Schema({
     required: true,
     trim: true
   },
+  subtitle: {
+    type: String
+  },
+  order: {
+    type: Number,
+    default: 1
+  },
   text: {
     type: String,
     required: true

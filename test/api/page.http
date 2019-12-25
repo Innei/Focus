@@ -1,0 +1,7 @@
+@url=http://localhost:3000/api/pages
+
+### get
+get {{url}}/
+
+### get one
+get {{url}}/5e0318319332d06503619337
