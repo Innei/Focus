@@ -29,8 +29,10 @@ app.use(express.json())
 app.use(require('cors')())
 app.use(require('express-useragent').express())
 
-// bind routes
+// bind api routes
 require('./routes/index')(app)
+// bind admin static page
+app.use('/admin', express.static(__dirname + '/../static/admin'))
 
 async function start() {
   // Init Nuxt.js
