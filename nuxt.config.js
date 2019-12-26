@@ -1,4 +1,5 @@
 require('dotenv').config()
+const webpack = require('webpack')
 module.exports = {
   mode: 'universal',
   /*
@@ -97,7 +98,14 @@ module.exports = {
       },
       plugins: [
         '@babel/plugin-proposal-optional-chaining',
-        '@babel/plugin-proposal-nullish-coalescing-operator'
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+        [
+          'component',
+          {
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
       ]
     },
     extend(config, ctx) {
@@ -109,6 +117,9 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      config.plugins.push(
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
+      )
     }
   }
 }
