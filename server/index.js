@@ -1,8 +1,16 @@
 const express = require('express')
 const consola = require('consola')
+
+// set cache
+const apicache = require('apicache')
+const redis = require('redis')
+const cacheWithRedis = apicache.options({ redisClient: redis.createClient() })
+  .middleware
+
 const { Nuxt, Builder } = require('nuxt')
 
 const app = express()
+
 if (process.env.NODE_ENV !== 'production') {
   // api docs
   require('./docs')(app)
@@ -39,7 +47,13 @@ async function start() {
   }
 
   // Give nuxt middleware to express
-  app.use(nuxt.render)
+  if (config.dev) {
+    // no cache in dev mode
+    app.use(nuxt.render)
+  } else {
+    // cache route in prod mode
+    app.use(cacheWithRedis(process.env.CACHE), nuxt.render)
+  }
 
   // Listen the server
   app.listen(port, host)
