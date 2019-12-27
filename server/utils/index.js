@@ -18,5 +18,10 @@ module.exports = {
       ip = ip.split(',')[0]
     }
     return ip
-  }
+  },
+  md5: (text) =>
+    require('crypto')
+      .createHash('md5')
+      .update(text)
+      .digest('hex')
 }

@@ -9,9 +9,8 @@ import Nav from '~/components/Front/Home/Nav'
 import rest from '~/api/rest'
 
 export default {
-  async asyncData({ app }) {
+  async asyncData({ app, redirect }) {
     const fetch = await rest(app.$axios, 'getRecently', 'Page')()
-
     if (fetch.ok) {
       const links = fetch.data.map((item) => {
         return {

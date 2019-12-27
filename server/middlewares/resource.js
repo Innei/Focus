@@ -3,7 +3,7 @@ module.exports = (options) => {
     const modelName = require('inflection').classify(req.params.resource)
     try {
       req.Model = require(`../models/${modelName}`)
+      next()
     } catch (e) {}
-    next()
   }
 }

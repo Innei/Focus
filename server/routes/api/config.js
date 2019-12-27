@@ -12,7 +12,7 @@ router
    * @returns { ok, data } 200
    */
   .get('/', async (req, res) => {
-    const user = await User.findOne().select('created username mail url')
+    const user = await User.findOne().select('username mail url')
     assert(user, 400, '用户没有完成初始化')
     const option = await Option.find({
       $or: [
@@ -36,7 +36,16 @@ router
       parsed[item['name']] = item['value']
     })
 
-    res.send({ ok: 1, config: { ...user.toObject(), ...parsed } })
+    res.send({
+      ok: 1,
+      config: {
+        ...user.toObject(),
+        ...parsed,
+        avatar: `https://www.gravatar.com/avatar/${require('../../utils').md5(
+          user.mail
+        )}`
+      }
+    })
   })
 
 module.exports = router

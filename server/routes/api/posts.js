@@ -1,6 +1,9 @@
 const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
+const axios = require('axios')
+const consola = require('consola')
+const baseURL = 'https://api.github.com'
 
 const { Post, Category, Option } = require('../../models/index')
 const router = Router({ mergeParams: true })
@@ -98,6 +101,48 @@ router
     )
 
     res.send({ ok: 1, data: r })
+
+    // sync to gist
+    // TODO WebSock.io
+    try {
+      if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
+        const posts = await Post.find()
+          .select('-_id -__v -commentIndex -hide -summary')
+          .populate('categoryId', 'name')
+
+        const toJson = JSON.stringify(posts, null, 2)
+        const $axios = axios.create({
+          baseURL,
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
+            Authorization: `token ${process.env.GIST_TOKEN}`
+          }
+        })
+        const data = {
+          description: "Focus's posts sync to gist.",
+          public: true,
+          files: {
+            'Post.focus.json': {
+              content: `{"lastUpload": "${Date.now()}"}`
+            },
+            Post: {
+              content: toJson
+            }
+          }
+        }
+
+        $axios
+          // axios
+          .patch(baseURL + '/gists/' + process.env.GIST_POST_ID, data)
+          .then((res) => {
+            consola.info('上传到 gist 成功')
+          })
+          .catch((e) => consola.error(e))
+      }
+    } catch (e) {
+      // console.log(e)
+    }
   })
   /**
    * 修改一篇文章

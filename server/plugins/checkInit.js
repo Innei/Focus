@@ -21,7 +21,7 @@ const Option = require('../models/Option')
       },
       {
         name: 'installed',
-        value: 1
+        value: 0
       },
       {
         name: 'domain',
