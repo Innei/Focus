@@ -66,7 +66,7 @@ class TimerList {
     this.names.length = 0
   }
 }
-
+module.exports = TimerList
 // const timerList = new TimerList()
 // timerList.add(
 //   'test',

@@ -60,3 +60,5 @@ class SyncToGist {
     }
   }
 }
+
+module.exports = SyncToGist

@@ -71,7 +71,53 @@
                 <el-input v-model="description.desc"> </el-input>
               </el-form-item>
               <el-form-item label="关键词">
-                <el-input v-model="description.keywords"> </el-input>
+                <el-tag
+                  :key="tag"
+                  v-for="tag in description.keywords"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)"
+                >
+                  {{ tag }}
+                </el-tag>
+                <el-input
+                  class="input-new-tag"
+                  v-if="inputVisible"
+                  v-model="inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm"
+                  @blur="handleInputConfirm"
+                >
+                </el-input>
+                <el-button
+                  v-else
+                  class="button-new-tag"
+                  size="small"
+                  @click="showInput"
+                  >+ New Keyword</el-button
+                >
+              </el-form-item>
+            </el-form>
+          </main>
+
+          <main :key="3" v-if="active === 2">
+            <el-form label-position="right" label-width="100px" :model="other">
+              <el-form-item label="当前博客域名">
+                <el-input
+                  :placeholder="other.host"
+                  v-model="other.host"
+                  class="input-with-select"
+                >
+                  <el-select
+                    v-model="other.protocol"
+                    slot="prepend"
+                    placeholder="请选择"
+                  >
+                    <el-option label="http://" value="http://"></el-option>
+                    <el-option label="https://" value="https://"></el-option>
+                  </el-select>
+                </el-input>
               </el-form-item>
             </el-form>
           </main>
@@ -88,13 +134,29 @@
 
 <script>
 import Vue from 'vue'
-import { Card, Steps, Step, Button, Form, FormItem, Input } from 'element-ui'
+import {
+  Card,
+  Steps,
+  Step,
+  Button,
+  Form,
+  FormItem,
+  Input,
+  Select,
+  Tag,
+  Option
+} from 'element-ui'
+
 import 'element-ui/lib/theme-chalk/steps.css'
 import 'element-ui/lib/theme-chalk/step.css'
 import 'element-ui/lib/theme-chalk/button.css'
 import 'element-ui/lib/theme-chalk/form-item.css'
 import 'element-ui/lib/theme-chalk/form.css'
 import 'element-ui/lib/theme-chalk/input.css'
+import 'element-ui/lib/theme-chalk/select.css'
+import 'element-ui/lib/theme-chalk/select-dropdown.css'
+import 'element-ui/lib/theme-chalk/tag.css'
+import 'element-ui/lib/theme-chalk/option.css'
 
 Vue.use(Card)
 Vue.use(Steps)
@@ -103,11 +165,16 @@ Vue.use(Button)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Input)
+Vue.use(Select)
+Vue.use(Tag)
+Vue.use(Option)
 
 export default {
   data() {
     return {
       active: 0,
+      inputVisible: false,
+      inputValue: '',
       master: {
         username: '',
         password: '',
@@ -118,19 +185,50 @@ export default {
       description: {
         title: '',
         desc: '',
-        keywords: [],
-        domain: undefined
+        keywords: []
+      },
+      other: {
+        domain: undefined,
+        protocol: undefined,
+        host: undefined
       }
     }
   },
   mounted() {
-    this.description.domain = location.origin
+    this.other.host = location.host
+    this.other.protocol = location.protocol + '//'
   },
   methods: {
     next() {
       if (this.active++ > 2) this.active = 0
+    },
+    handleClose(tag) {
+      this.description.keywords.splice(this.dynamicTags.indexOf(tag), 1)
+    },
+
+    showInput() {
+      this.inputVisible = true
+      this.$nextTick((_) => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
+    },
+
+    handleInputConfirm() {
+      const inputValue = this.inputValue
+      if (inputValue) {
+        this.description.keywords.push(inputValue)
+      }
+      this.inputVisible = false
+      this.inputValue = ''
     }
   }
+
+  // computed: {
+  //   protocol() {
+  //     return this.other?.domain?.match(/^(http.*?:\/\/)/)[1]
+  //   },
+
+  // }
 }
 </script>
 <style>
@@ -144,6 +242,27 @@ export default {
 
 .box-card {
   width: 480px;
+}
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+.el-select .el-input {
+  width: 6rem;
+}
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
 }
 </style>
 

@@ -22,8 +22,15 @@ router
   .post('/sign_up', async (req, res) => {
     const { username, password, mail = '', url = '' } = req.body
     assert(username, 400, '用户名不能为空')
-    // TODO 密码强弱判断
     assert(password, 400, '密码不能为空')
+    // TODO 密码强弱判断
+
+    if (process.env.NODE_ENV === 'production') {
+      const { checkPassword } = require('../../utils')
+      if (checkPassword(password) < 3) {
+        return res.status(400).send({ ok: 0, msg: '密码设置过于简单' })
+      }
+    }
 
     // generate authCode when modify password.
     const authCode = randomStr()
@@ -106,13 +113,13 @@ router
     assert(typeof password === 'string' && password, 400, '新密码不能为空')
     assert(typeof oldPassword === 'string' && oldPassword, 400, '密码不正确')
     assert(oldPassword !== password, 400, '新旧密码不能为空')
-    // TODO 引入 zxc
-    // if (process.env.NODE_ENV === 'production') {
-    //   const zxc = require('zxcvbn')(password)
-    //   if (zxc.score < 3) {
-    //     return res.status(400).send({ ok: 0, msg: '密码设置过于简单' })
-    //   }
-    // }
+
+    if (process.env.NODE_ENV === 'production') {
+      const { checkPassword } = require('../../utils')
+      if (checkPassword(password) < 3) {
+        return res.status(400).send({ ok: 0, msg: '密码设置过于简单' })
+      }
+    }
     const user = await User.findOne().select('+password')
     // 验证匹配
     const verifyPass = compareSync(oldPassword, user.password)

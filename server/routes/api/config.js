@@ -47,5 +47,54 @@ router
       }
     })
   })
+  /**
+   * 安装和初始化接口
+   * @route PUT /config/init
+   * @group 配置
+   * @summary 安装和初始化接口
+   * @param {Init.model} init.body.required
+   * @returns {object} 200
+   *
+   */
+  .put('/init', async (req, res) => {
+    const body = req.body
+    assert(body, 400, '请求体为空')
+    if (body.host && body.protocol && !body.domain) {
+      body.domain = body.protocol + body.host
+    }
+    if (
+      body.keywords &&
+      body.keywords.length &&
+      body.keywords instanceof Array === true
+    ) {
+      body.keywords = body.keywords.join(',')
+    } else body.keywords = undefined
+    const names = ['title', 'desc', 'keywords', 'domain']
+    // names.forEach(async (item) => {
 
+    // })
+    // let completed = false
+
+    for (const name of names) {
+      try {
+        /* const { ok } =  */ await Option.updateOne(
+          { name },
+          { value: body[name] },
+          { omitUndefined: true }
+        )
+      } catch (err) {
+        return res.status(400).send({ ok: 0, msg: '出现了异常' })
+      }
+    }
+
+    res.send({ ok: 1, msg: '初始化成功啦~' })
+  })
+
+/**
+ * @typedef Init
+ * @property {string} title - 标题
+ * @property {string} desc - 描述
+ * @property {Array} keywords - 关键词
+ * @property {string} domain - 域名
+ */
 module.exports = router

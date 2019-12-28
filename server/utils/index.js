@@ -1,3 +1,4 @@
+const assert = require('http-assert')
 module.exports = {
   randomStr: () =>
     Math.random()
@@ -6,7 +7,7 @@ module.exports = {
     Math.random()
       .toString(36)
       .substring(2, 15),
-  getClientIP(req) {
+  getClientIP: (req) => {
     let ip =
       req.headers['x-forwarded-for'] ||
       req.ip ||
@@ -23,5 +24,26 @@ module.exports = {
     require('crypto')
       .createHash('md5')
       .update(text)
-      .digest('hex')
+      .digest('hex'),
+  checkPassword: (pwd) => {
+    assert(typeof pwd === 'string', 400, '我觉得你是在欠打，没事不要测接口')
+    let strength = 0
+
+    if (pwd.length > 6) {
+      strength++
+    }
+    if (/[0-9]/.test(pwd)) {
+      strength++
+    }
+    if (/[a-z]/.test(pwd)) {
+      strength++
+    }
+    if (/[A-Z]/.test(pwd)) {
+      strength++
+    }
+    if (/[\s|!-\.|;-\?]/.test(pwd)) {
+      strength++
+    }
+    return strength
+  }
 }

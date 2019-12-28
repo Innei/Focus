@@ -3,6 +3,7 @@ const { Router } = require('express')
 module.exports = (app) => {
   const router = Router()
 
+  router.use(require('../middlewares/clean'))
   router.use('/master', require('./api/user'))
   router.use('/posts', require('./api/posts'))
   router.use('/notes', require('./api/notes'))
@@ -11,7 +12,6 @@ module.exports = (app) => {
   router.use('/pages', require('./api/pages'))
   router.use('/config', require('./api/config'))
   router.use('/:resource', require('./api/rest'))
-
   app.use('/api', router)
   app.use('/', require('./xml'))
 }
