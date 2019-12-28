@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const { User, Option } = require('./../../models/index')
 const assert = require('http-assert')
+const { User, Option } = require('./../../models/index')
 const router = new Router()
 
 router
@@ -33,7 +33,7 @@ router
 
     const parsed = {}
     option.forEach((item) => {
-      parsed[item['name']] = item['value']
+      parsed[item.name] = item.value
     })
 
     res.send({
@@ -65,7 +65,7 @@ router
     if (
       body.keywords &&
       body.keywords.length &&
-      body.keywords instanceof Array === true
+      Array.isArray(body.keywords) === true
     ) {
       body.keywords = body.keywords.join(',')
     } else body.keywords = undefined

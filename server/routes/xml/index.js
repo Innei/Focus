@@ -30,7 +30,7 @@ router
 
     const parsed = {}
     option.forEach((item) => {
-      parsed[item['name']] = item['value']
+      parsed[item.name] = item.value
     })
 
     const posts = await Post.find({ hide: false })

@@ -30,7 +30,7 @@ class TimerList {
       throw new Error('name is already exist.')
     }
     if (typeof name !== 'string') {
-      throw new Error('name must be a string.')
+      throw new TypeError('name must be a string.')
     }
     const timer = new Timer({ fn, name, time })
     this.timers.push(timer)

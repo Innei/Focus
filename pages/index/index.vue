@@ -9,8 +9,9 @@ import Nav from '~/components/Front/Home/Nav'
 import rest from '~/api/rest'
 
 export default {
-  async asyncData({ app, redirect }) {
+  async asyncData({ app }) {
     const fetch = await rest(app.$axios, 'getRecently', 'Page')()
+
     if (fetch.ok) {
       const links = fetch.data.map((item) => {
         return {
@@ -23,6 +24,8 @@ export default {
         name: '首页'
       })
       return { links }
+    } else {
+      app.$message.error({ message: fetch.msg })
     }
   },
   methods: {

@@ -27,11 +27,11 @@
         <transition name="fade" mode="out-in">
           <main :key="1" v-if="active === 0">
             <el-form
+              ref="userStep"
+              :model="master"
+              :rules="ruleUser"
               label-position="right"
               label-width="80px"
-              :model="master"
-              ref="userStep"
-              :rules="ruleUser"
               status-icon
             >
               <el-form-item label="用户名" prop="username">
@@ -39,22 +39,22 @@
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input
-                  type="password"
                   v-model="master.password"
+                  type="password"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
               <el-form-item label="确定密码" prop="vaildPassword">
                 <el-input
-                  type="password"
                   v-model="master.vaildPassword"
+                  type="password"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
               <el-form-item label="个人邮箱">
                 <el-input
-                  type="email"
                   v-model="master.mail"
+                  type="email"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
@@ -66,9 +66,9 @@
 
           <main :key="2" v-if="active === 1">
             <el-form
+              :model="description"
               label-position="right"
               label-width="80px"
-              :model="description"
             >
               <el-form-item label="博客标题">
                 <el-input v-model="description.title"> </el-input>
@@ -81,27 +81,27 @@
                 <el-tag
                   :key="tag"
                   v-for="tag in description.keywords"
-                  closable
                   :disable-transitions="false"
                   @close="handleClose(tag)"
+                  closable
                 >
                   {{ tag }}
                 </el-tag>
                 <el-input
-                  class="input-new-tag"
+                  ref="saveTagInput"
                   v-if="inputVisible"
                   v-model="inputValue"
-                  ref="saveTagInput"
-                  size="small"
                   @keyup.enter.native="handleInputConfirm"
                   @blur="handleInputConfirm"
+                  class="input-new-tag"
+                  size="small"
                 >
                 </el-input>
                 <el-button
                   v-else
+                  @click="showInput"
                   class="button-new-tag"
                   size="small"
-                  @click="showInput"
                   >+ New Keyword</el-button
                 >
               </el-form-item>
@@ -109,7 +109,7 @@
           </main>
 
           <main :key="3" v-if="active === 2">
-            <el-form label-position="right" label-width="100px" :model="other">
+            <el-form :model="other" label-position="right" label-width="100px">
               <el-form-item label="当前博客域名">
                 <el-input
                   :placeholder="other.host"
@@ -117,8 +117,8 @@
                   class="input-with-select"
                 >
                   <el-select
-                    v-model="other.protocol"
                     slot="prepend"
+                    v-model="other.protocol"
                     placeholder="请选择"
                   >
                     <el-option label="http://" value="http://"></el-option>
@@ -130,7 +130,7 @@
           </main>
         </transition>
         <footer style="text-align: center">
-          <el-button type="primary" style="margin-top: 12px;" @click="next"
+          <el-button @click="next" type="primary" style="margin-top: 12px;"
             >下一步</el-button
           >
         </footer>
