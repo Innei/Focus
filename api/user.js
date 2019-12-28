@@ -1,7 +1,7 @@
 export default ($axios, api) => {
   const apis = {
     async getUserProfile(id) {
-      const { data } = $axios.get(`user/${id}`)
+      const { data } = await $axios.get(`master/${id}`)
       return data
     },
     async createNewUser(body) {
@@ -9,7 +9,7 @@ export default ($axios, api) => {
       if (!username && !password) {
         throw new Error('用户名或密码为空')
       }
-      const { data } = $axios.post('user/signup', {
+      const { data } = await $axios.post('master/sign_up', {
         username,
         password,
         url,
@@ -18,14 +18,18 @@ export default ($axios, api) => {
       return data
     },
     async signOutAll() {
-      const { data } = await $axios.get('user/sign_out', { id })
+      const { data } = await $axios.get('master/sign_out')
       return data
     },
     async checkLogged() {
       if (!localStorage.token) {
         return { ok: 1, logged: 0 }
       }
-      const { data } = await $axios.get('user/check_logged')
+      const { data } = await $axios.get('master/check_logged')
+      return data
+    },
+    async updateConfig(body) {
+      const { data } = await $axios.put('config/init', body)
       return data
     }
   }

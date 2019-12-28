@@ -43,7 +43,7 @@ router
       authCode
     })
 
-    res.send({ ok: doc.ok, username: doc.username, id: doc._id })
+    res.send({ ok: 1, username: doc.username, id: doc._id })
   })
   /**
    * Login

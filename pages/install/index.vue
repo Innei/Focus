@@ -26,18 +26,25 @@
         </header>
         <transition name="fade" mode="out-in">
           <main :key="1" v-if="active === 0">
-            <el-form label-position="right" label-width="80px" :model="master">
-              <el-form-item label="用户名">
+            <el-form
+              label-position="right"
+              label-width="80px"
+              :model="master"
+              ref="userStep"
+              :rules="ruleUser"
+              status-icon
+            >
+              <el-form-item label="用户名" prop="username">
                 <el-input v-model="master.username"></el-input>
               </el-form-item>
-              <el-form-item label="密码">
+              <el-form-item label="密码" prop="password">
                 <el-input
                   type="password"
                   v-model="master.password"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="确定密码">
+              <el-form-item label="确定密码" prop="vaildPassword">
                 <el-input
                   type="password"
                   v-model="master.vaildPassword"
@@ -144,8 +151,11 @@ import {
   Input,
   Select,
   Tag,
-  Option
+  Option,
+  Message
 } from 'element-ui'
+
+import { User } from '~/api'
 
 import 'element-ui/lib/theme-chalk/steps.css'
 import 'element-ui/lib/theme-chalk/step.css'
@@ -171,6 +181,30 @@ Vue.use(Option)
 
 export default {
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.master.vaildPassword !== '') {
+          this.$refs.userStep.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.master.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    const validUsername = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('用户名不能为空'))
+      } else callback()
+    }
     return {
       active: 0,
       inputVisible: false,
@@ -191,6 +225,11 @@ export default {
         domain: undefined,
         protocol: undefined,
         host: undefined
+      },
+      ruleUser: {
+        password: [{ validator: validatePass, trigger: 'blur' }],
+        vaildPassword: [{ validator: validatePass2, trigger: 'blur' }],
+        username: [{ validator: validUsername, trigger: 'blur' }]
       }
     }
   },
@@ -199,8 +238,35 @@ export default {
     this.other.protocol = location.protocol + '//'
   },
   methods: {
-    next() {
-      if (this.active++ > 2) this.active = 0
+    async next() {
+      //  step 1
+      if (this.active === 0) {
+        this.$refs.userStep.validate(async (valid) => {
+          if (valid) {
+            const data = await User(this.$axios, 'createNewUser')(this.master)
+            if (data.ok === 1) {
+              Message('注册成功')
+              this.active++
+            }
+          } else {
+            return false
+          }
+        })
+      }
+      if (this.active === 1) {
+        this.active++
+        return
+      }
+      if (this.active === 2) {
+        const data = await User(
+          this.$axios,
+          'updateConfig'
+        )({ ...this.description, ...this.other })
+
+        if (data.ok === 1) {
+          this.$router.push('/login')
+        }
+      }
     },
     handleClose(tag) {
       this.description.keywords.splice(this.dynamicTags.indexOf(tag), 1)
@@ -222,16 +288,33 @@ export default {
       this.inputValue = ''
     }
   }
-
-  // computed: {
-  //   protocol() {
-  //     return this.other?.domain?.match(/^(http.*?:\/\/)/)[1]
-  //   },
-
-  // }
 }
 </script>
 <style>
+.el-select .el-input {
+  width: 6rem;
+}
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+</style>
+
+<style lang="scss" scoped>
+.center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  margin-top: 2rem;
+}
+
 .text {
   font-size: 14px;
 }
@@ -257,28 +340,5 @@ export default {
   width: 90px;
   margin-left: 10px;
   vertical-align: bottom;
-}
-.el-select .el-input {
-  width: 6rem;
-}
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
-}
-</style>
-
-<style lang="scss" scoped>
-.center {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-main {
-  margin-top: 2rem;
 }
 </style>
