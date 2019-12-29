@@ -1,4 +1,4 @@
-@url=http://localhost:3000/api/user
+@url=http://localhost:3000/api/master
 
 ### get
 get {{url}}/5df0d7927fee6f8b5bee5358
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ### check Logged
 get {{url}}/check_logged
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTA3NDk3OWEwZmQ4NjMyNjIwMzRkNzQiLCJVc2VyIjoieWlueSIsImNvZGUiOiIzeHF6dzlreTFxcTJuYm90NGp0NTJpIiwiaWF0IjoxNTc3NjAxNTM2LCJleHAiOjE1Nzc4NjA3MzZ9.lV8oG87ujL0Wd0VFGemx0LpZnN9Xgtb1_CCl5NWQUPY
 
 ### sign out
 get {{url}}/sign_out

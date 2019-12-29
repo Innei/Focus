@@ -72,7 +72,7 @@ router
       }
 
       const doc = await User.findOne({ username: cleanUsername }).select(
-        '+password'
+        '+password +authCode'
       )
       const verifyUsername = !!doc
       assert(verifyUsername, 400, '你不是我的主人')

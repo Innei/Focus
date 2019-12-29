@@ -27,6 +27,9 @@ app.use(require('express-useragent').express())
 require('./routes/index')(app)
 // bind admin static page
 app.use('/admin', express.static(__dirname + '/../static/admin'))
+app.use('/admin/*', (req, res) => {
+  res.redirect('/admin')
+})
 
 async function start() {
   // Init Nuxt.js
