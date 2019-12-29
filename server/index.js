@@ -1,12 +1,6 @@
 const express = require('express')
 const consola = require('consola')
 
-// set cache
-const apicache = require('apicache')
-const redis = require('redis')
-const cacheWithRedis = apicache.options({ redisClient: redis.createClient() })
-  .middleware
-
 const { Nuxt, Builder } = require('nuxt')
 
 const app = express()
@@ -54,6 +48,12 @@ async function start() {
     app.use(nuxt.render)
   } else {
     // cache route in prod mode
+    // set cache
+    const apicache = require('apicache')
+    const redis = require('redis')
+    const cacheWithRedis = apicache.options({
+      redisClient: redis.createClient()
+    }).middleware
     app.use(cacheWithRedis(process.env.CACHE), nuxt.render)
   }
 

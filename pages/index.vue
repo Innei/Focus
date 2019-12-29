@@ -13,14 +13,22 @@
 import { mapActions, mapGetters } from 'vuex'
 import Sidebar from '~/components/Front/Sidebar'
 import Footer from '~/components/Front/Footer'
-import { debounce } from '~/utils/index'
+import { User } from '~/api'
+import { debounce } from '~/utils'
 
 export default {
   components: {
     Sidebar,
     Footer
   },
-  mounted() {
+  async mounted() {
+    const fetch = await User(this.$axios, 'checkLogged')()
+    if (fetch.ok) {
+      this.setLogged({
+        status: Boolean(fetch.logged),
+        token: localStorage.token || null
+      })
+    }
     this.updateViewport()
     window.addEventListener('resize', debounce(this.updateViewport, 50))
   },
@@ -30,14 +38,9 @@ export default {
   methods: {
     ...mapActions({
       updateViewport: 'viewport/updateViewport',
-      setStatus: 'Navigation/setStatus'
+      setStatus: 'Navigation/setStatus',
+      setLogged: 'master/setLogged'
     })
-    // ...mapActions('Navigation', ['setStatus']),
-    // handleToggle() {
-    //   if (this.viewport.moblie) {
-    //     this.setStatus(false)
-    //   }
-    // }
   }
 }
 </script>

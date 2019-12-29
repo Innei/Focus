@@ -25,6 +25,11 @@ module.exports = {
     color: '#2bd',
     height: '2px'
   },
+  router: {
+    scrollBehavior(to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
+  },
   css: [
     {
       src: '~assets/scss/normalize.scss',
@@ -36,7 +41,7 @@ module.exports = {
    */
   // plugins: ['@/plugins/element-ui'],
   plugins: [
-    { src: '~/plugins/element-ui.js', mode: 'client' },
+    { src: '~/plugins/element-ui.js' },
     { src: '~/plugins/swiper.js', mode: 'client' },
     {
       src: '~/plugins/axios',

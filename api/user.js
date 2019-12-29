@@ -22,7 +22,7 @@ export default ($axios, api) => {
       return data
     },
     async checkLogged() {
-      if (!localStorage.token) {
+      if (process?.browser && !localStorage.token) {
         return { ok: 1, logged: 0 }
       }
       const { data } = await $axios.get('master/check_logged')

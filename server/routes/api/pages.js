@@ -16,9 +16,9 @@ router.get('/', async (req, res) => {
   if (pages.length) {
     return res.send({ ok: 1, data: pages })
   }
-  res.status(400).send({
+  res.send({
     ok: 0,
-    msg: '不存在独立页面'
+    msg: '主人还没有发布一篇介绍'
   })
 })
 

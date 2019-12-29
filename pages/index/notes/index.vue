@@ -1,35 +1,12 @@
 <template>
   <Basic>
     <Loading v-show="!data" />
-    <!-- <Note :data="data" v-if="data" /> -->
-
-    <!-- <div class="btn-wrap" :class="{ 'move-top': showSwiper }">
-      <Btn
-        class="right"
-        v-if="next"
-        @click.native="$router.push(`/notes/${next.nid}`)"
-      >
-        <i class="el-icon-arrow-right"></i>
-      </Btn>
-      <Btn
-        class="right item"
-        v-if="next"
-        @click.native="showSwiper = !showSwiper"
-        ><i class="el-icon-more"></i
-      ></Btn>
-    </div>
-    <transition name="slide-down">
-      <div id="swiper" v-show="showSwiper" class="overlay">
-        <Swiper :list="list" class="swiper" />
-      </div>
-    </transition> -->
   </Basic>
 </template>
 
 <script>
 // import { Message } from 'element-ui'
 import { mapActions } from 'vuex'
-// import Mdit from 'markdown-it'
 
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Front/Loading'
@@ -46,15 +23,13 @@ export default {
       data: undefined
     }
   },
-  async created() {
+  async mounted() {
     const data = await Notes(this.$axios, 'getLastest')()
 
     if (data.ok) {
       this.setStatus(false)
-
-      this.$router.push('/notes/' + data.data.nid)
+      this.$router.replace('/notes/' + data.data.nid)
     } else {
-      // Message.error({ message: data.msg })
       this.$message.error({ message: data.msg })
     }
   },
