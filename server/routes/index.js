@@ -11,6 +11,7 @@ module.exports = (app) => {
   router.use('/comments', require('./api/comments'))
   router.use('/pages', require('./api/pages'))
   router.use('/config', require('./api/config'))
+  router.use('/admin', require('./api/admin'))
   router.use('/:resource', require('./api/rest'))
   app.use('/api', router)
   app.use('/', require('./xml'))

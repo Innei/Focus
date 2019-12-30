@@ -56,39 +56,59 @@ router
    * @returns {object} 200
    *
    */
-  .put('/init', async (req, res) => {
-    const body = req.body
-    assert(body, 400, '请求体为空')
-    if (body.host && body.protocol && !body.domain) {
-      body.domain = body.protocol + body.host
-    }
-    if (
-      body.keywords &&
-      body.keywords.length &&
-      Array.isArray(body.keywords) === true
-    ) {
-      body.keywords = body.keywords.join(',')
-    } else body.keywords = undefined
-    const names = ['title', 'desc', 'keywords', 'domain']
-    // names.forEach(async (item) => {
-
-    // })
-    // let completed = false
-
-    for (const name of names) {
-      try {
-        /* const { ok } =  */ await Option.updateOne(
-          { name },
-          { value: body[name] },
-          { omitUndefined: true }
-        )
-      } catch (err) {
-        return res.status(400).send({ ok: 0, msg: '出现了异常' })
+  .put(
+    '/init',
+    async (req, res, next) => {
+      const { value } = await Option.findOne({
+        name: 'installed'
+      })
+      assert(!value, 422, '已经完成初始化.')
+      next()
+    },
+    async (req, res) => {
+      const body = req.body
+      assert(body, 400, '请求体为空')
+      if (body.host && body.protocol && !body.domain) {
+        body.domain = body.protocol + body.host
       }
-    }
+      if (
+        body.keywords &&
+        body.keywords.length &&
+        Array.isArray(body.keywords) === true
+      ) {
+        body.keywords = body.keywords.join(',')
+      } else body.keywords = undefined
+      const names = ['title', 'desc', 'keywords', 'domain']
+      // names.forEach(async (item) => {
 
-    res.send({ ok: 1, msg: '初始化成功啦~' })
-  })
+      // })
+      // let completed = false
+
+      for (const name of names) {
+        try {
+          await Option.updateOne(
+            { name },
+            { value: body[name] },
+            { omitUndefined: true }
+          )
+        } catch (err) {
+          return res.status(422).send({ ok: 0, msg: '出现了异常' })
+        }
+      }
+      await Option.updateOne(
+        {
+          name: 'installed'
+        },
+        {
+          $set: {
+            value: 1
+          }
+        },
+        { upsert: true }
+      )
+      res.send({ ok: 1, msg: '初始化成功啦~' })
+    }
+  )
 
 /**
  * @typedef Init
