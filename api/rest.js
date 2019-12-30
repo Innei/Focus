@@ -1,15 +1,13 @@
 import inflection from 'inflection'
+import { stringify } from 'qs'
 
 export default ($axios, api, rest) => {
   // rest = Post | Note
   const pluralize = inflection.pluralize(rest).toLowerCase()
   const apis = {
     async getRecently(page = 1, size = 10, select) {
-      const { data } = !select
-        ? await $axios.get(`${pluralize}/?page=${page}&size=${size}`)
-        : await $axios.get(
-            `${pluralize}/?page=${page}&size=${size}&select=${select}`
-          )
+      const params = stringify({ page, size, select })
+      const { data } = await $axios.get(`${pluralize}/?${params}`)
       return data
     },
     async getOne(id) {

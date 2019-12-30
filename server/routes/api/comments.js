@@ -1,6 +1,5 @@
 const express = require('express')
 const assert = require('http-assert')
-const consola = require('consola')
 const clean = require('mongo-sanitize')
 const { Post, Option, Comment } = require('../../models/index')
 const checkCommentsField = require('./../../middlewares/checkCommentField')()
@@ -44,11 +43,7 @@ router
     }
 
     const query = await Comment.create(model)
-
-    // parent.post.comments++
-    // await parent.post.save()
     await parent.updateOne({
-      // hasChild: true,
       $push: {
         children: query._id
       },
@@ -70,11 +65,6 @@ router
   .post('/:id', checkCommentsField, async (req, res) => {
     const body = req.body
     const pid = req.params.id
-
-    // const comments = await Comment.countDocuments({
-    //   pid,
-    //   key: new RegExp(`^#\\d\\d\\d$`)
-    // })
 
     const post = await Post.findById(pid)
     const comments = post.commentsIndex
@@ -104,7 +94,6 @@ router
           ...query.toObject()
         })
       } catch (e) {
-        consola.error(e)
         return res.status(500).send({ ok: 0, ...req.body })
       }
     } else {
@@ -146,7 +135,7 @@ router
   .put('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '无法修改空气哦')
-    const state = Number(req.query.state)
+    const state = parseInt(req.query.state)
     assert(state, 400, '缺少要素')
 
     try {
@@ -159,7 +148,6 @@ router
 
       return res.send(query)
     } catch (e) {
-      consola.error(e)
       return res.status(400).send({ ok: 0, msg: '参数不正确' })
     }
   })
@@ -183,19 +171,16 @@ router
         })
 
         if (query && query.children && query.children.length) {
-          // if (query.hasChild) {
           delCount =
             (
               await Comment.deleteMany({
                 key: new RegExp(`^${query.key}`, 'ig')
               })
             ).deletedCount + 1
-          // }
         }
 
         return res.send({ ok: 1, n: 1, deleteCount: delCount || 1 })
       } catch (e) {
-        consola.error(e)
         return res.status(400).send({ ok: 0, msg: '参数不正确' })
       }
     }

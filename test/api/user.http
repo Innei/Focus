@@ -53,4 +53,3 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTA3NDk3OWEwZmQ4
 ### sign out
 get {{url}}/sign_out
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJVc2VyIjoidGVzdCIsImNvZGUiOiIweTE3cHh6cjI3b3E5OHpsY2FlYnJtIiwiaWF0IjoxNTc2MDY2NTg4LCJleHAiOjE1NzYzMjU3ODh9.ht54S2RoDYdmP3Q3CBRCCZ4LwGvRKKWrBgufSNEtkaU
-
