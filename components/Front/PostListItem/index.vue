@@ -1,46 +1,60 @@
 <template>
-  <nuxt-link
-    :to="`/posts/${i.categoryId ? i.categoryId.name : 'null'}/${i.slug}`"
-    ondragstart="return false;"
-    class="post-item"
-  >
-    <div v-if="viewport && !viewport.mobile" class="post-item-left">
-      <div class="date-day">
-        {{ parseDate.day }}
+  <div>
+    <nuxt-link
+      v-if="viewport && viewport.mobile"
+      :to="`/posts/${i.categoryId ? i.categoryId.name : 'null'}/${i.slug}`"
+      class="mobile-post-item"
+    >
+      <div class="item">
+        <div class="title">{{ i.title }}</div>
+        <div class="date">{{ parseDate.month }} / {{ parseDate.day }}</div>
       </div>
-      <div class="date-month-year">
-        {{ parseDate.month }} / {{ parseDate.year }}
-      </div>
-    </div>
+    </nuxt-link>
 
-    <div class="post-item-right">
-      <h1 class="post-item-title">{{ i.title }}</h1>
-      <div class="post-item-summary">
-        {{
-          i.desc ||
-            (i.text.length > 150 ? i.text.substr(0, 150) + ' ...' : i.text)
-        }}
+    <nuxt-link
+      v-else
+      :to="`/posts/${i.categoryId ? i.categoryId.name : 'null'}/${i.slug}`"
+      ondragstart="return false;"
+      class="post-item"
+    >
+      <div v-if="viewport && !viewport.mobile" class="post-item-left">
+        <div class="date-day">
+          {{ parseDate.day }}
+        </div>
+        <div class="date-month-year">
+          {{ parseDate.month }} / {{ parseDate.year }}
+        </div>
       </div>
-      <div class="post-item-meta">
-        <span v-if="viewport && viewport.mobile">
-          <i class="el-icon-alarm-clock"></i>
 
+      <div class="post-item-right">
+        <h1 class="post-item-title">{{ i.title }}</h1>
+        <div class="post-item-summary">
           {{
-            `${parseDate.year}-${String(parseDate.month).padStart(
-              2,
-              0
-            )}-${String(parseDate.day).padStart(2, 0)}`
+            i.desc ||
+              (i.text.length > 150 ? i.text.substr(0, 150) + ' ...' : i.text)
           }}
-        </span>
-        <span v-if="i.categoryId">
-          <i class="el-icon-folder"></i>
-          <nuxt-link :to="`/categories/${i.categoryId.slug}`">{{
-            i.categoryId.name
-          }}</nuxt-link>
-        </span>
+        </div>
+        <div class="post-item-meta">
+          <span v-if="viewport && viewport.mobile">
+            <i class="el-icon-alarm-clock"></i>
+
+            {{
+              `${parseDate.year}-${String(parseDate.month).padStart(
+                2,
+                0
+              )}-${String(parseDate.day).padStart(2, 0)}`
+            }}
+          </span>
+          <span v-if="i.categoryId">
+            <i class="el-icon-folder"></i>
+            <nuxt-link :to="`/categories/${i.categoryId.slug}`">{{
+              i.categoryId.name
+            }}</nuxt-link>
+          </span>
+        </div>
       </div>
-    </div>
-  </nuxt-link>
+    </nuxt-link>
+  </div>
 </template>
 
 <script>
@@ -150,6 +164,29 @@ a:hover {
 
   > * {
     margin-right: 1em;
+  }
+}
+.mobile-post-item {
+  width: 100%;
+  padding: 0.6rem 0;
+
+  .item {
+    overflow: hidden;
+    .title {
+      float: left;
+      width: 80%;
+      text-overflow: ellipsis;
+    }
+    .date {
+      float: left;
+      color: var(--gray);
+      font-family: Consolas, monaco, monospace;
+    }
+
+    &::after {
+      content: '';
+      clear: both;
+    }
   }
 }
 </style>

@@ -5,7 +5,6 @@ Content-Type: application/json
 
 {
   "author": "tww",
-  "content": "### reply",
   "mail": "y1",
   "text": "test"
 }

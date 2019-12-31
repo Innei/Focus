@@ -10,7 +10,7 @@ const router = express.Router({
 /**
  * @typedef Comment
  * @property {string} author
- * @property {string} content
+ * @property {string} text
  * @property {string} mail
  * @property {string} url
  */

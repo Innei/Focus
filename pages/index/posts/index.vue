@@ -4,6 +4,9 @@
     <BigHead :name="config.title" :desc="config.desc" />
     <client-only>
       <div id="post-list-wrap" :class="{ loading: loading }">
+        <div class="top-post-year" v-if="viewport && viewport.mobile">
+          {{ getTopPostYear }}
+        </div>
         <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
       </div>
 
@@ -33,7 +36,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['viewport', 'config'])
+    ...mapGetters(['viewport', 'config']),
+    getTopPostYear() {
+      return new Date(this.data?.[0].created).getFullYear()
+    }
   },
   watch: {
     $route: {
@@ -104,9 +110,9 @@ export default {
 #post-list-wrap {
   padding: 3rem 10rem;
   max-width: 1024px;
+  min-height: 31.25rem;
   margin: auto;
   position: relative;
-
   a {
     transition: opacity 0.5s;
   }
@@ -134,5 +140,11 @@ export default {
   a.post-item {
     display: block;
   }
+}
+.top-post-year {
+  padding-bottom: 0.6rem;
+  font-weight: 800;
+  font-family: Consolas, monaco, monospace;
+  font-size: 1.4rem;
 }
 </style>

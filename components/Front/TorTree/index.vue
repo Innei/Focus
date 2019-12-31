@@ -18,25 +18,36 @@ export default {
     tree: Array
   },
   data() {
-    return { y: 0 }
+    return { y: 0, name: '' }
   },
   mounted() {
     document.onscroll = debounce(() => {
       this.y = document.documentElement.scrollTop
+      // if (location.hash !== this.name) {
+      //   location.hash = this.name
+      // }
     }, 13)
   },
   methods: {
     scrollTo(y, name) {
       // location.hash = name
-      window.scrollTo(0, y)
+      // TODO HASH Change
+      window.scrollTo({
+        top: y,
+        left: 0,
+        behavior: 'smooth'
+      })
     },
     isActive(y, nexty, name) {
       const isActive = this.y >= y && this.y < nexty
-      if (isActive) {
-        location.hash = name
-      }
+      // if (isActive) {
+      //   this.name = name
+      // }
       return isActive
     }
+  },
+  destroyed() {
+    document.onscroll = null
   }
 }
 </script>

@@ -4,4 +4,5 @@ import Post from './posts'
 import Rest from './rest'
 import Page from './pages'
 import User from './user'
-export { Category, Note, Rest, Page, Post, User }
+import Comment from './comments'
+export { Category, Note, Rest, Page, Post, User, Comment }

@@ -28,9 +28,7 @@ import OverLay from './components/overlay'
 
 export default {
   components: { Nav, OverLay },
-  data() {
-    return {}
-  },
+
   methods: {
     handleClickMenu() {
       this.setStatus(!this.navActive)
@@ -39,20 +37,18 @@ export default {
   },
   computed: {
     ...mapGetters(['viewport', 'navActive'])
+  },
+  watch: {
+    viewport: {
+      deep: true,
+      handler(v) {
+        // 及时响应变化
+        if (v.mobile || v.hpad) {
+          this.setStatus(false)
+        }
+      }
+    }
   }
-  // watch: {
-  //   viewport: {
-  //     deep: true,
-  //     handler(v) {
-  //       // 及时响应变化
-  //       if (v.mobile || v.hpad) {
-  //         this.setStatus(false)
-  //       } else {
-  //         this.setStatus(true)
-  //       }
-  //     }
-  //   }
-  // }
 }
 </script>
 

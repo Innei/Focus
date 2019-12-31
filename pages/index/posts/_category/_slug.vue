@@ -45,6 +45,7 @@
       <div class="post-tortree">
         <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
       </div>
+      <Comment :pid="pid" />
     </div>
   </div>
 </template>
@@ -58,6 +59,7 @@ import { sleep } from '~/utils'
 
 import Post from '~/api/posts'
 import Tree from '~/components/Front/TorTree'
+import Comment from '~/components/Front/Comment'
 
 import '~/assets/scss/markdown/shizuku.scss'
 
@@ -68,7 +70,8 @@ const md = new MD({
 
 export default {
   components: {
-    Tree
+    Tree,
+    Comment
   },
   data() {
     return {
@@ -93,7 +96,8 @@ export default {
         category: data.categoryId ?? null,
         ctime: moment(data.created).format('M/D/YY H:mm:ss'),
         mtime: moment(data.modified).format('M/D/YY H:mm:ss'),
-        count: 0
+        count: 0,
+        pid: data._id
       }
     } else {
       error({

@@ -25,11 +25,11 @@ module.exports = {
     color: '#2bd',
     height: '2px'
   },
-  router: {
-    scrollBehavior(to, from, savedPosition) {
-      return { x: 0, y: 0 }
-    }
-  },
+  // router: {
+  //   scrollBehavior(to, from, savedPosition) {
+  //     return { x: 0, y: 0 }
+  //   }
+  // },
   css: [
     {
       src: '~assets/scss/normalize.scss',

@@ -26,5 +26,7 @@ export default ({ $axios, redirect }) => {
     if (code === 401) {
       redirect('/login')
     }
+    // prohibit go to error page when error
+    return error.response
   })
 }

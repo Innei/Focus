@@ -2,31 +2,28 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const { getClientIP } = require('../utils')
 /**
- * 检查评论中是否存在 {author, content, email, pid}
+ * 检查评论中是否存在 {author, content, mail}
  */
 module.exports = (options) => {
   return async (req, res, next) => {
     const token = req.headers.authorization
     if (!req.params.id && !req.params.cid) {
-      return res.status(422).send({ msg: '评论文章不能为空' })
+      return res.status(422).send({ ok: 0, msg: '评论文章不能为空' })
     }
     const body = req.body
     if (!body.author) {
-      return res.status(422).send({ msg: '姓名不能为空' })
+      return res.status(422).send({ ok: 0, msg: '姓名不能为空' })
     } else {
       const isExist = !!(await User.findOne({ username: body.author }))
       if (isExist && !token) {
-        return res.status(422).send({ msg: '该用户名已被占用' })
+        return res.status(422).send({ ok: 0, msg: '该用户名已被占用' })
       }
     }
-    if (!body.content) {
-      return res.status(422).send({ msg: '内容不能为空' })
-    }
     if (!body.mail) {
-      return res.status(422).send({ msg: '邮箱不能为空' })
+      return res.status(422).send({ ok: 0, msg: '邮箱不能为空' })
     }
     if (!body.text) {
-      return res.status(422).send({ msg: '评论内容不能为空' })
+      return res.status(422).send({ ok: 0, msg: '评论内容不能为空' })
     }
 
     /*  if (!token) {

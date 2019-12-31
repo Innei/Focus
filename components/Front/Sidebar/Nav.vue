@@ -157,7 +157,7 @@ export default {
   height: 100vh;
   width: (64 * 3) + px;
   user-select: none;
-  background: rgba($color: var(--white), $alpha: 0.88);
+  background: var(--white);
   backdrop-filter: blur(5px);
   transform: translateX(-192px);
   opacity: 0;
@@ -216,7 +216,7 @@ export default {
     opacity: 1;
   }
   50% {
-    transform: translateX(33px);
+    transform: translateX(20px);
     transition-timing-function: ease-in-out;
   }
 }
