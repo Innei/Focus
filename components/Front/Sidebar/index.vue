@@ -6,7 +6,16 @@
         @click.native="handleClickMenu"
       />
     </transition>
-    <div @click="handleClickMenu" class="top menu">
+    <transition name="fade">
+      <div class="top-title-desc" v-show="Over">
+        {{ config.title }}
+      </div>
+    </transition>
+    <div
+      @click="handleClickMenu"
+      class="top menu"
+      :style="Over ? 'opacity: 1' : ''"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -26,9 +35,28 @@ import { mapGetters, mapActions } from 'vuex'
 import Nav from './Nav'
 import OverLay from './components/overlay'
 
+import { isMobile, debounce } from '~/utils'
+
 export default {
   components: { Nav, OverLay },
-
+  data() {
+    return {
+      isMobile: null,
+      Over: false,
+      scrollHandler: debounce(() => {
+        const Over =
+          document.documentElement.scrollTop > window.innerHeight / 4 ||
+          document.documentElement.scrollTop > screen.height / 4
+        this.Over = Over
+      })
+    }
+  },
+  mounted() {
+    this.isMobile = isMobile()
+    if (this.isMobile) {
+      document.addEventListener('scroll', this.scrollHandler, 5)
+    }
+  },
   methods: {
     handleClickMenu() {
       this.setStatus(!this.navActive)
@@ -36,7 +64,7 @@ export default {
     ...mapActions('Navigation', ['setStatus'])
   },
   computed: {
-    ...mapGetters(['viewport', 'navActive'])
+    ...mapGetters(['viewport', 'navActive', 'config'])
   },
   watch: {
     viewport: {
@@ -47,6 +75,11 @@ export default {
           this.setStatus(false)
         }
       }
+    }
+  },
+  beforeDestroy() {
+    if (this.isMobile) {
+      document.removeEventListener('scroll', this.scrollHandler)
     }
   }
 }
@@ -73,7 +106,7 @@ export default {
 .top {
   position: fixed;
   &.menu {
-    padding: 12px;
+    padding: 0.75rem;
     cursor: pointer;
     z-index: 3;
   }
@@ -81,11 +114,26 @@ export default {
 
 @media (max-width: map-get($map: $viewports, $key: 'mobile')) {
   .top.menu {
+    top: 0.7rem;
+    left: 0.7rem;
     opacity: 0.2;
     transition: opacity 0.5s;
     &:active {
       opacity: 1;
     }
   }
+}
+
+.top-title-desc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: (0.7+ 0.75rem) 6rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--white);
+  font-weight: 300;
+  box-shadow: 0 0 10px -4px #232323;
 }
 </style>

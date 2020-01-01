@@ -13,16 +13,14 @@ const router = Router({
 
 router
   .use(require('../../middlewares/resource')())
+  .use(require('../../middlewares/checkQueryString'))
   .get('/', async (req, res) => {
     let { page = 1, size = 10, select } = req.query
     assert(size < 20, 400, '要素过多')
     assert(page > 0, 400, '页数不正确')
-    // check NoSql inject and clean
-    ;[page, size, select] = [clean(page), clean(size), clean(select)]
 
     const queryOptions = {}
     const condition = {}
-    // console.log(req.Model.modelName)
     if (select) {
       queryOptions.select = select
     }

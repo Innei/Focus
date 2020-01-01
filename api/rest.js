@@ -6,8 +6,8 @@ export default ($axios, api, rest) => {
   const pluralize = inflection.pluralize(rest).toLowerCase()
   const apis = {
     async getRecently(page = 1, size = 10, select) {
-      const params = stringify({ page, size, select })
-      const { data } = await $axios.get(`${pluralize}/?${params}`)
+      const query = stringify({ page, size, select })
+      const { data } = await $axios.get(`${pluralize}/?${query}`)
       return data
     },
     async getOne(id) {

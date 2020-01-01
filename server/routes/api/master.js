@@ -58,6 +58,9 @@ router
     // 传入参数 获取状态 req.logged
     isMaster({ getStatus: true }),
     async (req, res) => {
+      if (req.logged) {
+        return res.send({ ok: 1, msg: '你已经登陆啦' })
+      }
       const { username, password } = req.body
       const cleanUsername = sanitize(username)
       assert(
@@ -66,10 +69,6 @@ router
         '君の名は'
       )
       assert(typeof password === 'string' && password, 422, 'えぃ')
-
-      if (req.logged) {
-        return res.send({ ok: 1, msg: '你已经登陆啦' })
-      }
 
       const doc = await User.findOne({ username: cleanUsername }).select(
         '+password +authCode'

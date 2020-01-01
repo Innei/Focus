@@ -42,7 +42,7 @@
         v-if="text"
         class="post-body"
       ></article>
-      <div class="post-tortree">
+      <div class="post-tortree" v-if="!isMobile">
         <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
       </div>
       <Comment :pid="pid" />
@@ -55,7 +55,7 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
-import { sleep } from '~/utils'
+import { sleep, isMobile } from '~/utils'
 
 import Post from '~/api/posts'
 import Tree from '~/components/Front/TorTree'
@@ -75,7 +75,8 @@ export default {
   },
   data() {
     return {
-      tree: []
+      tree: [],
+      isMobile: false
     }
   },
   async asyncData({ app, route, error, redirect }) {
@@ -107,6 +108,7 @@ export default {
     }
   },
   async mounted() {
+    this.isMobile = isMobile()
     setTimeout(() => {
       // 加载代码行数 别问我为什么不用 prism 自带的插件, 因为不支持 ssr
       this.parseLineNumber()
