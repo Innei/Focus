@@ -86,25 +86,30 @@ export default {
       slug = slug.replace(/.html$/, '')
       redirect(encodeURI(`/posts/${category}/${slug}`))
     }
-    const data = await Post(app.$axios, 'getWithSlug')(category, slug)
+    try {
+      const data = await Post(app.$axios, 'getWithSlug')(category, slug)
 
-    if (data.ok === 1 && data.path === `${category}/${slug}`) {
-      const text = md.render(data.text)
+      if (data.ok === 1 && data.path === `${category}/${slug}`) {
+        const text = md.render(data.text)
 
-      return {
-        text,
-        title: data.title,
-        category: data.categoryId ?? null,
-        ctime: moment(data.created).format('M/D/YY H:mm:ss'),
-        mtime: moment(data.modified).format('M/D/YY H:mm:ss'),
-        count: 0,
-        pid: data._id
+        return {
+          text,
+          title: data.title,
+          category: data.categoryId ?? null,
+          ctime: moment(data.created).format('M/D/YY H:mm:ss'),
+          mtime: moment(data.modified).format('M/D/YY H:mm:ss'),
+          count: 0,
+          pid: data._id
+        }
+      } else {
+        // error({
+        //   statusCode: 404,
+        //   message: data.msg || '文章不存在'
+        // })
+        redirect('/404')
       }
-    } else {
-      error({
-        statusCode: 404,
-        message: data.msg || '文章不存在'
-      })
+    } catch (e) {
+      redirect('/404')
     }
   },
   async mounted() {

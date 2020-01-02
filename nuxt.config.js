@@ -25,11 +25,15 @@ module.exports = {
     color: '#2bd',
     height: '2px'
   },
-  // router: {
-  //   scrollBehavior(to, from, savedPosition) {
-  //     return { x: 0, y: 0 }
-  //   }
-  // },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: '404',
+        path: '*',
+        component: resolve(__dirname, 'pages/404.vue')
+      })
+    }
+  },
   css: [
     {
       src: '~assets/scss/normalize.scss',

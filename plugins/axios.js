@@ -15,6 +15,7 @@ export default ({ $axios, redirect }) => {
     } else if (!res.data.ok) {
       Message.error({ message: res.data.msg })
     }
+    return res
   })
   $axios.onError((error) => {
     const code = parseInt(error.response?.status)
@@ -26,6 +27,7 @@ export default ({ $axios, redirect }) => {
     if (code === 401) {
       redirect('/login')
     }
+
     // prohibit go to error page when error
     return error.response
   })
