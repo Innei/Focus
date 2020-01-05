@@ -1,9 +1,9 @@
 import { Message } from 'element-ui'
-
+import cookie from 'js-cookie'
 export default ({ $axios, redirect }) => {
   $axios.onRequest((config) => {
-    if (localStorage.token) {
-      config.headers.Authorization = localStorage.token
+    if (localStorage.token || cookie.get('token')) {
+      config.headers.Authorization = localStorage.token || cookie.get('token')
     }
 
     return config

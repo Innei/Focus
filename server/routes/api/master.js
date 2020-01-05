@@ -87,8 +87,7 @@ router
       )
       doc.token = token
       await doc.save()
-
-      res.send({ ok: 1, token })
+      res.send({ ok: 1, token, expires: process.env.MAXAGE || 3 })
     }
   )
   /**

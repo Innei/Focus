@@ -1,3 +1,4 @@
+import { get } from 'js-cookie'
 export default ($axios, api) => {
   const apis = {
     async getUserProfile(id) {
@@ -22,7 +23,7 @@ export default ($axios, api) => {
       return data
     },
     async checkLogged() {
-      if (process?.browser && !localStorage.token) {
+      if (process?.browser && (!localStorage.token || get('token'))) {
         return { ok: 1, logged: 0 }
       }
       const { data } = await $axios.get('master/check_logged')

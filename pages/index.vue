@@ -11,6 +11,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import cookie from 'js-cookie'
 import Sidebar from '~/components/Front/Sidebar'
 import Footer from '~/components/Front/Footer'
 import { User } from '~/api'
@@ -26,7 +27,7 @@ export default {
     if (fetch.ok) {
       this.setLogged({
         status: Boolean(fetch.logged),
-        token: localStorage.token || null
+        token: localStorage.token || cookie.get('token') || null
       })
     }
     this.updateViewport()

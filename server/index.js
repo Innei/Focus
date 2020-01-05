@@ -22,7 +22,7 @@ require('./plugins/checkInit')
 app.use(express.json())
 app.use(require('cors')())
 app.use(require('express-useragent').express())
-
+app.use(require('cookie-parser')())
 // bind api routes
 require('./routes/index')(app)
 // bind admin static page
