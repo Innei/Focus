@@ -2,7 +2,10 @@ const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
 const Sync = require('../../helpers/sync')
-const gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
+let gists
+if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
+  gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
+}
 
 const { Post, Category, Option } = require('../../models/index')
 const router = Router({ mergeParams: true })
@@ -103,11 +106,32 @@ router
 
     // sync to gist
     // TODO WebSock.io
-    const posts = await Post.find()
-      .select('-_id -__v -commentIndex -hide -summary')
-      .populate('categoryId', 'name')
+    if (gists) {
+      const posts = await Post.find()
+        .select('-_id -__v -commentIndex -hide -summary')
+        .populate('categoryId', 'name')
 
-    gists.patchGist(posts, 'posts')
+      const syncRes = await gists.patchGist(posts, 'posts')
+      try {
+        if (syncRes.ok) {
+          req.app.get('ws').send(
+            JSON.stringify({
+              type: 'success',
+              msg: syncRes.msg
+            })
+          )
+        } else {
+          req.app.get('ws').send(
+            JSON.stringify({
+              type: 'error',
+              msg: `[${syncRes.code}] ${syncRes.msg}`
+            })
+          )
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
   })
   /**
    * 修改一篇文章
