@@ -26,7 +26,10 @@ app.use(require('cookie-parser')())
 // bind api routes
 require('./routes/index')(app)
 // bind admin static page
-app.use('/admin', express.static(__dirname + '/../static/admin'))
+app.use(
+  '/admin',
+  express.static(require('path').join(__dirname, '/../static/admin'))
+)
 app.use('/admin/*', (req, res) => {
   res.redirect('/admin')
 })

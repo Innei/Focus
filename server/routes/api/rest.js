@@ -4,7 +4,7 @@
 
 const { Router } = require('express')
 const assert = require('http-assert')
-const clean = require('mongo-sanitize')
+// const clean = require('mongo-sanitize')
 // const { Option } = require('../../models/index')
 
 const router = Router({
@@ -15,7 +15,7 @@ router
   .use(require('../../middlewares/resource')())
   .use(require('../../middlewares/checkQueryString'))
   .get('/', async (req, res) => {
-    let { page = 1, size = 10, select } = req.query
+    const { page = 1, size = 10, select } = req.query
     assert(size < 20, 400, '要素过多')
     assert(page > 0, 400, '页数不正确')
 
@@ -86,6 +86,7 @@ router
         }
       }
     }
+    // TODO rest 接口没有隐藏 hide 属性的内容
     const r = await req.Model.findById(id).setOptions(queryOptions)
     if (r) {
       res.send({ ok: 1, data: r })

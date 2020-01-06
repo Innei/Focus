@@ -1,5 +1,5 @@
-import { User } from '~/api'
 import cookie from 'js-cookie'
+import { User } from '~/api'
 export default async ({ app, redirect, store }) => {
   const fetch = await User(app.$axios, 'checkLogged')()
   // TODO js.cookie

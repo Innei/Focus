@@ -28,7 +28,8 @@ router
       const next = await Note.findOne({
         _id: {
           $lt: r._id
-        }
+        },
+        hide: false
       })
         .sort({ _id: -1 })
         .select('nid _id')
@@ -38,10 +39,10 @@ router
   })
   /**
    * 以一篇随记为基准的中间 10 篇随记
-   * @route GET /notes/list/{id}
+   * @route GET /notes/list/{nid}
    * @summary 以一篇随记为基准的中间 10 篇随记, 可指定数量
    * @param {integer} size.query
-   * @param {string} id.path.required
+   * @param {integer} nid.path.required
    * @group 随记
    * @returns {object} 200 - data | msg
    */
@@ -58,25 +59,30 @@ router
       ? await Note.find({
           _id: {
             $gte: id
-          }
+          },
+          hide: false
         }).setOptions({ select, limit: limit || 5 })
       : await Note.find({
           nid: {
             $gte: id
-          }
+          },
+          hide: false
         }).setOptions({ select, limit: limit || 5 })
 
     const nextList = Types.ObjectId.isValid(id)
       ? await Note.find({
           _id: {
             $lt: id
-          }
+          },
+          hide: false
         }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
       : await Note.find({
           nid: {
             $lt: id
-          }
+          },
+          hide: false
         }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
+
     const list = nextList.reverse().concat(prevList)
     list.length > 0
       ? res.send({
@@ -84,7 +90,7 @@ router
           page: { size: list.length },
           data: list
         })
-      : res.status(400).send({ ok: 0, msg: '没有更多文章' })
+      : res.status(422).send({ ok: 0, msg: '没有更多文章' })
   })
   /**
    * 获取一篇随记
@@ -97,9 +103,11 @@ router
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
-    const isId = Types.ObjectId.isValid(id)
-    const r = isId ? await Note.findById(id) : await Note.findOne({ nid: id })
 
+    const r = await Note.findOne({
+      [Types.ObjectId.isValid(id) ? '_id' : 'nid']: id,
+      hide: false
+    })
     if (r) {
       r.count.read++
       await r.save()
@@ -107,29 +115,22 @@ router
       const prev = await Note.findOne({
         _id: {
           $gt: r._id
-        }
+        },
+        hide: false
       })
 
       const next = await Note.findOne({
         _id: {
           $lt: r._id
-        }
+        },
+        hide: false
       }).sort({ _id: -1 })
       res.send({ ok: 1, data: r, prev, next })
     } else {
       res.status(400).send({ ok: 0, msg: '不存在此记录' })
     }
   })
-  /**
-   * @typedef Note
-   * @property {string} title
-   * @property {string} text.required
-   * @property {string} mood - 心情
-   * @property {string} weather - 天气
-   * @property {string} password
-   * @property {boolean} hide - default: false
-   * @property {string} summary
-   */
+
   /**
    * 发布一篇随记
    * @route POST /notes
@@ -180,7 +181,7 @@ router
     const { title, text, mood, weather, password, hide } = req.body
 
     const r = await Note.updateOne(
-      { $or: [{ _id: id }, { nid: id }] },
+      { [Types.ObjectId.isValid(id) ? '_id' : 'nid']: id },
       {
         // modified: new Date(),
         title,
@@ -200,3 +201,14 @@ router
   })
 
 module.exports = router
+
+/**
+ * @typedef Note
+ * @property {string} title
+ * @property {string} text.required
+ * @property {string} mood - 心情
+ * @property {string} weather - 天气
+ * @property {string} password
+ * @property {boolean} hide - default: false
+ * @property {string} summary
+ */

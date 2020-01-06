@@ -28,6 +28,9 @@ export default {
       // }
     }, 13)
   },
+  destroyed() {
+    document.onscroll = null
+  },
   methods: {
     scrollTo(y, name) {
       // location.hash = name
@@ -45,9 +48,6 @@ export default {
       // }
       return isActive
     }
-  },
-  destroyed() {
-    document.onscroll = null
   }
 }
 </script>

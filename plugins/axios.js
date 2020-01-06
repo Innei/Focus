@@ -20,6 +20,10 @@ export default ({ $axios, redirect }) => {
   $axios.onError((error) => {
     const code = parseInt(error.response?.status)
 
+    if (error.response.data.msg === '用户没有完成初始化') {
+      return redirect('/install')
+    }
+
     Message({
       message: error.response?.data?.msg,
       type: 'error'

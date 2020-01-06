@@ -41,21 +41,14 @@ router
       res.status(404).send({ ok: 0, msg: '不存在记录' })
     }
   })
-  /**
-   * @typedef Post
-   * @property {string} title.required
-   * @property {string} text.required
-   * @property {ObjectId} categoryId  - Mongoose ObjectId - eg: 5df3229fa3968d17e5763353
-   * @property {string} summary
-   * @property {string} slug
-   */
+
   /**
    * 发布一篇文章
    * @route POST /posts/
    * @param {Post.model} post.body.required
    * @group 文章
    * @summary 发布一篇文章
-   * @returns {object} 200
+   * @returns {object} 201
    */
   .post('/', async (req, res) => {
     const body = req.body
@@ -102,7 +95,7 @@ router
       }
     )
 
-    res.send({ ok: 1, data: r })
+    res.status(201).send({ ok: 1, data: r })
 
     // sync to gist
     // TODO WebSock.io
@@ -180,3 +173,12 @@ router
   })
 
 module.exports = router
+
+/**
+ * @typedef Post
+ * @property {string} title.required
+ * @property {string} text.required
+ * @property {ObjectId} categoryId  - Mongoose ObjectId - eg: 5df3229fa3968d17e5763353
+ * @property {string} summary
+ * @property {string} slug
+ */

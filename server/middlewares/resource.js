@@ -1,6 +1,6 @@
 const assert = require('http-assert')
 module.exports = (options) => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
     const modelName = require('inflection').classify(req.params.resource)
     // try {
     // check Model

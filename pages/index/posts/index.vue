@@ -4,7 +4,7 @@
     <BigHead :name="config.title" :desc="config.desc" />
     <client-only>
       <div id="post-list-wrap" :class="{ loading: loading }">
-        <div class="top-post-year" v-if="viewport && viewport.mobile">
+        <div v-if="viewport && viewport.mobile" class="top-post-year">
           {{ getTopPostYear }}
         </div>
         <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />

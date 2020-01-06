@@ -9,15 +9,15 @@
 import Item from './components/CommentItem'
 import Box from './components/CommentBox'
 export default {
+  components: {
+    Item,
+    Box
+  },
   props: {
     pid: {
       type: String,
       required: true
     }
-  },
-  components: {
-    Item,
-    Box
   }
 }
 </script>

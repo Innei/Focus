@@ -42,7 +42,7 @@
         v-if="text"
         class="post-body"
       ></article>
-      <div class="post-tortree" v-if="!isMobile">
+      <div v-if="!isMobile" class="post-tortree">
         <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
       </div>
       <Comment :pid="pid" />

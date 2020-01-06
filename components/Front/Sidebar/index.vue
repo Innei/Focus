@@ -7,14 +7,14 @@
       />
     </transition>
     <transition name="fade">
-      <div class="top-title-desc" v-show="Over">
+      <div v-show="Over" class="top-title-desc">
         {{ config.title }}
       </div>
     </transition>
     <div
       @click="handleClickMenu"
-      class="top menu"
       :style="Over ? 'opacity: 1' : ''"
+      class="top menu"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

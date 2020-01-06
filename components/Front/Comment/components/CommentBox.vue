@@ -2,35 +2,35 @@
   <div class="comment-box row">
     <div class="user col">
       <input
+        v-model="comment.author"
         type="text"
         name="author"
         placeholder="昵称 *:"
-        v-model="comment.author"
         required
       />
       <input
+        v-model="comment.mail"
         type="text"
         name="mail"
         placeholder="电邮 *:"
-        v-model="comment.mail"
         required
       />
       <input
+        v-model="comment.url"
         type="text"
         name="url"
         placeholder="网址: "
-        v-model="comment.url"
       />
     </div>
     <div class="text col">
       <textarea
         ref="textarea"
+        v-model="comment.text"
         placeholder="快来评论吧 (*≧ω≦)ﾉ"
         name="text"
-        v-model="comment.text"
       />
 
-      <button class="btn" @click="handleComment">写好了~</button>
+      <button @click="handleComment" class="btn">写好了~</button>
     </div>
   </div>
 </template>
