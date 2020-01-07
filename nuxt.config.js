@@ -1,4 +1,3 @@
-require('dotenv').config()
 const webpack = require('webpack')
 module.exports = {
   mode: 'universal',
@@ -28,7 +27,6 @@ module.exports = {
   router: {
     extendRoutes(routes, resolve) {
       routes.push({
-        name: '404',
         path: '*',
         component: resolve(__dirname, 'pages/404.vue')
       })
@@ -43,7 +41,6 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  // plugins: ['@/plugins/element-ui'],
   plugins: [
     { src: '~/plugins/element-ui.js' },
     { src: '~/plugins/swiper.js', mode: 'client' },

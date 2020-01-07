@@ -8,7 +8,8 @@
       </div>
       <h1>oops!</h1>
       <h2>Page Not Found</h2>
-      <nuxt-link to="/">go back</nuxt-link>
+      <nuxt-link to="/">go home</nuxt-link>
+      <a href="javascript:history.go(-1)">go back</a>
     </div>
   </div>
 </template>

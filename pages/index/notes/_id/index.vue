@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 import { mapActions, mapGetters } from 'vuex'
 import Mdit from 'markdown-it'
 import { throttle } from '~/utils'
@@ -88,10 +87,15 @@ export default {
       currentY: 0
     }
   },
-  async asyncData({ app, params }) {
-    const data = await Rest(app.$axios, 'getOne', 'Note')(params.id)
-    const list = await Notes(app.$axios, 'getList')(params.id)
-    if (data.ok && list.ok) {
+  async asyncData({ app, params, redirect }) {
+    // valid params.id
+    const isNum = /^\d*$/.test(params.id)
+    if (!isNum) {
+      return redirect('/404')
+    }
+    try {
+      const data = await Rest(app.$axios, 'getOne', 'Note')(params.id)
+      const list = await Notes(app.$axios, 'getList')(params.id)
       data.data.text = md.render(data.data.text)
       return {
         data: data.data,
@@ -99,9 +103,7 @@ export default {
         next: data.next,
         list: list.data.reverse()
       }
-    } else {
-      Message.error({ message: data.msg || list.msg })
-    }
+    } catch (e) {}
   },
   mounted() {
     if (this.data) {
