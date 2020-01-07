@@ -124,7 +124,11 @@ svg {
   margin: auto;
   position: relative;
 }
-
+.wrap.is-post {
+  header {
+    padding: 5rem 2rem;
+  }
+}
 @media (min-width: map-get($map: $viewports, $key: 'wider')) {
   .wrap {
     max-width: 1024px;

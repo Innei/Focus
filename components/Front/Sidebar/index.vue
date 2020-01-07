@@ -12,9 +12,9 @@
       </div>
     </transition>
     <div
-      @click="handleClickMenu"
       :style="Over ? 'opacity: 1' : ''"
       class="top menu"
+      @click="handleClickMenu"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

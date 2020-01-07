@@ -35,7 +35,8 @@ const schema = new Schema({
     type: String,
     // md html iframe
     default: 'md'
-  }
+  },
+  options: {}
 })
 
 module.exports = model('Page', schema)

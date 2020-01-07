@@ -3,8 +3,8 @@
     <div class="page-wrap">
       <div
         :class="{ hide: page.currentPage === 1 }"
-        @click="$emit('to', page.currentPage - 1)"
         class="prev btn"
+        @click="$emit('to', page.currentPage - 1)"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -22,15 +22,15 @@
           v-for="n in pages"
           :key="n"
           :class="{ active: n === page.currentPage }"
-          @click="$emit('to', n)"
           class="page-num"
+          @click="$emit('to', n)"
           >{{ n }}</span
         >
       </div>
       <div
         :class="{ hide: page.currentPage + 1 > page.totalPage }"
-        @click="$emit('to', page.currentPage + 1)"
         class="next btn"
+        @click="$emit('to', page.currentPage + 1)"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

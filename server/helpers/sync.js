@@ -15,6 +15,7 @@ class SyncToGist {
       }
     })
   }
+
   static $axios = axios.create({
     baseURL: 'https://api.github.com/gists/'
   })

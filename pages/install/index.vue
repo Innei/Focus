@@ -25,7 +25,7 @@
           </el-steps>
         </header>
         <transition name="fade" mode="out-in">
-          <main :key="1" v-if="active === 0">
+          <main v-if="active === 0" :key="1">
             <el-form
               ref="userStep"
               :model="master"
@@ -64,7 +64,7 @@
             </el-form>
           </main>
 
-          <main :key="2" v-if="active === 1">
+          <main v-if="active === 1" :key="2">
             <el-form
               :model="description"
               label-position="right"
@@ -79,41 +79,41 @@
               </el-form-item>
               <el-form-item label="关键词">
                 <el-tag
-                  :key="tag"
                   v-for="tag in description.keywords"
+                  :key="tag"
                   :disable-transitions="false"
-                  @close="handleClose(tag)"
                   closable
+                  @close="handleClose(tag)"
                 >
                   {{ tag }}
                 </el-tag>
                 <el-input
-                  ref="saveTagInput"
                   v-if="inputVisible"
+                  ref="saveTagInput"
                   v-model="inputValue"
-                  @keyup.enter.native="handleInputConfirm"
-                  @blur="handleInputConfirm"
                   class="input-new-tag"
                   size="small"
+                  @keyup.enter.native="handleInputConfirm"
+                  @blur="handleInputConfirm"
                 >
                 </el-input>
                 <el-button
                   v-else
-                  @click="showInput"
                   class="button-new-tag"
                   size="small"
+                  @click="showInput"
                   >+ New Keyword</el-button
                 >
               </el-form-item>
             </el-form>
           </main>
 
-          <main :key="3" v-if="active === 2">
+          <main v-if="active === 2" :key="3">
             <el-form :model="other" label-position="right" label-width="100px">
               <el-form-item label="当前博客域名">
                 <el-input
-                  :placeholder="other.host"
                   v-model="other.host"
+                  :placeholder="other.host"
                   class="input-with-select"
                 >
                   <el-select
@@ -130,7 +130,7 @@
           </main>
         </transition>
         <footer style="text-align: center">
-          <el-button @click="next" type="primary" style="margin-top: 12px;"
+          <el-button type="primary" style="margin-top: 12px;" @click="next"
             >下一步</el-button
           >
         </footer>

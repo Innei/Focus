@@ -1,33 +1,33 @@
 <template>
   <Basic>
     <Loading v-show="!data" />
-    <Note :data="data" v-if="data" />
+    <Note v-if="data" :data="data" />
 
     <div :class="{ 'move-top': showSwiper }" class="btn-wrap">
       <Btn
-        :class="{ show: btnShow }"
         v-if="next"
-        @click.native="$router.push(`/notes/${next.nid}`)"
+        :class="{ show: btnShow }"
         class="right"
+        @click.native="$router.push(`/notes/${next.nid}`)"
       >
         <i class="el-icon-arrow-right"></i>
       </Btn>
       <Btn
         :class="{ show: btnShow }"
-        @click.native="showSwiper = !showSwiper"
         class="right item"
+        @click.native="showSwiper = !showSwiper"
         ><i class="el-icon-more"></i
       ></Btn>
       <Btn
-        :class="{ show: btnShow }"
         v-if="prev"
-        @click.native="$router.push(`/notes/${prev.nid}`)"
+        :class="{ show: btnShow }"
         class="left"
+        @click.native="$router.push(`/notes/${prev.nid}`)"
         ><i class="el-icon-arrow-left"></i
       ></Btn>
     </div>
     <transition name="slide-down">
-      <div id="swiper" v-show="showSwiper" class="overlay">
+      <div v-show="showSwiper" id="swiper" class="overlay">
         <client-only>
           <Swiper ref="swiper" class="swiper">
             <Slide
@@ -35,7 +35,7 @@
               :key="i._id"
               :date="new Date(i.created)"
               :title="i.title"
-              :isActive="
+              :is-active="
                 $route.params.id == i.nid || $route.params.id === i._id
               "
               @click.native="handleTo(i.nid)"
@@ -78,15 +78,6 @@ export default {
     Swiper,
     Slide
   },
-  data() {
-    return {
-      data: undefined,
-      list: undefined,
-      showSwiper: false,
-      btnShow: true,
-      currentY: 0
-    }
-  },
   async asyncData({ app, params, redirect }) {
     // valid params.id
     const isNum = /^\d*$/.test(params.id)
@@ -104,6 +95,15 @@ export default {
         list: list.data.reverse()
       }
     } catch (e) {}
+  },
+  data() {
+    return {
+      data: undefined,
+      list: undefined,
+      showSwiper: false,
+      btnShow: true,
+      currentY: 0
+    }
   },
   mounted() {
     if (this.data) {

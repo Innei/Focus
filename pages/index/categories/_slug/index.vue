@@ -23,18 +23,18 @@
 import rest from '~/api/rest'
 import { parseDate } from '~/utils'
 export default {
-  data() {
-    return {
-      years: []
-    }
-  },
-  computed: {},
   async asyncData({ app, error, params }) {
     const data = await rest(app.$axios, 'getOne', 'Category')(params.slug)
     if (data.ok) {
       return { data: data.data }
     }
   },
+  data() {
+    return {
+      years: []
+    }
+  },
+  computed: {},
   mounted() {
     this.years = this.filterDate(this.data.children)
   },

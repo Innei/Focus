@@ -36,11 +36,11 @@
     </div>
     <div class="post-body-wrapper wrap">
       <article
+        v-if="text"
         id="markdown-render"
         ref="md"
-        v-html="text"
-        v-if="text"
         class="post-body"
+        v-html="text"
       ></article>
       <div v-if="!isMobile" class="post-tortree">
         <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
@@ -73,12 +73,6 @@ export default {
     Tree,
     Comment
   },
-  data() {
-    return {
-      tree: [],
-      isMobile: false
-    }
-  },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params
     const { category } = route.params
@@ -110,6 +104,12 @@ export default {
       }
     } catch (e) {
       redirect('/404')
+    }
+  },
+  data() {
+    return {
+      tree: [],
+      isMobile: false
     }
   },
   async mounted() {

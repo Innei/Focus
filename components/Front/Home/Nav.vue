@@ -1,7 +1,11 @@
 <template>
   <nav>
-    <nuxt-link :to="link.to" v-for="link in links" :key="link.to"
-      ><li :class="{ active: link.to === $route.fullPath }">
+    <nuxt-link
+      v-for="link in links"
+      :key="link.to"
+      :class="{ active: link.to === $route.fullPath }"
+      :to="link.to"
+      ><li>
         {{ link.name }}
       </li></nuxt-link
     >
@@ -25,18 +29,21 @@ nav {
   right: 0;
   display: flex;
   justify-content: center;
-
-  li {
+  a {
+    position: relative;
+  }
+  a {
     padding: 0.5rem 1rem;
     margin: 0 0.5rem;
     position: relative;
   }
-  li:not(.active) {
+  a:not(.active) {
     &::after {
       opacity: 0;
     }
   }
-  li::after {
+
+  a::after {
     content: '';
     position: absolute;
     opacity: 1;
@@ -49,7 +56,7 @@ nav {
     margin: auto;
     transition: width 0.5s, opacity 0.5s;
   }
-  li:hover::after {
+  a:hover::after {
     width: 80%;
   }
 }

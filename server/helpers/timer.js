@@ -9,6 +9,7 @@ class Timer {
   create() {
     this.timer = setInterval(this.fn, this.time)
   }
+
   clear() {
     this.timer = clearInterval(this.timer)
   }

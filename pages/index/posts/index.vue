@@ -7,10 +7,10 @@
         <div v-if="viewport && viewport.mobile" class="top-post-year">
           {{ getTopPostYear }}
         </div>
-        <Item :i="i" v-for="i in data" :key="i._id" :viewport="viewport" />
+        <Item v-for="i in data" :key="i._id" :i="i" :viewport="viewport" />
       </div>
 
-      <Navigation :page="page" v-if="page" @to="handleTo" />
+      <Navigation v-if="page" :page="page" @to="handleTo" />
     </client-only>
   </div>
 </template>

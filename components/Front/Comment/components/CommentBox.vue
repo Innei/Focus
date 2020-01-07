@@ -30,7 +30,7 @@
         name="text"
       />
 
-      <button @click="handleComment" class="btn">写好了~</button>
+      <button class="btn" @click="handleComment">写好了~</button>
     </div>
   </div>
 </template>
