@@ -61,8 +61,6 @@ import Post from '~/api/posts'
 import Tree from '~/components/Front/TorTree'
 import Comment from '~/components/Front/Comment'
 
-import '~/assets/scss/markdown/shizuku.scss'
-
 const md = new MD({
   html: true,
   xhtmlOut: true

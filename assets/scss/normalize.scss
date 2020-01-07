@@ -128,6 +128,19 @@ svg {
   header {
     padding: 5rem 2rem;
   }
+  article {
+    padding: 12px;
+  }
+}
+@media (max-width: map-get($map: $viewports, $key: 'mobile')) {
+  .wrap.is-post {
+    header {
+      padding: 5rem 2rem;
+    }
+    article {
+      padding-left: 24px;
+    }
+  }
 }
 @media (min-width: map-get($map: $viewports, $key: 'wider')) {
   .wrap {

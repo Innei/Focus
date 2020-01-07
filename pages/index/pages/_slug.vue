@@ -5,7 +5,7 @@
       <h3 v-if="subtitle">{{ subtitle }}</h3>
     </header>
     <article>
-      <div class="text" v-html="text"></div>
+      <div class="text" v-html="md"></div>
     </article>
   </Home>
 </template>
@@ -32,8 +32,20 @@ export default {
       }
     } catch (e) {}
   },
+  data() {
+    return { md: '' }
+  },
   mounted() {
-    this.text = md.render(this.text)
+    this.md = md.render(this.text)
   }
 }
 </script>
+
+<style lang="scss" scoped>
+header {
+  h3 {
+    color: var(--gray);
+    opacity: 0.8;
+  }
+}
+</style>

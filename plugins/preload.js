@@ -2,6 +2,8 @@
  * 加载页面前的的预加载配置和用户设置
  */
 import rest from '~/api/rest'
+import '~/assets/scss/markdown/shizuku.scss'
+
 const consola = require('consola')
 export default ({ app, store, redirect, route, req }) => {
   app.$axios

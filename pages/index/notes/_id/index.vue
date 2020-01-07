@@ -61,8 +61,6 @@ import Btn from '~/components/Front/Note/components/btn'
 import Swiper from '~/components/Front/Note/components/Swiper'
 import Slide from '~/components/Front/Note/components/Swiper/slide'
 
-import '~/assets/scss/markdown/shizuku.scss'
-
 const md = new Mdit({
   html: true,
   linkify: true,

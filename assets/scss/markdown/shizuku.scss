@@ -7,6 +7,7 @@ $color_6: rgba(160, 160, 160, 0.4);
 $color_7: #bbb;
 $font_family_1: 'Noto Serif SC', 'Avenir Next', 'PingFang SC',
   'Microsoft YaHei UI', 'Microsoft YaHei', sans-serif;
+$font_family_2: 'PingFang SC', -apple-system, 'Microsoft YaHei';
 $background_color_1: transparent;
 
 :root {
@@ -307,6 +308,7 @@ article {
   }
   strong {
     font-weight: 500;
+    font-family: $font_family_2;
   }
   h1 {
     font-weight: 600;
