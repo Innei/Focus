@@ -86,6 +86,7 @@ export default {
 
         return {
           text,
+          raw: data.text,
           title: data.title,
           category: data.categoryId ?? null,
           ctime: moment(data.created).format('M/D/YY H:mm:ss'),
@@ -137,6 +138,28 @@ export default {
       // }, 2000)
     }
   },
+  head() {
+    return {
+      title: this.title + ' - ' + this.config.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.raw?.replace(/\s/gi, '').slice(0, 200)
+        },
+        {
+          hid: 'site_name',
+          name: 'og:site_name',
+          content: this.config.title
+        },
+        {
+          hid: 'title',
+          name: 'og:title',
+          content: this.title
+        }
+      ]
+    }
+  },
   methods: {
     ...mapActions('Navigation', ['setStatus']),
 
@@ -180,7 +203,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['navActive'])
+    ...mapGetters(['navActive', 'config'])
   }
 }
 </script>

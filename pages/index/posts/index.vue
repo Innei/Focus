@@ -23,6 +23,7 @@ import Item from '~/components/Front/PostListItem'
 import Navigation from '~/components/Front/Navigation'
 
 export default {
+  // TODO menu list title -> server
   components: {
     BigHead,
     Item,

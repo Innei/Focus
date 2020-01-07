@@ -83,14 +83,20 @@ export default {
       return redirect('/404')
     }
     try {
-      const data = await Rest(app.$axios, 'getOne', 'Note')(params.id)
+      const { data, prev, next } = await Rest(
+        app.$axios,
+        'getOne',
+        'Note'
+      )(params.id)
       const list = await Notes(app.$axios, 'getList')(params.id)
-      data.data.text = md.render(data.data.text)
+      const raw = data.text
+      data.text = md.render(data.text)
       return {
-        data: data.data,
-        prev: data.prev,
-        next: data.next,
-        list: list.data.reverse()
+        data,
+        prev,
+        next,
+        list: list.data.reverse(),
+        raw
       }
     } catch (e) {}
   },
@@ -114,6 +120,28 @@ export default {
       this.currentY = currentY
     }, 13)
   },
+  head() {
+    return {
+      title: this.data.title + ' - ' + this.config.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.raw?.replace(/\s/gi, '').slice(0, 200)
+        },
+        {
+          hid: 'site_name',
+          name: 'og:site_name',
+          content: this.config.title
+        },
+        {
+          hid: 'title',
+          name: 'og:title',
+          content: this.data.title
+        }
+      ]
+    }
+  },
   methods: {
     ...mapActions('Navigation', ['setStatus']),
     handleTo(nid) {
@@ -121,7 +149,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['navActive'])
+    ...mapGetters(['navActive', 'config'])
   },
   watch: {
     showSwiper(val) {

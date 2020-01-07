@@ -15,7 +15,15 @@ module.exports = {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: 'Focus; RSS 2.0',
+        href: process.env.BASE_URL + '/feed'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
