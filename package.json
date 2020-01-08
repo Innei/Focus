@@ -24,6 +24,7 @@
     "cors": "^2.8.5",
     "cross-env": "^6.0.3",
     "element-ui": "^2.13.0",
+    "events": "^3.0.0",
     "express": "^5.0.0-alpha.7",
     "express-swagger-generator": "^1.1.15",
     "express-useragent": "^1.0.13",
