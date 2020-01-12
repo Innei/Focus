@@ -6,5 +6,6 @@ module.exports = {
   Note: require('./Note'),
   Comment: require('./Comment'),
   Danmaku: require('./Danmaku'),
-  Page: require('./Page')
+  Page: require('./Page'),
+	Menu: require('./Menu')
 }

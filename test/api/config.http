@@ -2,3 +2,12 @@
 
 ### Get Init
 get {{url}}/
+
+### Create Menu
+post {{url}}/menus
+Content-Type: application/json
+
+{
+  "type": "Home",
+  "title": "杂谈"
+}

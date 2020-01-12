@@ -30,7 +30,11 @@
       </template>
     </Nav-item>
 
-    <Nav-item text="生活随记" icon="notes" link="/notes">
+    <Nav-item
+      :text="Note.title ? Note.title : '生活随记'"
+      icon="notes"
+      link="/notes"
+    >
       <template #svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +50,11 @@
       </template>
     </Nav-item>
 
-    <Nav-item text="代码人生" icon="code" link="/posts">
+    <Nav-item
+      :text="Post.title ? Post.title : '代码人生'"
+      icon="code"
+      link="/posts"
+    >
       <template #svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +70,11 @@
       </template>
     </Nav-item>
 
-    <Nav-item icon="moment" text="碎碎杂谈" link="/moments">
+    <Nav-item
+      icon="moment"
+      :text="Moment.title ? Moment.title : '碎碎杂谈'"
+      link="/moments"
+    >
       <template #svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +90,11 @@
       </template>
     </Nav-item>
 
-    <Nav-item icon="timeline" text="时光历程" link="/timeline">
+    <Nav-item
+      icon="timeline"
+      :text="Timeline.title ? Timeline.title : '时光历程'"
+      link="/timeline"
+    >
       <template #svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -107,37 +123,27 @@ export default {
   components: {
     NavItem
   },
-  // props: {
-  //   active: {
-  //     type: Boolean,
-  //     required: true
-  //   }
-  // },
   data() {
     return {
-      active: false
+      active: false,
+      Post: {},
+      Note: {},
+      Timeline: {},
+      Home: {},
+      Moment: {}
     }
   },
-  computed: {
-    ...mapGetters(['navActive'])
-  },
   mounted() {
-    // Why nav -> index -> vuex action
-    // this.$nextTick(() => {
-    //   // console.log(this.viewport)
-    //   if (this.viewport.mobile) {
-    //     this.$refs.menu.classList.remove('active')
-    //   }
-    // })
+    this.menus.forEach((item) => {
+      this[item.type] = Object.assign({}, item)
+    })
+  },
+  computed: {
+    ...mapGetters(['navActive', 'menus'])
   },
   methods: {
     ...mapActions('Navigation', ['setStatus'])
   },
-  // watch: {
-  //   active(val) {
-  //     this.setStatus(val)
-  //   }
-  // }
   watch: {
     navActive(val) {
       this.active = val

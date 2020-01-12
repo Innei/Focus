@@ -1,6 +1,8 @@
 const { Router } = require('express')
 const assert = require('http-assert')
-const { User, Option } = require('./../../models/index')
+const clean = require('mongo-sanitize')
+const { User, Option, Menu } = require('./../../models/index')
+
 const router = new Router()
 
 router
@@ -30,6 +32,7 @@ router
         }
       ]
     }).select('name value')
+    const menus = await Menu.find()
 
     const parsed = {}
     option.forEach((item) => {
@@ -38,6 +41,7 @@ router
 
     res.send({
       ok: 1,
+      menus,
       config: {
         ...user.toObject(),
         ...parsed,
@@ -109,6 +113,22 @@ router
       res.send({ ok: 1, msg: '初始化成功啦~' })
     }
   )
+
+  .post('/menus', async (req, res) => {
+    const { type, title, order = 0 } = req.body
+
+    const [icon, options] = [clean(req.body.icon), clean(req.body.options)]
+
+    assert(title, 422, '菜单标题不能为空')
+    assert(type, 422, '菜单类型不能为空')
+    
+		const Types = ['Note', 'Post', 'Timeline', 'Home', 'Moment']
+		assert(Types.includes(type), 422, '菜单类型不正确')
+
+		const query = await Menu.create({ title, order, options, icon, type })
+
+    res.send({ ok: 1, data: query })
+  })
 
 /**
  * @typedef Init

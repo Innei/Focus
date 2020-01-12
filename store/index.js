@@ -4,7 +4,8 @@ export const getters = {
   config: (state) => state.config.config,
   isLogged: (state) => state.master.isLogged,
   token: (state) => state.master.token,
-  pages: (state) => state.pages.pages
+  pages: (state) => state.pages.pages,
+  menus: (state) => state.config.menus
 }
 
 export const strict = false
