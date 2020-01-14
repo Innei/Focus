@@ -1,8 +1,10 @@
 <template>
   <main>
     <Nav :links="pages"></Nav>
-    <nuxt />
-    <slot />
+    <div class="containers">
+      <nuxt />
+      <slot />
+    </div>
   </main>
 </template>
 
@@ -23,5 +25,8 @@ export default {
 <style lang="scss" scoped>
 main {
   padding-top: 2rem;
+}
+.containers {
+  margin-top: 5rem;
 }
 </style>
