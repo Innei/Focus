@@ -121,11 +121,11 @@ router
 
     assert(title, 422, '菜单标题不能为空')
     assert(type, 422, '菜单类型不能为空')
-    
-		const Types = ['Note', 'Post', 'Timeline', 'Home', 'Moment']
-		assert(Types.includes(type), 422, '菜单类型不正确')
 
-		const query = await Menu.create({ title, order, options, icon, type })
+    const Types = ['Note', 'Post', 'Timeline', 'Home', 'Moment']
+    assert(Types.includes(type), 422, '菜单类型不正确')
+
+    const query = await Menu.create({ title, order, options, icon, type })
 
     res.send({ ok: 1, data: query })
   })

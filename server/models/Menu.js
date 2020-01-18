@@ -2,10 +2,10 @@ const { model, Schema } = require('mongoose')
 
 const schema = new Schema({
   // Note Post Moment Home Timeline
-	type: {
+  type: {
     type: String,
     require: true,
-		unique: true
+    unique: true
   },
   title: {
     type: String,
@@ -15,10 +15,10 @@ const schema = new Schema({
     type: Number,
     default: 0
   },
-	// type?: svg | other
-	// content: string
-	icon: {},	
-	options: {}
+  // type?: svg | other
+  // content: string
+  icon: {},
+  options: {}
 })
 
 module.exports = model('Menu', schema)

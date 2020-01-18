@@ -57,7 +57,7 @@ export default {
       this.$axios,
       'getRecently',
       'Post'
-    )(this.$route.query.page || 1, this.$route.query.size || 10)
+    )({ page: this.$route.query.page || 1, size: this.$route.query.size || 10 })
     if (data.ok) {
       data.data.map((item) => {
         item.created = new Date(item.created)
@@ -88,7 +88,7 @@ export default {
       if (!isNaN(page) && page !== this.page.currentPage) {
         this.loading = true
         this.$nuxt.$loading.start()
-        const data = await rest(this.$axios, 'getRecently', 'Post')(page)
+        const data = await rest(this.$axios, 'getRecently', 'Post')({ page })
         if (data.ok) {
           data.data.map((item) => {
             item.created = new Date(item.created)

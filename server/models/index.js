@@ -7,5 +7,5 @@ module.exports = {
   Comment: require('./Comment'),
   Danmaku: require('./Danmaku'),
   Page: require('./Page'),
-	Menu: require('./Menu')
+  Menu: require('./Menu')
 }
