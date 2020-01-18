@@ -42,3 +42,6 @@ export const fromNow = (date) => {
 export const sleep = (time) => {
   return new Promise((resolve, reject) => setTimeout(resolve, time))
 }
+export const padString = (str, len, pad) => {
+  return String.prototype.padStart.call(str, len, pad)
+}

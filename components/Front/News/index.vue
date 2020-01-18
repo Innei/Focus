@@ -69,4 +69,7 @@ export default {
     }
   }
 }
+.content {
+  padding: 1rem;
+}
 </style>

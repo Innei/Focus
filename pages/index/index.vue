@@ -18,9 +18,7 @@
         <Code />
       </template>
       <template v-if="news.posts.data">
-        <li v-for="post in news.posts.data" :key="post._id">
-          {{ post.title }}
-        </li>
+        <NewsItems :list="news.posts.data" type="Post" />
       </template>
     </News>
     <News title="最新随记" to="/notes">
@@ -28,9 +26,7 @@
         <Lines />
       </template>
       <template v-if="news.notes.data">
-        <li v-for="note in news.notes.data" :key="note._id">
-          {{ note.title }}
-        </li>
+        <NewsItems :list="news.notes.data" type="Note" />
       </template>
     </News>
     <!-- <News title="最新博文" to="/posts"> </News> -->
@@ -42,6 +38,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Rest from '~/api/rest'
 import Home from '~/layouts/Home'
 import News from '~/components/Front/News'
+import NewsItems from '~/components/Front/NewsItems'
 import { Lines, Code } from '~/components/Front/Icons'
 
 export default {
@@ -49,7 +46,8 @@ export default {
     Home,
     News,
     Lines,
-    Code
+    Code,
+    NewsItems
   },
   async created() {
     const outdate =
