@@ -14,7 +14,9 @@ router
    * @returns { ok, data } 200
    */
   .get('/', async (req, res) => {
-    const user = await User.findOne().select('username mail url')
+    const user = await User.findOne().select(
+      'username mail url name lastLoginTime'
+    )
     assert(user, 400, '用户没有完成初始化')
     const option = await Option.find({
       $or: [

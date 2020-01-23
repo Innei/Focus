@@ -92,3 +92,5 @@ sw.*
 
 .vscode
 static/admin
+
+/server/build

@@ -2,6 +2,11 @@ const { Schema, model } = require('mongoose')
 const { hashSync } = require('bcrypt')
 const schema = new Schema({
   username: { required: true, unique: true, type: String, trim: true },
+  name: {
+    require: true,
+    type: String,
+    trim: true
+  },
   password: {
     type: String,
     set(val) {
@@ -15,15 +20,21 @@ const schema = new Schema({
     type: Date,
     default: new Date()
   },
-  logged: {
+  lastLoginTime: {
     type: Date
+  },
+  lastLoginIp: {
+    type: String
   },
   authCode: {
     select: false,
     type: String,
     required: true
   },
-  apiTokens: Array
+  apiTokens: {
+    type: Array,
+    select: false
+  }
 })
 
 module.exports = model('User', schema)

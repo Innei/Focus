@@ -5,10 +5,10 @@
   "author": "Innei",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-    "dev:no-web": "cross-env NODE_ENV=development VUE_ENV=no-web nodemon server/index.js --watch server",
-    "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node server/index.js --watch server",
+    "dev:no-web": "cross-env NODE_ENV=development VUE_ENV=no-web nodemon --exec babel-node server/index.js --watch server",
+    "build": "nuxt build && babel server -d server/build",
+    "start": "pm2 start ecosystem.js --env production",
     "build:modern": "nuxt build --modern=server",
     "start:modern": "nuxt start --modern=server",
     "generate": "nuxt generate",
@@ -50,8 +50,13 @@
     "ws": "^7.2.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
+    "@babel/preset-env": "^7.8.3",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
@@ -62,6 +67,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "node-sass": "^4.13.0",
     "nodemon": "^2.0.2",
+    "pm2": "^4.2.3",
     "prettier": "^1.16.4",
     "sass-loader": "^8.0.0",
     "typescript": "^3.7.4"

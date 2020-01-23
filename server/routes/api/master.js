@@ -1,9 +1,10 @@
 const { Router } = require('express')
+const { Types } = require('mongoose')
 const assert = require('http-assert')
 const { compareSync } = require('bcrypt')
 const sanitize = require('mongo-sanitize')
 const { randomStr } = require('../../utils')
-
+const { getAvatar, getClientIP } = require('../../utils/')
 const User = require('../../models/User')
 const isMaster = require('../../middlewares/isMaster')
 
@@ -21,14 +22,16 @@ router
 
   .post('/sign_up', async (req, res) => {
     const { username, password, mail = '', url = '' } = req.body
+    const { name = username } = req.body
     assert(username, 400, '用户名不能为空')
-    assert(password, 400, '密码不能为空')
+    assert(typeof username === 'string', 400, '用户名必须为字符串')
+    assert(typeof password === 'string', 400, '密码必须为字符串')
     // TODO 密码强弱判断
 
     if (process.env.NODE_ENV === 'production') {
       const { checkPassword } = require('../../utils')
       if (checkPassword(password) < 3) {
-        return res.status(400).send({ ok: 0, msg: '密码设置过于简单' })
+        return res.status(422).send({ ok: 0, msg: '密码设置过于简单' })
       }
     }
 
@@ -38,12 +41,13 @@ router
     const doc = await User.create({
       username,
       password,
+      name,
       mail,
       url,
       authCode
     })
 
-    res.send({ ok: 1, username: doc.username, id: doc._id })
+    res.send({ ok: 1, username: doc.username, name, id: doc._id })
   })
   /**
    * Login
@@ -65,18 +69,18 @@ router
       const cleanUsername = sanitize(username)
       assert(
         typeof cleanUsername === 'string' && cleanUsername,
-        422,
+        400,
         '君の名は'
       )
-      assert(typeof password === 'string' && password, 422, 'えぃ')
+      assert(typeof password === 'string' && password, 400, 'えぃ')
 
       const doc = await User.findOne({ username: cleanUsername }).select(
         '+password +authCode'
       )
       const verifyUsername = !!doc
-      assert(verifyUsername, 400, '你不是我的主人')
+      assert(verifyUsername, 422, '你不是我的主人')
       const verifyPass = compareSync(password, doc.password)
-      assert(verifyPass, 400, '密码不对哦')
+      assert(verifyPass, 422, '密码不对哦')
 
       const token = require('jsonwebtoken').sign(
         { _id: doc._id, User: username, code: doc.authCode },
@@ -85,9 +89,18 @@ router
           expiresIn: `${process.env.MAXAGE || 3}d`
         }
       )
-      doc.token = token
+      const { lastLoginTime, lastLoginIp, _id } = doc.toObject()
+      doc.lastLoginTime = new Date()
+      doc.lastLoginIp = getClientIP(req)
       await doc.save()
-      res.send({ ok: 1, token, expires: process.env.MAXAGE || 3 })
+      res.send({
+        ok: 1,
+        token,
+        expires: process.env.MAXAGE || 3,
+        id: _id,
+        lastLoginIp,
+        lastLoginTime
+      })
     }
   )
   /**
@@ -110,7 +123,7 @@ router
     assert(id, 400, '标识符为空')
     assert(typeof password === 'string' && password, 400, '新密码不能为空')
     assert(typeof oldPassword === 'string' && oldPassword, 400, '密码不正确')
-    assert(oldPassword !== password, 400, '新旧密码不能为空')
+    assert(oldPassword !== password, 400, '新旧密码不能相同')
 
     if (process.env.NODE_ENV === 'production') {
       const { checkPassword } = require('../../utils')
@@ -136,7 +149,7 @@ router
    * @group 主人
    * @returns {object} 200 ok & msg
    */
-  .get('/sign_out', isMaster(), async (req, res) => {
+  .get('/logout', isMaster(), async (req, res) => {
     const id = req.user._id
 
     assert(id, 400, '没有用户需要注销')
@@ -153,9 +166,14 @@ router
    */
   .get('/:id', async (req, res) => {
     const id = req.params.id
-    assert(id, 400, 'ID 为空')
-    const r = await User.findById(id)
-    res.send(r)
+    assert(
+      id && typeof id === 'string' && Types.ObjectId.isValid(id),
+      400,
+      'ID 为空'
+    )
+    const data = (await User.findById(id)).toObject()
+    data.avatar = getAvatar(data.mail)
+    res.send({ ok: 1, data })
   })
 
 module.exports = router

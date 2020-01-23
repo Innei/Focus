@@ -1,4 +1,10 @@
 const assert = require('http-assert')
+const md5 = (text) =>
+  require('crypto')
+    .createHash('md5')
+    .update(text)
+    .digest('hex')
+
 module.exports = {
   randomStr: () =>
     Math.random()
@@ -20,11 +26,7 @@ module.exports = {
     }
     return ip
   },
-  md5: (text) =>
-    require('crypto')
-      .createHash('md5')
-      .update(text)
-      .digest('hex'),
+  md5,
   checkPassword: (pwd) => {
     assert(typeof pwd === 'string', 400, '我觉得你是在欠打，没事不要测接口')
     let strength = 0
@@ -45,5 +47,8 @@ module.exports = {
       strength++
     }
     return strength
+  },
+  getAvatar(mail) {
+    return `https://www.gravatar.com/avatar/${md5(mail)}`
   }
 }
