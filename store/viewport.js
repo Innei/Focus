@@ -10,7 +10,7 @@ export const actions = {
       mobile: window.screen.width <= 568 || window.innerWidth <= 568,
       pad: window.innerWidth <= 768 && window.innerWidth > 568,
       hpad: window.innerWidth <= 1024 && window.innerWidth > 768,
-      wider: window.innerWidth >= 1440 && window.innerWidth < 1920,
+      wider: window.innerWidth > 1024 && window.innerWidth < 1920,
       widest: window.innerWidth >= 1920
     }
   }
