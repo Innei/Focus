@@ -5,7 +5,7 @@ const { compareSync } = require('bcrypt')
 const sanitize = require('mongo-sanitize')
 const { randomStr } = require('../../utils')
 const { getAvatar, getClientIP } = require('../../utils/')
-const User = require('../../models/User')
+const { User, Post, Note } = require('../../models')
 const isMaster = require('../../middlewares/isMaster')
 
 const router = Router()
@@ -171,8 +171,13 @@ router
       400,
       'ID 为空'
     )
-    const data = (await User.findById(id)).toObject()
-    data.avatar = getAvatar(data.mail)
+    const query = await User.findById(id)
+    const count = {
+      post: await Post.countDocuments(),
+      note: await Note.countDocuments()
+    }
+    const avatar = getAvatar(query.mail)
+    const data = Object.assign(query.toObject(), { count }, { avatar })
     res.send({ ok: 1, data })
   })
 
