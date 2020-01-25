@@ -4,6 +4,14 @@ const { Types } = require('mongoose')
 const { hashSync } = require('bcrypt')
 
 const { Note, Option } = require('../../models/index')
+const isMaster = require('~~/middlewares/isMaster')()
+const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')(
+  {
+    condition: {}
+  },
+  { condition: { hide: false } }
+)
+
 const router = Router()
 
 router
@@ -15,10 +23,12 @@ router
    * @returns {object} 200 - data | msg
    */
 
-  .get('/lastest', async (req, res) => {
-    const r = await Note.findOne({
-      hide: false
-    }).sort({ created: -1 })
+  .get('/lastest', checkPermissionToSee, async (req, res) => {
+    const r = await Note.findOne(
+      req.queryOptions?.condition || { hide: false }
+    ).sort({
+      created: -1
+    })
     if (r) {
       r.count.read++
       await r.save()
@@ -29,7 +39,7 @@ router
         _id: {
           $lt: r._id
         },
-        hide: false
+        ...(req.queryOptions?.condition || { hide: false })
       })
         .sort({ _id: -1 })
         .select('nid _id')
@@ -54,19 +64,19 @@ router
     const sort = { nid: -1, _id: -1 }
     // NoSql inject NaN limit => 0
     const limit = parseInt(size / 2)
-
+    const hide = req.queryOptions?.condition || { hide: false }
     const prevList = Types.ObjectId.isValid(id)
       ? await Note.find({
           _id: {
             $gte: id
           },
-          hide: false
+          ...hide
         }).setOptions({ select, limit: limit || 5 })
       : await Note.find({
           nid: {
             $gte: id
           },
-          hide: false
+          ...hide
         }).setOptions({ select, limit: limit || 5 })
 
     const nextList = Types.ObjectId.isValid(id)
@@ -74,13 +84,13 @@ router
           _id: {
             $lt: id
           },
-          hide: false
+          ...hide
         }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
       : await Note.find({
           nid: {
             $lt: id
           },
-          hide: false
+          ...hide
         }).setOptions({ select, limit: parseInt(size) - prevList.length, sort })
 
     const list = nextList.reverse().concat(prevList)
@@ -98,15 +108,16 @@ router
    * @summary 获取一篇随记
    * @param {ObjectId | integer} id.path.required - eg: 12
    * @group 随记
+   * @security JWT
    * @returns {object} 200 - data | msg
    */
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
-
+    const hide = req.queryOptions?.condition || { hide: false }
     const r = await Note.findOne({
       [Types.ObjectId.isValid(id) ? '_id' : 'nid']: id,
-      hide: false
+      ...hide
     })
     if (r) {
       r.count.read++
@@ -116,14 +127,14 @@ router
         _id: {
           $gt: r._id
         },
-        hide: false
+        ...hide
       })
 
       const next = await Note.findOne({
         _id: {
           $lt: r._id
         },
-        hide: false
+        ...hide
       }).sort({ _id: -1 })
       res.send({ ok: 1, data: r, prev, next })
     } else {
@@ -138,8 +149,9 @@ router
    * @group 随记
    * @param {Note.model} note.body.required
    * @returns {object} 200 - data | msg
+   * @security JWT
    */
-  .post('/', async (req, res) => {
+  .post('/', isMaster, async (req, res) => {
     const body = req.body
     assert(body && body !== '{}', 400, '空的请求体')
 
@@ -175,7 +187,7 @@ router
    * @group 随记
    * @returns {Object} 200 { ok }
    */
-  .put('/:id', async (req, res) => {
+  .put('/:id', isMaster, async (req, res) => {
     const { id } = req.params
     assert(id, 400, '标识符错误')
     const { title, text, mood, weather, password, hide } = req.body

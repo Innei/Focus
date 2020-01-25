@@ -61,6 +61,7 @@
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
+    "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-nuxt": ">=0.4.2",
@@ -69,7 +70,6 @@
     "nodemon": "^2.0.2",
     "pm2": "^4.2.3",
     "prettier": "^1.16.4",
-    "sass-loader": "^8.0.0",
-    "typescript": "^3.7.4"
+    "sass-loader": "^8.0.0"
   }
 }

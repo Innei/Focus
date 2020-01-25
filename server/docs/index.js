@@ -12,8 +12,8 @@ module.exports = (app) => {
         version: '1.0.0'
       },
       basePath: '/api',
-      produces: ['application/json', 'application/xml'],
-      schemes: ['http', 'https'],
+      produces: ['application/json'],
+      schemes: ['http'],
       securityDefinitions: {
         JWT: {
           type: 'apiKey',

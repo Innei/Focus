@@ -4,8 +4,6 @@
 
 const { Router } = require('express')
 const assert = require('http-assert')
-// const clean = require('mongo-sanitize')
-// const { Option } = require('../../models/index')
 
 const router = Router({
   mergeParams: true
@@ -14,6 +12,13 @@ const router = Router({
 router
   .use(require('../../middlewares/resource')())
   .use(require('../../middlewares/checkQueryString'))
+  .use(
+    require('~~/middlewares/checkPermissionToSee')({
+      condition: {
+        hide: true
+      }
+    })
+  )
   .get('/', async (req, res) => {
     const { page = 1, size = 10, select } = req.query
     assert(size < 20, 400, '要素过多')
@@ -42,7 +47,9 @@ router
       // TODO 限制获取 hide
     }
     if (req.Model.modelName === 'Post' || req.Model.modelName === 'Note') {
-      condition.hide = false
+      if (!req.queryOptions?.condition?.hide) {
+        condition.hide = false
+      }
     }
     const data = await req.Model.find(condition)
       .setOptions(queryOptions)
@@ -70,13 +77,17 @@ router
       data
     })
   })
-
+  // Post Comment API
   .get('/:id', async (req, res) => {
     const id = req.params.id
     assert(id, 400, '不正确的请求')
     const queryOptions = {}
+    const condition = { _id: id }
     if (req.Model.modelName === 'Post') {
       queryOptions.populate = 'categoryId'
+      if (!req.queryOptions?.condition?.hide) {
+        condition.hide = false
+      }
     }
     if (req.Model.modelName === 'Comment') {
       queryOptions.populate = {
@@ -86,8 +97,7 @@ router
         }
       }
     }
-    // TODO rest 接口没有隐藏 hide 属性的内容
-    const r = await req.Model.findById(id).setOptions(queryOptions)
+    const r = await req.Model.findOne(condition).setOptions(queryOptions)
     if (r) {
       res.send({ ok: 1, data: r })
     } else {

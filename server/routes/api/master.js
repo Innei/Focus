@@ -5,8 +5,8 @@ const { compareSync } = require('bcrypt')
 const sanitize = require('mongo-sanitize')
 const { randomStr } = require('../../utils')
 const { getAvatar, getClientIP } = require('../../utils/')
-const { User, Post, Note } = require('../../models')
-const isMaster = require('../../middlewares/isMaster')
+const { User, Post, Note } = require('~~/models')
+const isMaster = require('~~/middlewares/isMaster')
 
 const router = Router()
 
@@ -21,6 +21,8 @@ router
    */
 
   .post('/sign_up', async (req, res) => {
+    assert(await User.countDocuments(), 422, '我只能有一个主人哦~')
+
     const { username, password, mail = '', url = '' } = req.body
     const { name = username } = req.body
     assert(username, 400, '用户名不能为空')
@@ -83,7 +85,7 @@ router
       assert(verifyPass, 422, '密码不对哦')
 
       const token = require('jsonwebtoken').sign(
-        { _id: doc._id, User: username, code: doc.authCode },
+        { _id: doc._id, username, code: doc.authCode },
         process.env.SECRET || 'tVnVq4zDhDtQPGPrx2qSOSdmuYI24C',
         {
           expiresIn: `${process.env.MAXAGE || 3}d`
@@ -108,6 +110,7 @@ router
    * @route GET /master/check_logged
    * @group 主人
    * @summary 判断是否登录
+   * @security JWT
    * @returns {Logged.model} 200
    */
   .get('/check_logged', isMaster({ getStatus: true }), async (req, res) => {
@@ -147,6 +150,7 @@ router
    * @route GET /master/sign_out
    * @summary 全局注销用户
    * @group 主人
+   * @security JWT
    * @returns {object} 200 ok & msg
    */
   .get('/logout', isMaster(), async (req, res) => {
@@ -163,6 +167,9 @@ router
   })
   /**
    * Profile
+   * @summary 获取主人的信息
+   * @group 主人
+   * @returns {object} 200 ok & data
    */
   .get('/:id', async (req, res) => {
     const id = req.params.id

@@ -1,8 +1,7 @@
 const { Router } = require('express')
 const assert = require('http-assert')
 const { Types } = require('mongoose')
-
-// const isMater = require('../../middlewares/isMaster')
+const isMater = require('../../middlewares/isMaster')()
 const { Category, Post } = require('../../models')
 
 const router = Router()
@@ -14,7 +13,7 @@ router
   /**
    * 创建一个分类
    */
-  .post('/', async (req, res) => {
+  .post('/', isMater, async (req, res) => {
     const { name, type } = req.body
     assert(name, 400, '分类名称不能为空')
     // type: Category | Tag
@@ -34,7 +33,7 @@ router
     }
   })
   // 修改分类
-  .put('/:id', async (req, res) => {
+  .put('/:id', isMater, async (req, res) => {
     const id = req.params.id
     assert(id, 400, '标识符为空')
     const { slug, name } = req.body

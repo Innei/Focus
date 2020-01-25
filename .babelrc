@@ -1,3 +1,5 @@
+// this babelrc only for server node-babel
+
 {
   "presets": [
     [
@@ -9,5 +11,16 @@
       }
     ]
   ],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    [
+      "module-resolver",
+      {
+        "root": ["./server"],
+        "alias": {
+          "~~": "./server"
+        }
+      }
+    ]
+  ]
 }

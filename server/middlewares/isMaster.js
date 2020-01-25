@@ -1,19 +1,18 @@
 const token = require('jsonwebtoken')
+const User = require('~~/models/User')
 module.exports = (options = {}) => {
   return async (req, res, next) => {
     if (req.headers.authorization) {
       try {
-        const { code, _id, User } = token.verify(
+        const { code, _id, username } = token.verify(
           req.headers.authorization,
           process.env.SECRET || 'tVnVq4zDhDtQPGPrx2qSOSdmuYI24C'
         )
         // mount _id
-        req.user = { _id, User }
+        req.user = { _id, username }
         // console.log(_id);
 
-        const { authCode } = await require('../models/User')
-          .findById(_id)
-          .select({ authCode: 1 })
+        const { authCode } = await User.findById(_id).select({ authCode: 1 })
 
         if (code === authCode) {
           if (options.getStatus) {

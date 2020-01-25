@@ -2,12 +2,16 @@ const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
 const Sync = require('../../helpers/sync')
-let gists
+const { Post, Category, Option } = require('../../models/index')
+const isMaster = require('~~/middlewares/isMaster')()
+const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')({
+  condition: {}
+})
+let gists = undefined
 if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
   gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
 }
 
-const { Post, Category, Option } = require('../../models/index')
 const router = Router({ mergeParams: true })
 
 router
@@ -20,11 +24,13 @@ router
    * @summary 获取某分类下的某个 slug 的文章内容
    * @returns {object} 200
    */
-  .get('/:category/:slug', async (req, res) => {
-    // TODO 自动生成 summary
+  .get('/:category/:slug', checkPermissionToSee, async (req, res) => {
     // 根据分类和 slug 查找, 因为 slug 是唯一键 所以其实 Category 不需要
     const { category, slug } = req.params
-    const r = await Post.findOne({ slug }).populate('categoryId')
+    const r = await Post.findOne({
+      slug,
+      ...(req.queryOptions?.condition || { hide: false })
+    }).populate('categoryId')
     if (r) {
       res.send({
         ok: 1,
@@ -50,7 +56,7 @@ router
    * @summary 发布一篇文章
    * @returns {object} 201
    */
-  .post('/', async (req, res) => {
+  .post('/', isMaster, async (req, res) => {
     const body = req.body
     assert(body && body !== '{}', 400, '空的请求体')
     // 提前生成一个 ObjectId, 取代未定义的 slug
@@ -134,7 +140,7 @@ router
    * @group 文章
    * @returns {Object} 200 { ok, data }
    */
-  .put('/:id', async (req, res) => {
+  .put('/:id', isMaster, async (req, res) => {
     const { id } = req.params
     assert(id, 400, '标识符错误')
     const { title, slug, text, categoryId, status, summary } = req.body
