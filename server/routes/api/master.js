@@ -7,6 +7,7 @@ const { randomStr } = require('../../utils')
 const { getAvatar, getClientIP } = require('../../utils/')
 const { User, Post, Note } = require('~~/models')
 const isMaster = require('~~/middlewares/isMaster')
+const checkToken = require('~~/middlewares/checkToken')
 
 const router = Router()
 
@@ -62,7 +63,7 @@ router
   .post(
     '/login',
     // 传入参数 获取状态 req.logged
-    isMaster({ getStatus: true }),
+    checkToken({ getStatus: true }),
     async (req, res) => {
       if (req.logged) {
         return res.send({ ok: 1, msg: '你已经登陆啦' })
@@ -113,9 +114,7 @@ router
    * @security JWT
    * @returns {Logged.model} 200
    */
-  .get('/check_logged', isMaster({ getStatus: true }), async (req, res) => {
-    res.send({ ok: 1, logged: req.logged })
-  })
+  .get('/check_logged', checkToken())
   /**
    * Modify password
    *
