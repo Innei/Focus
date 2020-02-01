@@ -1,12 +1,14 @@
 const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
+const clean = require('mongo-sanitize')
 const Sync = require('../../helpers/sync')
 const { Post, Category, Option } = require('../../models/index')
 const isMaster = require('~~/middlewares/isMaster')()
 const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')({
   condition: {}
 })
+
 let gists = undefined
 if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
   gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
@@ -69,7 +71,10 @@ router
       summary,
       slug = _id
     } = body
-
+    const options =
+      body.options && typeof body.options === 'object'
+        ? clean(body.options)
+        : undefined
     if (categoryId) {
       const r = await Category.findById(categoryId)
       if (r) {
@@ -87,7 +92,8 @@ router
       status,
       summary,
       categoryId,
-      slug
+      slug,
+      options
     })
 
     await Option.updateOne(
@@ -144,6 +150,10 @@ router
     const { id } = req.params
     assert(id, 400, '标识符错误')
     const { title, slug, text, categoryId, status, summary } = req.body
+    const options =
+      req.body.options && typeof req.body.options === 'object'
+        ? clean(req.body.options)
+        : undefined
     const origin = await Post.findById(id)
     assert(origin, 400, '需要修改的对象不存在')
     // 更新分类信息
@@ -167,7 +177,8 @@ router
         text,
         status,
         summary,
-        categoryId
+        categoryId,
+        options
       },
       {
         // 未定义 undefined 不更新

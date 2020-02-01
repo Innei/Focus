@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const consola = require('consola')
+const morgan = require('morgan')
 
 const { Nuxt, Builder } = require('nuxt')
 
@@ -24,6 +25,11 @@ app.use(express.json())
 app.use(require('cors')())
 app.use(require('express-useragent').express())
 app.use(require('cookie-parser')())
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+} else {
+  app.use(morgan('short'))
+}
 // bind api routes
 require('./routes/index')(app)
 // bind admin static page
