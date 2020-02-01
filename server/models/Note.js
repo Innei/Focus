@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   nid: { type: Number, index: 1 },
   title: { type: String, index: 1, trim: true },
-  text: String,
+  text: { type: String, trim: true },
   created: {
     type: Date,
     default: new Date(),

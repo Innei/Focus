@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   title: { type: String, index: 1, trim: true },
   slug: { type: String, index: { unique: true }, required: true },
-  text: String,
+  text: { type: String, trim: true },
   summary: String,
   categoryId: {
     type: Schema.Types.ObjectId,
@@ -21,7 +21,6 @@ const schema = new Schema({
   },
   hide: { type: Boolean, default: false },
   commentsIndex: { type: Number, default: 0 },
-  desc: { type: String },
   options: {}
 })
 schema.plugin(uniqueValidator)

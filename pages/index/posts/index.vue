@@ -18,9 +18,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import rest from '~/api/rest'
-import BigHead from '~/components/Front/BigHead'
-import Item from '~/components/Front/PostListItem'
-import Navigation from '~/components/Front/Navigation'
+import BigHead from '~/components/BigHead'
+import Item from '~/components/PostListItem'
+import Navigation from '~/components/Navigation'
 
 export default {
   // TODO menu list title -> server

@@ -58,8 +58,8 @@ import prism from 'markdown-it-prism'
 import { sleep, isMobile } from '~/utils'
 
 import Post from '~/api/posts'
-import Tree from '~/components/Front/TorTree'
-import Comment from '~/components/Front/Comment'
+import Tree from '~/components/TorTree'
+import Comment from '~/components/Comment'
 
 const md = new MD({
   html: true,

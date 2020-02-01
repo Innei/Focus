@@ -9,7 +9,7 @@
 import { mapActions } from 'vuex'
 
 import Basic from '~/layouts/Basic'
-import Loading from '~/components/Front/Loading'
+import Loading from '~/components/Loading'
 import Notes from '~/api/notes'
 
 export default {

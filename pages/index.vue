@@ -12,8 +12,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import cookie from 'js-cookie'
-import Sidebar from '~/components/Front/Sidebar'
-import Footer from '~/components/Front/Footer'
+import Sidebar from '~/components/Sidebar'
+import Footer from '~/components/Footer'
 import { User } from '~/api'
 import { debounce } from '~/utils'
 

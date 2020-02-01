@@ -53,13 +53,13 @@ import Mdit from 'markdown-it'
 import { throttle } from '~/utils'
 
 import Basic from '~/layouts/Basic'
-import Loading from '~/components/Front/Loading'
+import Loading from '~/components/Loading'
 import Rest from '~/api/rest'
 import Notes from '~/api/notes'
-import Note from '~/components/Front/Note'
-import Btn from '~/components/Front/Note/components/btn'
-import Swiper from '~/components/Front/Note/components/Swiper'
-import Slide from '~/components/Front/Note/components/Swiper/slide'
+import Note from '~/components/Note'
+import Btn from '~/components/Note/components/btn'
+import Swiper from '~/components/Note/components/Swiper'
+import Slide from '~/components/Note/components/Swiper/slide'
 
 const md = new Mdit({
   html: true,

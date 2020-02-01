@@ -30,14 +30,13 @@
         <h1 class="post-item-title">{{ i.title }}</h1>
         <div class="post-item-summary">
           {{
-            i.desc ||
+            i.summary ||
               (i.text.length > 150 ? i.text.substr(0, 150) + ' ...' : i.text)
           }}
         </div>
         <div class="post-item-meta">
           <span v-if="viewport && viewport.mobile">
             <i class="el-icon-alarm-clock"></i>
-
             {{
               `${parseDate.year}-${String(parseDate.month).padStart(
                 2,

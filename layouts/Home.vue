@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Nav from '~/components/Front/Home/Nav'
+import Nav from '~/components/Home/Nav'
 
 export default {
   components: {

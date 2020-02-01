@@ -75,7 +75,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import NavItem from './components/Nav-item'
-import { Code, HalfStar, Lines, TimeLine } from '~/components/Front/Icons'
+import { Code, HalfStar, Lines, TimeLine } from '~/components/Icons'
 export default {
   components: {
     NavItem,

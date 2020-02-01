@@ -37,9 +37,9 @@
 import { mapGetters, mapActions } from 'vuex'
 import Rest from '~/api/rest'
 import Home from '~/layouts/Home'
-import News from '~/components/Front/News'
-import NewsItems from '~/components/Front/NewsItems'
-import { Lines, Code } from '~/components/Front/Icons'
+import News from '~/components/News'
+import NewsItems from '~/components/NewsItems'
+import { Lines, Code } from '~/components/Icons'
 
 export default {
   components: {
