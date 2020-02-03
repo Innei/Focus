@@ -14,7 +14,7 @@ router
    * 创建一个分类
    */
   .post('/', isMater, async (req, res) => {
-    const { name, type } = req.body
+    const { name, type = 'Category' } = req.body
     assert(name, 400, '分类名称不能为空')
     // type: Category | Tag
     if (type && (type !== 'Category' || type !== 'Tag')) {

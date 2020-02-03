@@ -1,5 +1,13 @@
 const Option = require('../models/Option')
+const Category = require('../models/Category')
 ;(async () => {
+  const c = await Category.countDocuments()
+  if (!c) {
+    await Category.create({
+      name: '默认分类',
+      slug: 'default'
+    })
+  }
   const r = await Option.countDocuments()
   if (!r) {
     await Option.insertMany([

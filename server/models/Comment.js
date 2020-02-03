@@ -54,4 +54,11 @@ const schema = new Schema({
   agent: String
 })
 
+function autoPopulateSubs(next) {
+  this.populate('children')
+  next()
+}
+
+schema.pre('findOne', autoPopulateSubs).pre('find', autoPopulateSubs)
+
 module.exports = model('Comment', schema)

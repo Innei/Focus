@@ -5,7 +5,9 @@
         :to="
           type === 'Note'
             ? `/notes/${item.nid}`
-            : `/${type.toLowerCase()}s/${item.categoryId.slug}/${item.slug}`
+            : item.categoryId
+            ? `/${type.toLowerCase()}s/${item.categoryId.slug}/${item.slug}`
+            : `/${type.toLowerCase()}s/null/${item.slug}`
         "
         >{{ item.title }}</nuxt-link
       >

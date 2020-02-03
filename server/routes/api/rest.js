@@ -29,23 +29,7 @@ router
     if (select) {
       queryOptions.select = select
     }
-    if (req.Model.modelName === 'Comment') {
-      if (req.query.state) {
-        condition.state = parseInt(req.query.state)
-        condition.hasParent = false
-        // TODO 处理两级以上的子评论
-        queryOptions.populate = {
-          path: 'children',
-          populate: {
-            path: 'children'
-          }
-        }
-      }
-    }
-    if (req.Model.modelName === 'Post') {
-      queryOptions.populate = 'categoryId'
-      // TODO 限制获取 hide
-    }
+
     if (req.Model.modelName === 'Post' || req.Model.modelName === 'Note') {
       if (!req.queryOptions?.condition?.hide) {
         condition.hide = false
@@ -84,19 +68,11 @@ router
     const queryOptions = {}
     const condition = { _id: id }
     if (req.Model.modelName === 'Post') {
-      queryOptions.populate = 'categoryId'
       if (!req.queryOptions?.condition?.hide) {
         condition.hide = false
       }
     }
-    if (req.Model.modelName === 'Comment') {
-      queryOptions.populate = {
-        path: 'children',
-        populate: {
-          path: 'children'
-        }
-      }
-    }
+
     const r = await req.Model.findOne(condition).setOptions(queryOptions)
     if (r) {
       res.send({ ok: 1, data: r })

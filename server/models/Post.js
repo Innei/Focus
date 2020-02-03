@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 const schema = new Schema({
   title: { type: String, index: 1, trim: true },
-  slug: { type: String, index: { unique: true }, required: true },
+  slug: { type: String, index: { unique: true } },
   text: { type: String, trim: true },
   summary: String,
   categoryId: {
@@ -33,4 +33,16 @@ schema.post('updateOne', async function(doc) {
   }
 })
 
+schema.pre('find', function(next) {
+  this.populate('categoryId')
+  next()
+})
+
+schema.pre('save', function(next) {
+  this.set({
+    slug: this.slug || this._id
+  })
+
+  next()
+})
 module.exports = model('Post', schema)

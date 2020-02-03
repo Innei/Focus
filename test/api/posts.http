@@ -12,7 +12,7 @@ get {{url}}/5e11b2e00304e43b8a792c5b
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJ1c2VybmFtZSI6InRlc3QiLCJjb2RlIjoidGlranliY3pkbmc0cDE4eG5wcCIsImlhdCI6MTU3OTkzNDAxOCwiZXhwIjoxNTgwMTkzMjE4fQ.uaFfV48UT5NGnsRvIA_z4uaLF98uPitZJN4WROJ03jU
 
 ### Get Post with slug and category
-get {{url}}/study/12334ssssdadsss
+get {{url}}/study/内容测试
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGYwZDc5MjdmZWU2ZjhiNWJlZTUzNTgiLCJ1c2VybmFtZSI6InRlc3QiLCJjb2RlIjoidGlranliY3pkbmc0cDE4eG5wcCIsImlhdCI6MTU3OTkzNDAxOCwiZXhwIjoxNTgwMTkzMjE4fQ.uaFfV48UT5NGnsRvIA_z4uaLF98uPitZJN4WROJ03jU
 
 ### Get None

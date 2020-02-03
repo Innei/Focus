@@ -109,34 +109,34 @@ router
 
     res.status(201).send({ ok: 1, data: r })
 
-    // sync to gist
-    // TODO WebSock.io
-    if (gists) {
-      const posts = await Post.find()
-        .select('-_id -__v -commentIndex -hide -summary')
-        .populate('categoryId', 'name')
+    // // sync to gist
+    // // TODO WebSock.io
+    // if (gists) {
+    //   const posts = await Post.find()
+    //     .select('-_id -__v -commentIndex -hide -summary')
+    //     .populate('categoryId', 'name')
 
-      const syncRes = await gists.patchGist(posts, 'posts')
-      try {
-        if (syncRes.ok) {
-          req.app.get('ws').send(
-            JSON.stringify({
-              type: 'success',
-              msg: syncRes.msg
-            })
-          )
-        } else {
-          req.app.get('ws').send(
-            JSON.stringify({
-              type: 'error',
-              msg: `[${syncRes.code}] ${syncRes.msg}`
-            })
-          )
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    //   const syncRes = await gists.patchGist(posts, 'posts')
+    //   try {
+    //     if (syncRes.ok) {
+    //       req.app.get('ws').send(
+    //         JSON.stringify({
+    //           type: 'success',
+    //           msg: syncRes.msg
+    //         })
+    //       )
+    //     } else {
+    //       req.app.get('ws').send(
+    //         JSON.stringify({
+    //           type: 'error',
+    //           msg: `[${syncRes.code}] ${syncRes.msg}`
+    //         })
+    //       )
+    //     }
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
   })
   /**
    * 修改一篇文章
@@ -150,6 +150,7 @@ router
     const { id } = req.params
     assert(id, 400, '标识符错误')
     const { title, slug, text, categoryId, status, summary } = req.body
+    assert(slug && typeof slug === 'string', 400, '唯一路径为空')
     const options =
       req.body.options && typeof req.body.options === 'object'
         ? clean(req.body.options)
