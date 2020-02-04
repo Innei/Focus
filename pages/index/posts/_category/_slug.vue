@@ -42,10 +42,20 @@
         class="post-body"
         v-html="text"
       ></article>
-      <div v-if="!isMobile" class="post-tortree">
-        <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
-      </div>
+      <client-only>
+        <div
+          v-if="!isMobile && viewport && viewport.w > 1000"
+          class="post-tortree"
+        >
+          <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
+        </div>
+      </client-only>
       <Comment :pid="pid" />
+    </div>
+    <div class="btn-wrap">
+      <Btn class="right" :class="{ show: btnShow }">
+        <i class="el-icon-arrow-up"></i>
+      </Btn>
     </div>
   </div>
 </template>
@@ -55,11 +65,12 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
-import { sleep, isMobile } from '~/utils'
+import { sleep, isMobile, throttle } from '~/utils'
 
 import Post from '~/api/posts'
 import Tree from '~/components/TorTree'
 import Comment from '~/components/Comment'
+import Btn from '~/components/Note/components/btn'
 
 const md = new MD({
   html: true,
@@ -69,7 +80,8 @@ const md = new MD({
 export default {
   components: {
     Tree,
-    Comment
+    Comment,
+    Btn
   },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params
@@ -108,7 +120,8 @@ export default {
   data() {
     return {
       tree: [],
-      isMobile: false
+      isMobile: false,
+      btnShow: true
     }
   },
   async mounted() {
@@ -137,6 +150,12 @@ export default {
       //   this.tree = this.parseTree()
       // }, 2000)
     }
+
+    window.onscroll = throttle(() => {
+      const currentY = document.documentElement.scrollTop
+      this.btnShow = this.currentY >= currentY
+      this.currentY = currentY
+    }, 13)
   },
   head() {
     return {
@@ -203,7 +222,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['navActive', 'config'])
+    ...mapGetters(['navActive', 'config', 'viewport'])
+  },
+  destroyed() {
+    window.onscroll = null
   }
 }
 </script>

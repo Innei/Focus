@@ -120,7 +120,7 @@ svg {
 }
 .wrap {
   padding: 3rem 12px;
-  max-width: 960px;
+  max-width: 700px;
   margin: auto;
   position: relative;
 }
@@ -142,14 +142,19 @@ svg {
     }
   }
 }
+@media (max-width: map-get($map: $viewports, $key: 'hpad')) {
+  .post-body-wrapper.wrap {
+    max-width: 680px;
+  }
+}
 @media (min-width: map-get($map: $viewports, $key: 'wider')) {
-  .wrap {
+  .post-body-wrapper.wrap {
     max-width: 1024px;
   }
 }
 
 @media (min-width: map-get($map: $viewports, $key: 'widest')) {
-  .wrap {
+  .post-body-wrapper.wrap {
     max-width: 1280px;
   }
 }
@@ -309,5 +314,40 @@ svg {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.btn-wrap {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: bottom 0.5s;
+  .btn {
+    position: absolute;
+    transition: transform 0.5s;
+    transform: scale(0);
+    background-color: var(--white);
+    &.show {
+      transform: scale(1);
+    }
+  }
+
+  &.move-top {
+    bottom: 12rem;
+  }
+
+  .left {
+    left: 2rem;
+    bottom: 2rem;
+  }
+  .right {
+    right: 2rem;
+    bottom: 2rem;
+
+    &.item {
+      bottom: 6rem;
+    }
   }
 }

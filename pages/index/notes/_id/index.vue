@@ -182,41 +182,7 @@ export default {
   left: 0;
   right: 0;
 }
-.btn-wrap {
-  position: fixed;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: bottom 0.5s;
 
-  .btn {
-    position: absolute;
-    transition: transform 0.5s;
-    transform: scale(0);
-    background-color: var(--white);
-    &.show {
-      transform: scale(1);
-    }
-  }
-
-  &.move-top {
-    bottom: 12rem;
-  }
-
-  .left {
-    left: 2rem;
-    bottom: 2rem;
-  }
-  .right {
-    right: 2rem;
-    bottom: 2rem;
-
-    &.item {
-      bottom: 6rem;
-    }
-  }
-}
 .slide-down-enter-active,
 .slide-down-leave-active {
   transition: transform 0.5s;
