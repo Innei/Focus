@@ -50,32 +50,20 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import avatar from '../mixin/avatar'
 import { Comment } from '~/api'
-import { avatarFromMail, isMail } from '~/utils'
+
 export default {
+  mixins: [avatar],
   props: {
     pid: {
       type: String,
       required: true
     }
   },
-  data() {
-    return {
-      comment: {
-        text: '',
-        author: '',
-        url: '',
-        mail: ''
-      }
-    }
-  },
+
   computed: {
-    ...mapGetters(['viewport']),
-    avatar() {
-      return this.comment.mail && isMail(this.comment.mail)
-        ? avatarFromMail(this.comment.mail)
-        : null
-    }
+    ...mapGetters(['viewport'])
   },
   methods: {
     async handleComment() {

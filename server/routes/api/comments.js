@@ -1,6 +1,7 @@
 const express = require('express')
 const assert = require('http-assert')
 const clean = require('mongo-sanitize')
+const { Types } = require('mongoose')
 const { Post, Option, Comment } = require('../../models/index')
 const checkCommentsField = require('./../../middlewares/checkCommentField')()
 
@@ -16,6 +17,23 @@ const router = express.Router({
  */
 router
   /**
+   * 根据文章 ID 获取评论列表
+   * @route GET /comments/post/{cid}
+   * @group 评论
+   * @summary 根据文章 ID 获取评论列表
+   * @param {ObjectId} pid.path.required
+   * @returns {object} 200 | 400
+   */
+  .get('/post/:pid', async (req, res) => {
+    const { pid } = req.params
+    assert(pid && Types.ObjectId.isValid(pid), 422, '请求不正确')
+    const comments = await Comment.find({
+      hasParent: false,
+      pid
+    })
+    res.send({ ok: 1, data: comments })
+  })
+  /**
    * 处理评论回复的路由
    * @route POST /comments/reply/{cid}
    * @group 评论
@@ -24,7 +42,6 @@ router
    * @param {Comment.model} comment.body.required
    * @returns {object} 200 | 400
    */
-
   .post('/reply/:cid', checkCommentsField, async (req, res) => {
     // 父ID
     const cid = req.params.cid

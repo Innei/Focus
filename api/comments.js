@@ -1,7 +1,8 @@
+const url = `comments`
 export default ($axios, api) => {
   const apis = {
-    async comment(pid, body) {
-      const { data } = await $axios.post(`comments/${pid}`, body)
+    async getList(pid) {
+      const { data } = await $axios.get(`${url}/post/${pid}`)
       return data
     }
   }
