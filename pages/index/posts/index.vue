@@ -12,6 +12,7 @@
 
       <Navigation v-if="page" :page="page" @to="handleTo" />
     </client-only>
+    <backtop />
   </div>
 </template>
 
@@ -21,18 +22,19 @@ import rest from '~/api/rest'
 import BigHead from '~/components/BigHead'
 import Item from '~/components/PostListItem'
 import Navigation from '~/components/Navigation'
+import Backtop from '~/components/Backtop'
 
 export default {
-  // TODO menu list title -> server
   components: {
     BigHead,
     Item,
-    Navigation
+    Navigation,
+    Backtop
   },
   data() {
     return {
-      page: undefined,
-      data: undefined,
+      page: null,
+      data: null,
       loading: false
     }
   },

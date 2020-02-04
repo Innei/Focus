@@ -9,6 +9,9 @@
 import Btn from '~/components/Note/components/btn'
 import { throttle } from '~/utils'
 export default {
+  components: {
+    Btn
+  },
   data() {
     return {
       btnShow: true
@@ -21,6 +24,9 @@ export default {
       this.currentY = currentY
     }, 13)
   },
+  destroyed() {
+    window.onscroll = null
+  },
   methods: {
     handleBackTop() {
       window.scrollTo({
@@ -29,9 +35,6 @@ export default {
         behavior: 'smooth'
       })
     }
-  },
-  destroyed() {
-    window.onscroll = null
   }
 }
 </script>

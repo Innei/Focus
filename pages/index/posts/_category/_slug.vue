@@ -52,11 +52,7 @@
       </client-only>
       <Comment :pid="pid" />
     </div>
-    <div class="btn-wrap">
-      <Btn class="right" :class="{ show: btnShow }">
-        <i class="el-icon-arrow-up"></i>
-      </Btn>
-    </div>
+    <backtop />
   </div>
 </template>
 
@@ -65,12 +61,12 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
-import { sleep, isMobile, throttle } from '~/utils'
+import { sleep, isMobile } from '~/utils'
 
 import Post from '~/api/posts'
 import Tree from '~/components/TorTree'
 import Comment from '~/components/Comment'
-import Btn from '~/components/Note/components/btn'
+import Backtop from '~/components/Backtop'
 
 const md = new MD({
   html: true,
@@ -81,7 +77,7 @@ export default {
   components: {
     Tree,
     Comment,
-    Btn
+    Backtop
   },
   async asyncData({ app, route, error, redirect }) {
     let { slug } = route.params
@@ -120,8 +116,7 @@ export default {
   data() {
     return {
       tree: [],
-      isMobile: false,
-      btnShow: true
+      isMobile: false
     }
   },
   async mounted() {
@@ -138,24 +133,12 @@ export default {
     } else {
       window.scrollTo(0, 0)
 
-      // console.time()
       while (document.documentElement.scrollTop > 50) {
         await sleep(500)
-        // console.timeLog()
       }
-      // console.timeEnd()
-      this.tree = this.parseTree()
-      // setTimeout(() => {
-      //   // 等待回到顶点
-      //   this.tree = this.parseTree()
-      // }, 2000)
-    }
 
-    window.onscroll = throttle(() => {
-      const currentY = document.documentElement.scrollTop
-      this.btnShow = this.currentY >= currentY
-      this.currentY = currentY
-    }, 13)
+      this.tree = this.parseTree()
+    }
   },
   head() {
     return {
@@ -223,9 +206,6 @@ export default {
   },
   computed: {
     ...mapGetters(['navActive', 'config', 'viewport'])
-  },
-  destroyed() {
-    window.onscroll = null
   }
 }
 </script>

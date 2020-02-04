@@ -9,7 +9,7 @@ const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')({
   condition: {}
 })
 
-let gists = undefined
+let gists
 if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
   gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
 }
