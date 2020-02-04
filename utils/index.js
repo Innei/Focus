@@ -45,3 +45,7 @@ export const sleep = (time) => {
 export const padString = (str, len, pad) => {
   return String.prototype.padStart.call(str, len, pad)
 }
+export const avatarFromMail = (mail) =>
+  `https://api.paugram.com/gravatar/?email=${mail}&replace=retro`
+export const isMail = (mail) =>
+  /^(?:[\w-]+\.?)*[\w-]+@(?:[\w-]+\.)+[\w]{2,3}$/.test(mail)

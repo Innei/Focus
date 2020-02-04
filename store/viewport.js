@@ -1,5 +1,5 @@
 export const state = () => ({
-  viewport: null
+  viewport: {}
 })
 
 export const actions = {
