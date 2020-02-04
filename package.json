@@ -9,6 +9,7 @@
     "dev:no-web": "cross-env NODE_ENV=development VUE_ENV=no-web nodemon --exec babel-node server/index.js --watch server",
     "build": "nuxt build && babel server -d server/build",
     "start": "pm2 start ecosystem.js --env production",
+    "analyze": "nuxt build --analyze",
     "build:modern": "nuxt build --modern=server",
     "start:modern": "nuxt start --modern=server",
     "generate": "nuxt generate",
