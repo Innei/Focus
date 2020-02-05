@@ -50,7 +50,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Mdit from 'markdown-it'
-import { throttle } from '~/utils'
 
 import Basic from '~/layouts/Basic'
 import Loading from '~/components/Loading'
@@ -102,10 +101,10 @@ export default {
   },
   data() {
     return {
-      data: undefined,
-      list: undefined,
+      data: null,
+      list: null,
       showSwiper: false,
-      btnShow: true,
+
       currentY: 0
     }
   },
@@ -113,12 +112,6 @@ export default {
     if (this.data) {
       this.setStatus(false)
     }
-
-    window.onscroll = throttle(() => {
-      const currentY = document.documentElement.scrollTop
-      this.btnShow = this.currentY >= currentY
-      this.currentY = currentY
-    }, 13)
   },
   head() {
     return {
@@ -149,7 +142,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['navActive', 'config'])
+    ...mapGetters(['navActive', 'config', 'scroll']),
+    btnShow() {
+      return this.scroll === 'up'
+    }
   },
   watch: {
     showSwiper(val) {
@@ -164,9 +160,6 @@ export default {
         )
       }
     }
-  },
-  destroyed() {
-    window.onscroll = null
   }
 }
 </script>

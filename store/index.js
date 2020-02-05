@@ -6,7 +6,8 @@ export const getters = {
   token: (state) => state.master.token,
   pages: (state) => state.pages.pages,
   menus: (state) => state.config.menus,
-  news: (state) => state.news
+  news: (state) => state.news,
+  scroll: (state) => state.app.scroll
 }
 
 export const strict = false

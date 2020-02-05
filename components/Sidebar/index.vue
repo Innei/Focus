@@ -1,10 +1,12 @@
 <template>
   <div id="header">
     <transition name="fade">
-      <OverLay
-        v-show="navActive && viewport.mobile"
-        @click.native="handleClickMenu"
-      />
+      <client-only>
+        <OverLay
+          v-show="navActive && viewport.mobile"
+          @click.native="handleClickMenu"
+        />
+      </client-only>
     </transition>
     <transition name="fade">
       <div v-show="Over" class="top-title-desc">
@@ -13,6 +15,7 @@
     </transition>
     <div
       :style="Over ? 'opacity: 1' : ''"
+      :class="{ fade: scroll === 'down' && !viewport.mobile }"
       class="top menu"
       @click="handleClickMenu"
     >
@@ -48,13 +51,13 @@ export default {
           document.documentElement.scrollTop > window.innerHeight / 4 ||
           document.documentElement.scrollTop > screen.height / 4
         this.Over = Over
-      })
+      }, 13)
     }
   },
   mounted() {
     this.isMobile = isMobile()
     if (this.isMobile) {
-      document.addEventListener('scroll', this.scrollHandler, 5)
+      document.addEventListener('scroll', this.scrollHandler)
     }
   },
   methods: {
@@ -64,7 +67,7 @@ export default {
     ...mapActions('Navigation', ['setStatus'])
   },
   computed: {
-    ...mapGetters(['viewport', 'navActive', 'config'])
+    ...mapGetters(['viewport', 'navActive', 'config', 'scroll'])
   },
   watch: {
     viewport: {
@@ -106,9 +109,13 @@ export default {
 .top {
   position: fixed;
   &.menu {
+    transition: opacity 0.7s;
     padding: 0.75rem;
     cursor: pointer;
     z-index: 3;
+    &.fade {
+      opacity: 0.2;
+    }
   }
 }
 

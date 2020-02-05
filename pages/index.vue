@@ -15,7 +15,7 @@ import cookie from 'js-cookie'
 import Sidebar from '~/components/Sidebar'
 import Footer from '~/components/Footer'
 import { User } from '~/api'
-import { debounce } from '~/utils'
+import { debounce, throttle } from '~/utils'
 
 export default {
   components: {
@@ -32,6 +32,17 @@ export default {
     }
     this.updateViewport()
     window.addEventListener('resize', debounce(this.updateViewport, 50))
+
+    // scroll direction
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        const currentY = document.documentElement.scrollTop
+        const direction = this.currentY >= currentY ? 'up' : 'down'
+        this.currentY = currentY
+        this.updateScroll(direction)
+      }, 13)
+    )
   },
   computed: {
     ...mapGetters(['navActive', 'viewport'])
@@ -40,8 +51,12 @@ export default {
     ...mapActions({
       updateViewport: 'viewport/updateViewport',
       setStatus: 'Navigation/setStatus',
-      setLogged: 'master/setLogged'
+      setLogged: 'master/setLogged',
+      updateScroll: 'app/updateScroll'
     })
+  },
+  data() {
+    return { currentY: 0 }
   }
 }
 </script>

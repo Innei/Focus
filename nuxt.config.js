@@ -51,7 +51,7 @@ module.exports = {
    */
   plugins: [
     { src: '~/plugins/element-ui.js' },
-    { src: '~/plugins/swiper.js', mode: 'client' },
+    { src: '~/plugins/plugin.js', mode: 'client' },
     {
       src: '~/plugins/axios',
       mode: 'client'

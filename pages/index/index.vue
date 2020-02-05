@@ -30,6 +30,9 @@
       </template>
     </News>
     <!-- <News title="最新博文" to="/posts"> </News> -->
+    <client-only>
+      <progressive-img src="https://unsplash.it/1920/1080?image=10" />
+    </client-only>
   </Home>
 </template>
 
