@@ -1,6 +1,14 @@
 <template>
   <Home class="center" color="#fff">
     <news-swiper :news="data" />
+
+    <Row :gutter="10">
+      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
+      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
+      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
+      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
+    </Row>
+
     <!-- <div class="me">
       <div class="avatar">
         <img :src="config.avatar" :alt="config.username" />
@@ -36,14 +44,17 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { Col, Row } from 'element-ui'
+
+import 'element-ui/lib/theme-chalk/col.css'
+import 'element-ui/lib/theme-chalk/row.css'
+
 import Rest from '~/api/rest'
 import Home from '~/layouts/Home'
 import News from '~/components/News'
 import NewsItems from '~/components/NewsItems'
 import NewsSwiper from '~/components/Home/NewsSwiper'
 import { Lines, Code } from '~/components/Icons'
-
-import '~/assets/scss/grid.scss'
 
 export default {
   components: {
@@ -52,7 +63,9 @@ export default {
     Lines,
     Code,
     NewsItems,
-    NewsSwiper
+    NewsSwiper,
+    ElCol: Col,
+    Row
   },
   async created() {
     const outdate =

@@ -143,6 +143,7 @@ export default {
 }
 .swiper-root {
   z-index: -1;
+  margin-bottom: 8rem;
 }
 .abs.overlay {
   background-image: linear-gradient(
