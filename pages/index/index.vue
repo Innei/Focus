@@ -1,5 +1,5 @@
 <template>
-  <Home class="center">
+  <Home class="center" color="#fff">
     <news-swiper :news="data" />
     <!-- <div class="me">
       <div class="avatar">

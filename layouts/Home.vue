@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Nav :links="pages"></Nav>
+    <Nav :links="pages" :style="{ color }"></Nav>
     <div class="containers">
       <nuxt />
       <slot />
@@ -13,6 +13,7 @@ import { mapGetters } from 'vuex'
 import Nav from '~/components/Home/Nav'
 
 export default {
+  props: ['color'],
   components: {
     Nav
   },
@@ -28,5 +29,8 @@ main {
 }
 .containers {
   margin-top: 5rem;
+}
+nav {
+  transition: color 0.4s;
 }
 </style>

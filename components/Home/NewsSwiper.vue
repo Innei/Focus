@@ -1,18 +1,33 @@
 <template>
   <div class="swiper-root">
-    <swiper :options="swiperOption" class="abs" ref="background">
-      <swiper-slide
-        class="background"
-        :style="{
-          backgroundImage:
-            card.options && card.options.img
-              ? `url(${card.options.img})`
-              : `url(${randomImg(i)})`
-        }"
-        v-for="(card, i) in news"
-        :key="card._id"
-      ></swiper-slide>
-    </swiper>
+    <div class="abs bg-overlay">
+      <swiper :options="swiperOption" class="abs" ref="background">
+        <!-- <swiper-slide
+          class="background"
+          :style="{
+            backgroundImage:
+              card.options && card.options.img
+                ? `url(${card.options.img})`
+                : `url(${randomImg(i)})`
+          }"
+          v-for="(card, i) in news"
+          :key="card._id"
+        ></swiper-slide> -->
+        <swiper-slide
+          class="background"
+          v-for="(card, i) in news"
+          :key="card._id"
+        >
+          <progressive-background
+            :placeholder="
+              card.options && card.options.img ? card.options.img : randomImg(i)
+            "
+            :src="
+              card.options && card.options.img ? card.options.img : randomImg(i)
+            "
+        /></swiper-slide>
+      </swiper>
+    </div>
     <swiper :options="mainOptions" class="swiper" ref="main">
       <slide
         v-for="(card, i) in news"
@@ -27,8 +42,6 @@
       <div class="swiper-button-next" slot="button-next"></div>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-
-    <div class="abs bg-overlay"></div>
   </div>
 </template>
 
@@ -96,7 +109,7 @@ export default {
   transform: rotate(180deg);
 }
 .swiper-button-disabled {
-  opacity: 0;
+  opacity: 0 !important;
 }
 .swiper {
   border-radius: 8px;
@@ -113,21 +126,19 @@ export default {
   left: 0;
   right: 0;
   background: rgba(68, 68, 68, 0.44902);
-  height: 35rem;
+  height: 30rem;
   pointer-events: none;
   .background {
     width: 100%;
     height: 100%;
     background: center/cover;
-    filter: blur(5px) brightness(1.3);
+    filter: blur(5px) brightness(0.9);
     transform: scale(1.1);
-    // mix-blend-mode: overlay;
     &.swiper-slide-next,
     &.swiper-slide-prev {
       z-index: -99;
     }
   }
-  // z-index: -1;
 }
 .swiper-root {
   z-index: -1;

@@ -30,9 +30,8 @@ nav {
   display: flex;
   z-index: 3;
   justify-content: center;
-  a {
-    position: relative;
-  }
+  // color: #fff;
+
   a {
     padding: 0.5rem 1rem;
     margin: 0 0.5rem;
