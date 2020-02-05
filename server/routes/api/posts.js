@@ -4,8 +4,8 @@ const assert = require('http-assert')
 const clean = require('mongo-sanitize')
 const Sync = require('../../helpers/sync')
 const { Post, Category, Option } = require('../../models/index')
-const isMaster = require('~~/middlewares/isMaster')()
-const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')({
+const isMaster = require('~/middlewares/isMaster')()
+const checkPermissionToSee = require('~/middlewares/checkPermissionToSee')({
   condition: {}
 })
 

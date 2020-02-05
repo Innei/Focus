@@ -90,7 +90,7 @@ export default {
 
 <style lang="scss" scoped>
 #header {
-  z-index: 3;
+  z-index: 4;
   width: 0;
   top: 0;
   height: 0;

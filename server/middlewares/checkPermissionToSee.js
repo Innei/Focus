@@ -1,7 +1,7 @@
 // 适用于某些通用接口(前后端共用)鉴别是否登录,已查看隐藏或者加密的内容
 
 const token = require('jsonwebtoken')
-const User = require('~~/models/User')
+const User = require('~/models/User')
 /**
  * bind params to app instance
  * @param {Object}  - first object will bind if verify passed

@@ -5,9 +5,9 @@ const { compareSync } = require('bcrypt')
 const sanitize = require('mongo-sanitize')
 const { randomStr } = require('../../utils')
 const { getAvatar, getClientIP } = require('../../utils/')
-const { User, Post, Note } = require('~~/models')
-const isMaster = require('~~/middlewares/isMaster')
-const checkToken = require('~~/middlewares/checkToken')
+const { User, Post, Note } = require('~/models')
+const isMaster = require('~/middlewares/isMaster')
+const checkToken = require('~/middlewares/checkToken')
 
 const router = Router()
 

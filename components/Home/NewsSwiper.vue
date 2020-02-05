@@ -125,15 +125,16 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(68, 68, 68, 0.44902);
+  background: rgba(68, 68, 68, 0.24902);
   height: 30rem;
   pointer-events: none;
   .background {
     width: 100%;
     height: 100%;
     background: center/cover;
-    filter: blur(5px) brightness(0.9);
-    transform: scale(1.1);
+    filter: blur(5px) brightness(0.8);
+    perspective: 300px;
+    transform: scale(1.1) translateZ(-100px);
     &.swiper-slide-next,
     &.swiper-slide-prev {
       z-index: -99;

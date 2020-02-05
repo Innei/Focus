@@ -1,5 +1,5 @@
 const token = require('jsonwebtoken')
-const User = require('~~/models/User')
+const User = require('~/models/User')
 module.exports = (options = {}) => {
   return async (req, res, next) => {
     if (req.headers.authorization) {

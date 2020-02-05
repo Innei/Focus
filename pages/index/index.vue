@@ -43,6 +43,8 @@ import NewsItems from '~/components/NewsItems'
 import NewsSwiper from '~/components/Home/NewsSwiper'
 import { Lines, Code } from '~/components/Icons'
 
+import '~/assets/scss/grid.scss'
+
 export default {
   components: {
     Home,

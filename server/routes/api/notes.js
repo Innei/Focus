@@ -4,8 +4,8 @@ const { Types } = require('mongoose')
 const { hashSync } = require('bcrypt')
 
 const { Note, Option } = require('../../models/index')
-const isMaster = require('~~/middlewares/isMaster')()
-const checkPermissionToSee = require('~~/middlewares/checkPermissionToSee')(
+const isMaster = require('~/middlewares/isMaster')()
+const checkPermissionToSee = require('~/middlewares/checkPermissionToSee')(
   {
     condition: {}
   },

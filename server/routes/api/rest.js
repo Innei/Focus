@@ -13,7 +13,7 @@ router
   .use(require('../../middlewares/resource')())
   .use(require('../../middlewares/checkQueryString'))
   .use(
-    require('~~/middlewares/checkPermissionToSee')({
+    require('~/middlewares/checkPermissionToSee')({
       condition: {
         hide: true
       }
