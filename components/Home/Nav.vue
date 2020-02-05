@@ -28,6 +28,7 @@ nav {
   left: 0;
   right: 0;
   display: flex;
+  z-index: 3;
   justify-content: center;
   a {
     position: relative;

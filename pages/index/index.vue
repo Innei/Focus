@@ -1,6 +1,7 @@
 <template>
   <Home class="center">
-    <div class="me">
+    <news-swiper :news="data" />
+    <!-- <div class="me">
       <div class="avatar">
         <img :src="config.avatar" :alt="config.username" />
       </div>
@@ -28,11 +29,8 @@
       <template v-if="news.notes.data">
         <NewsItems :list="news.notes.data" type="Note" />
       </template>
-    </News>
+    </News> -->
     <!-- <News title="最新博文" to="/posts"> </News> -->
-    <client-only>
-      <progressive-img src="https://unsplash.it/1920/1080?image=10" />
-    </client-only>
   </Home>
 </template>
 
@@ -42,6 +40,7 @@ import Rest from '~/api/rest'
 import Home from '~/layouts/Home'
 import News from '~/components/News'
 import NewsItems from '~/components/NewsItems'
+import NewsSwiper from '~/components/Home/NewsSwiper'
 import { Lines, Code } from '~/components/Icons'
 
 export default {
@@ -50,12 +49,14 @@ export default {
     News,
     Lines,
     Code,
-    NewsItems
+    NewsItems,
+    NewsSwiper
   },
   async created() {
     const outdate =
-      new Date() - this.news.posts?.updateAt > 3600000 ||
-      new Date() - this.news.notes?.updateAt > 3600000
+      new Date() - this.news?.posts?.updateAt > 3600000 ||
+      new Date() - this.news?.notes?.updateAt > 3600000 ||
+      true
 
     if (outdate || !this.news.posts.updateAt || !this.news.notes.updateAt) {
       const posts = await Rest(
@@ -77,7 +78,16 @@ export default {
     ...mapActions('news', ['updateNews'])
   },
   computed: {
-    ...mapGetters(['config', 'news'])
+    ...mapGetters(['config', 'news']),
+    data() {
+      return this.news.posts && this.news.notes
+        ? Object.values(this.news)
+            .map((item) => [...item.data])
+            .flat(1)
+            .sort((a, b) => a.created > b.created)
+            .slice(0, 5)
+        : []
+    }
   }
 }
 </script>

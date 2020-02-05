@@ -1,6 +1,6 @@
 const state = () => ({
-  posts: {},
-  notes: {}
+  posts: null,
+  notes: null
 })
 
 const actions = {

@@ -49,3 +49,12 @@ export const avatarFromMail = (mail) =>
   `https://api.paugram.com/gravatar/?email=${mail}&replace=retro`
 export const isMail = (mail) =>
   /^(?:[\w-]+\.?)*[\w-]+@(?:[\w-]+\.)+[\w]{2,3}$/.test(mail)
+export const randomStr = () =>
+  Math.random()
+    .toString(36)
+    .substring(2, 15) +
+  Math.random()
+    .toString(36)
+    .substring(2, 15)
+export const randomInt = (left, right) =>
+  Math.floor(Math.random() * (right - left + 1)) + left
