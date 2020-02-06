@@ -1,4 +1,4 @@
-const { Router } = require('express')
+const Router = require('@koa/router')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
 const { compareSync } = require('bcrypt')
@@ -9,7 +9,9 @@ const { User, Post, Note } = require('~/models')
 const isMaster = require('~/middlewares/isMaster')
 const checkToken = require('~/middlewares/checkToken')
 
-const router = Router()
+const router = new Router({
+  prefix: '/master'
+})
 
 router
   /**
@@ -21,11 +23,11 @@ router
    * @returns {object} 200 - data | msg
    */
 
-  .post('/sign_up', async (req, res) => {
+  .post('/sign_up', async ({ request, response }) => {
     assert(await User.countDocuments(), 422, '我只能有一个主人哦~')
 
-    const { username, password, mail = '', url = '' } = req.body
-    const { name = username } = req.body
+    const { username, password, mail = '', url = '' } = request.body
+    const { name = username } = request.body
     assert(username, 400, '用户名不能为空')
     assert(typeof username === 'string', 400, '用户名必须为字符串')
     assert(typeof password === 'string', 400, '密码必须为字符串')
@@ -34,7 +36,9 @@ router
     if (process.env.NODE_ENV === 'production') {
       const { checkPassword } = require('../../utils')
       if (checkPassword(password) < 3) {
-        return res.status(422).send({ ok: 0, msg: '密码设置过于简单' })
+        response.status = 422
+        response.body = { ok: 0, msg: '密码设置过于简单' }
+        return
       }
     }
 
@@ -50,7 +54,7 @@ router
       authCode
     })
 
-    res.send({ ok: 1, username: doc.username, name, id: doc._id })
+    res.body = { ok: 1, username: doc.username, name, id: doc._id }
   })
   /**
    * Login
@@ -62,13 +66,13 @@ router
    */
   .post(
     '/login',
-    // 传入参数 获取状态 req.logged
+    // 传入参数 获取状态 request.logged
     checkToken({ getStatus: true }),
-    async (req, res) => {
-      if (req.logged) {
+    async ({ request, response }) => {
+      if (request.logged) {
         return res.send({ ok: 1, msg: '你已经登陆啦' })
       }
-      const { username, password } = req.body
+      const { username, password } = request.body
       const cleanUsername = sanitize(username)
       assert(
         typeof cleanUsername === 'string' && cleanUsername,
@@ -94,16 +98,16 @@ router
       )
       const { lastLoginTime, lastLoginIp, _id } = doc.toObject()
       doc.lastLoginTime = new Date()
-      doc.lastLoginIp = getClientIP(req)
+      doc.lastLoginIp = getClientIP(request)
       await doc.save()
-      res.send({
+      response.body = {
         ok: 1,
         token,
         expires: process.env.MAXAGE || 3,
         id: _id,
         lastLoginIp,
         lastLoginTime
-      })
+      }
     }
   )
   /**
@@ -119,8 +123,8 @@ router
    * Modify password
    *
    */
-  .put('/password/modify', isMaster(), async (req, res) => {
-    const { id, password, oldPassword } = req.body
+  .put('/password/modify', isMaster(), async ({ request, response }) => {
+    const { id, password, oldPassword } = request.body
 
     assert(id, 400, '标识符为空')
     assert(typeof password === 'string' && password, 400, '新密码不能为空')
@@ -130,7 +134,9 @@ router
     if (process.env.NODE_ENV === 'production') {
       const { checkPassword } = require('../../utils')
       if (checkPassword(password) < 3) {
-        return res.status(400).send({ ok: 0, msg: '密码设置过于简单' })
+        response.status = 400
+        response.body = { ok: 0, msg: '密码设置过于简单' }
+        return
       }
     }
     const user = await User.findOne().select('+password')
@@ -142,7 +148,7 @@ router
       { _id: id },
       { password, authCode: randomStr() }
     )
-    res.send({ ok: 1, msg: '修改成功', ...doc })
+    response.body = { ok: 1, msg: '修改成功', ...doc }
   })
   /**
    * Global Sign Out
@@ -152,8 +158,8 @@ router
    * @security JWT
    * @returns {object} 200 ok & msg
    */
-  .get('/logout', isMaster(), async (req, res) => {
-    const id = req.user._id
+  .get('/logout', isMaster(), async (request, res) => {
+    const id = request.user._id
 
     assert(id, 400, '没有用户需要注销')
     await User.updateOne(
@@ -162,7 +168,7 @@ router
         authCode: randomStr()
       }
     )
-    res.send({ ok: 1, msg: 'いってらっしゃい!' })
+    response.body = { ok: 1, msg: 'いってらっしゃい!' }
   })
   /**
    * Profile
@@ -170,8 +176,8 @@ router
    * @group 主人
    * @returns {object} 200 ok & data
    */
-  .get('/:id', async (req, res) => {
-    const id = req.params.id
+  .get('/:id', async (request, res) => {
+    const id = request.params.id
     assert(
       id && typeof id === 'string' && Types.ObjectId.isValid(id),
       400,
@@ -184,7 +190,7 @@ router
     }
     const avatar = getAvatar(query.mail)
     const data = Object.assign(query.toObject(), { count }, { avatar })
-    res.send({ ok: 1, data })
+    response.body = { ok: 1, data }
   })
 
 module.exports = router

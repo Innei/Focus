@@ -5,7 +5,7 @@ module.exports = (app) => {
     prefix: '/api'
   })
   router.use(require('./api/config'))
-  // router.use(require('../middlewares/clean'))
+  router.use(require('../middlewares/clean'))
   // router.use('/master', require('./api/master'))
   // router.use('/posts', require('./api/posts'))
   // router.use('/notes', require('./api/notes'))
