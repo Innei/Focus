@@ -1,41 +1,21 @@
-const consola = require('consola')
-const WebSocket = require('ws')
-const Observable = require('../events')
-class WebSocketConnection extends Observable {
-  constructor() {
-    super()
-    this.wss = new WebSocket.Server({ port: 3001 })
-    this._createConnection()
-  }
+import E from '~/event/types'
 
-  _createConnection() {
-    this.wss.on('connection', (ws) => {
-      consola.success({ message: '[ws] connected', badge: true })
+const router = require('express').Router()
+require('express-ws')(router)
+module.exports = (app, ws) => {
+  const wss = ws.getWss()
 
-      ws.on('message', (message) => {
-        ws.send(
-          JSON.stringify({
-            type: 'success',
-            msg: 'hello'
-          })
-        )
-      })
-
-      this._bindEvents(ws)
+  app.ws('/gateway', function(ws, req) {
+    ws.on('message', function(msg) {
+      ws.send(msg)
     })
-  }
-
-  _bindEvents(ws) {
-    this.on('message', (payload) => {
-      ws.send(JSON.stringify(payload))
+    req.app.on(E.MESSAGE_SEND, ({ type, message }) => {
+      ws.send(
+        JSON.stringify({
+          type,
+          message
+        })
+      )
     })
-  }
-
-  get clients() {
-    return this.wss.clients
-  }
+  })
 }
-
-const wsc = new WebSocketConnection()
-
-module.exports = wsc

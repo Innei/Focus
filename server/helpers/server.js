@@ -1,7 +1,8 @@
+const Express = require('express')
 const EventEmitter = require('events')
-
-module.exports = class Observable {
+module.exports = class extends Express {
   constructor() {
+    super()
     this._event = new EventEmitter()
   }
 

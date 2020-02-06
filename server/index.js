@@ -1,47 +1,62 @@
 require('dotenv').config()
-const express = require('express')
+const express = require('./helpers/server')
 const consola = require('consola')
 const morgan = require('morgan')
-
+const expressWs = require('express-ws')
 const { Nuxt, Builder } = require('nuxt')
-
-const app = express()
-
-if (process.env.NODE_ENV !== 'production') {
-  // api docs
-  require('./docs')(app)
-}
-// Import and Set Nuxt.js options
-const config = require('../nuxt.config.js')
-config.dev = process.env.NODE_ENV !== 'production'
-config.no_web = process.env.VUE_ENV === 'no-web'
-// connect to db and init db
-require('./db')
-// first time to install
-require('./plugins/checkInit')
-
-// global middleware
-app.use(express.json())
-app.use(require('cors')())
-app.use(require('express-useragent').express())
-app.use(require('cookie-parser')())
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
-} else {
-  app.use(morgan('short'))
-}
-// bind api routes
-require('./routes/index')(app)
-// bind admin static page
-app.use(
-  '/admin',
-  express.static(require('path').join(__dirname, '/../static/admin'))
-)
-app.use('/admin/*', (req, res) => {
-  res.redirect('/admin')
-})
-
 async function start() {
+  const app = new express()
+  // bind event
+  require('./event')(app)
+  // connect ws
+  const ws = expressWs(app, null, {
+    wsOptions: {
+      //<-- express-ws allows passing options nested as this property.
+      verifyClient: async function(info, cb) {
+        const isAuth = await require('./plugins/wsAuth')(info.req)
+        if (!isAuth) {
+          return cb(false, 401, 'Unauthorized')
+        }
+        return cb(true)
+      }
+    }
+  })
+  require('./socket/')(app, ws)
+
+  if (process.env.NODE_ENV !== 'production') {
+    // api docs
+    require('./docs')(app)
+  }
+  // Import and Set Nuxt.js options
+  const config = require('../nuxt.config.js')
+  config.dev = process.env.NODE_ENV !== 'production'
+  config.no_web = process.env.VUE_ENV === 'no-web'
+  // connect to db and init db
+  await require('./db')
+  // first time to install
+  require('./plugins/checkInit')
+
+  // global middleware
+  app.use(express.json())
+  app.use(require('cors')())
+  app.use(require('express-useragent').express())
+  app.use(require('cookie-parser')())
+  if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+  } else {
+    app.use(morgan('short'))
+  }
+  // bind api routes
+  require('./routes/index')(app)
+  // bind admin static page
+  app.use(
+    '/admin',
+    express.static(require('path').join(__dirname, '/../static/admin'))
+  )
+  app.use('/admin/*', (req, res) => {
+    res.redirect('/admin')
+  })
+
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
@@ -78,21 +93,21 @@ async function start() {
     }:${port}${config.no_web ? '/api-docs' : ''}`,
     badge: true
   })
+
+  // global error handler
+  app.use((err, req, res, next) => {
+    if (err) {
+      res
+        .status(err.status || err.statusCode || 500)
+        .send({ msg: err.message, ok: 0 })
+
+      if (process.env.NODE_ENV !== 'production') {
+        consola.error({
+          message: err,
+          badge: true
+        })
+      }
+    } else next()
+  })
 }
 start()
-
-// global error handler
-app.use((err, req, res, next) => {
-  if (err) {
-    res
-      .status(err.status || err.statusCode || 500)
-      .send({ msg: err.message, ok: 0 })
-
-    if (process.env.NODE_ENV !== 'production') {
-      consola.error({
-        message: err,
-        badge: true
-      })
-    }
-  } else next()
-})

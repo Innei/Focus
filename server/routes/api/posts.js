@@ -2,17 +2,12 @@ const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
 const clean = require('mongo-sanitize')
-const Sync = require('../../helpers/sync')
 const { Post, Category, Option } = require('../../models/index')
 const isMaster = require('~/middlewares/isMaster')()
 const checkPermissionToSee = require('~/middlewares/checkPermissionToSee')({
   condition: {}
 })
-
-let gists
-if (process.env.GIST_TOKEN && process.env.GIST_POST_ID) {
-  gists = new Sync(process.env.GIST_TOKEN, process.env.GIST_POST_ID)
-}
+const E = require('~/event/types')
 
 const router = Router({ mergeParams: true })
 
@@ -56,6 +51,7 @@ router
    * @param {Post.model} post.body.required
    * @group 文章
    * @summary 发布一篇文章
+   * @security JWT
    * @returns {object} 201
    */
   .post('/', isMaster, async (req, res) => {
@@ -84,7 +80,7 @@ router
         return res.status(400).send({ ok: 0, msg: '分类不存在' })
       }
     }
-
+    req.app.emit(E.default.CREATE_POST)
     const r = await Post.create({
       _id,
       title,
@@ -109,33 +105,31 @@ router
 
     res.status(201).send({ ok: 1, data: r })
 
-    // // sync to gist
-    // // TODO WebSock.io
-    // if (gists) {
-    //   const posts = await Post.find()
-    //     .select('-_id -__v -commentIndex -hide -summary')
-    //     .populate('categoryId', 'name')
+    // sync to gist
 
-    //   const syncRes = await gists.patchGist(posts, 'posts')
-    //   try {
-    //     if (syncRes.ok) {
-    //       req.app.get('ws').send(
-    //         JSON.stringify({
-    //           type: 'success',
-    //           msg: syncRes.msg
-    //         })
-    //       )
-    //     } else {
-    //       req.app.get('ws').send(
-    //         JSON.stringify({
-    //           type: 'error',
-    //           msg: `[${syncRes.code}] ${syncRes.msg}`
-    //         })
-    //       )
-    //     }
-    //   } catch (e) {
-    //     console.log(e)
+    // if (gists) {
+
+    //   req.app.emit(E.default.CREATE_POST, posts)
+    // const syncRes = await gists.patchGist(posts, 'posts')
+    // try {
+    //   if (syncRes.ok) {
+    //     req.app.get('ws').send(
+    //       JSON.stringify({
+    //         type: 'success',
+    //         msg: syncRes.msg
+    //       })
+    //     )
+    //   } else {
+    //     req.app.get('ws').send(
+    //       JSON.stringify({
+    //         type: 'error',
+    //         msg: `[${syncRes.code}] ${syncRes.msg}`
+    //       })
+    //     )
     //   }
+    // } catch (e) {
+    //   console.log(e)
+    // }
     // }
   })
   /**
