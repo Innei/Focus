@@ -1,4 +1,4 @@
-const { Router } = require('express')
+const Router = require('@koa/router')
 const RSS = require('rss')
 const assert = require('http-assert')
 const { SitemapStream, streamToPromise } = require('sitemap')
@@ -8,7 +8,7 @@ const { User, Option, Post, Note } = require('../../models')
 const router = new Router()
 
 router
-  .get('/feed', async (req, res) => {
+  .get('/feed', async ({ response }) => {
     const user = await User.findOne().select('created username mail url')
     assert(user, 400, '用户没有完成初始化')
     const option = await Option.find({
@@ -80,11 +80,12 @@ router
       })
     })
     const xml = feed.xml()
-    res.set('Content-Type', 'text/xml')
-    res.send(xml)
+    response.set('Content-Type', 'text/xml')
+
+    response.body = xml
   })
 
-  .get('/sitemap.xml', async (req, res) => {
+  .get('/sitemap.xml', async ({ response }) => {
     const posts = await Post.find({ hide: false })
       .sort({ created: -1 })
       .populate('categoryId')
@@ -106,8 +107,9 @@ router
     sitemap.end()
     const buffer = await streamToPromise(sitemap)
 
-    res.header('Content-Type', 'application/xml')
-    res.send(buffer.toString())
+    response.set('Content-Type', 'text/xml')
+
+    response.body = buffer.toString()
   })
 
-module.exports = router
+module.exports = router.routes()

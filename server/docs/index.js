@@ -1,6 +1,4 @@
 const path = require('path')
-const swaggerUi = require('swagger-ui-express')
-const swaggerJSDoc = require('swagger-jsdoc')
 
 module.exports = (app) => {
   const expressSwagger = require('express-swagger-generator')(app)

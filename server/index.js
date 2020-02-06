@@ -1,47 +1,68 @@
 require('dotenv').config()
-const express = require('express')
+import Koa from 'koa'
+import express from 'express'
 const consola = require('consola')
-const morgan = require('morgan')
-
+const morgan = require('koa-morgan')
 const { Nuxt, Builder } = require('nuxt')
 
-const app = express()
-
-if (process.env.NODE_ENV !== 'production') {
-  // api docs
-  require('./docs')(app)
-}
-// Import and Set Nuxt.js options
-const config = require('../nuxt.config.js')
-config.dev = process.env.NODE_ENV !== 'production'
-config.no_web = process.env.VUE_ENV === 'no-web'
-// connect to db and init db
-require('./db')
-// first time to install
-require('./plugins/checkInit')
-
-// global middleware
-app.use(express.json())
-app.use(require('cors')())
-app.use(require('express-useragent').express())
-app.use(require('cookie-parser')())
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
-} else {
-  app.use(morgan('short'))
-}
-// bind api routes
-require('./routes/index')(app)
-// bind admin static page
-app.use(
-  '/admin',
-  express.static(require('path').join(__dirname, '/../static/admin'))
-)
-app.use('/admin/*', (req, res) => {
-  res.redirect('/admin')
-})
-
 async function start() {
+  const app = new Koa({ proxy: true })
+
+  // error handling
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        consola.error({
+          message: err,
+          badge: true
+        })
+      }
+      ctx.status = err.status || 500
+      ctx.body = { msg: err.message, ok: 0 }
+      ctx.app.emit('error', err, ctx)
+    }
+  })
+
+  if (process.env.NODE_ENV !== 'production') {
+    // api docs
+    const docSever = express()
+    require('./docs')(docSever)
+    docSever.listen(3001)
+  }
+  // Import and Set Nuxt.js options
+  const config = require('../nuxt.config.js')
+  config.dev = process.env.NODE_ENV !== 'production'
+  config.no_web = process.env.VUE_ENV === 'no-web'
+  // connect to db and init db
+  await require('./db')
+  // first time to install
+  require('./plugins/checkInit')
+
+  // global middleware
+  app.use(require('@koa/cors')())
+  // app.use(require('express-useragent').express())
+
+  if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+  } else {
+    app.use(morgan('short'))
+  }
+  // bind api routes
+  require('./routes/index')(app)
+  // bind admin static page
+  const Router = require('@koa/router')
+  const router = new Router({
+    prefix: '/admin'
+  })
+  router.use(
+    require('koa-static')(
+      require('path').resolve(__dirname, '/../static/admin')
+    )
+  )
+  app.use(router.routes())
+
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
@@ -58,7 +79,12 @@ async function start() {
   // Give nuxt middleware to express
   if (config.dev) {
     // no cache in dev mode
-    app.use(nuxt.render)
+    app.use((ctx) => {
+      ctx.status = 200
+      ctx.respond = false // Mark request as handled for Koa
+      ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
+      nuxt.render(ctx.req, ctx.res)
+    })
   } else {
     // cache route in prod mode
     // set cache
@@ -80,19 +106,3 @@ async function start() {
   })
 }
 start()
-
-// global error handler
-app.use((err, req, res, next) => {
-  if (err) {
-    res
-      .status(err.status || err.statusCode || 500)
-      .send({ msg: err.message, ok: 0 })
-
-    if (process.env.NODE_ENV !== 'production') {
-      consola.error({
-        message: err,
-        badge: true
-      })
-    }
-  } else next()
-})

@@ -1,9 +1,11 @@
-const { Router } = require('express')
+const Router = require('@koa/router')
 const assert = require('http-assert')
 const clean = require('mongo-sanitize')
 const { User, Option, Menu } = require('./../../models/index')
 
-const router = new Router()
+const router = new Router({
+  prefix: '/config'
+})
 
 router
   /**
@@ -13,7 +15,7 @@ router
    * @group 配置
    * @returns { ok, data } 200
    */
-  .get('/', async (req, res) => {
+  .get('/', async ({ request, response }) => {
     const user = await User.findOne().select(
       'username mail url name lastLoginTime'
     )
@@ -41,7 +43,7 @@ router
       parsed[item.name] = item.value
     })
 
-    res.send({
+    response.body = {
       ok: 1,
       menus,
       config: {
@@ -51,7 +53,7 @@ router
           user.mail
         )}`
       }
-    })
+    }
   })
   /**
    * 安装和初始化接口
@@ -64,15 +66,15 @@ router
    */
   .put(
     '/init',
-    async (req, res, next) => {
+    async ({ request, response, next }) => {
       const { value } = await Option.findOne({
         name: 'installed'
       })
       assert(!value, 422, '已经完成初始化.')
       next()
     },
-    async (req, res) => {
-      const body = req.body
+    async ({ request, response }) => {
+      const body = request.body
       assert(body, 400, '请求体为空')
       if (body.host && body.protocol && !body.domain) {
         body.domain = body.protocol + body.host
@@ -98,7 +100,9 @@ router
             { omitUndefined: true }
           )
         } catch (err) {
-          return res.status(422).send({ ok: 0, msg: '出现了异常' })
+          response.status = 422
+          response.body = { ok: 0, msg: '出现了异常' }
+          return
         }
       }
       await Option.updateOne(
@@ -112,14 +116,17 @@ router
         },
         { upsert: true }
       )
-      res.send({ ok: 1, msg: '初始化成功啦~' })
+      response.body = { ok: 1, msg: '初始化成功啦~' }
     }
   )
 
-  .post('/menus', async (req, res) => {
-    const { type, title, order = 0 } = req.body
+  .post('/menus', async ({ request, response }) => {
+    const { type, title, order = 0 } = request.body
 
-    const [icon, options] = [clean(req.body.icon), clean(req.body.options)]
+    const [icon, options] = [
+      clean(request.body.icon),
+      clean(request.body.options)
+    ]
 
     assert(title, 422, '菜单标题不能为空')
     assert(type, 422, '菜单类型不能为空')
@@ -129,7 +136,7 @@ router
 
     const query = await Menu.create({ title, order, options, icon, type })
 
-    res.send({ ok: 1, data: query })
+    response.body = { ok: 1, data: query }
   })
 
 /**
@@ -139,4 +146,4 @@ router
  * @property {Array} keywords - 关键词
  * @property {string} domain - 域名
  */
-module.exports = router
+module.exports = router.routes()
