@@ -2,11 +2,39 @@
   <Home class="center" color="#fff">
     <news-swiper :news="data" />
 
-    <Row :gutter="10">
-      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
-      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
-      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
-      <el-col :xs="24" :sm="12" :md="8" :xl="6"></el-col>
+    <nuxt-link :to="'/notes'" class="section-link">
+      <h3>
+        {{ typeName.get('note') }}
+      </h3>
+    </nuxt-link>
+    <Row :gutter="45">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :xl="6"
+        v-for="note in news.notes && news.notes.data"
+        :key="note._id"
+      >
+        <Card :item="note" type="note" />
+      </el-col>
+    </Row>
+    <nuxt-link :to="'/notes'" class="section-link">
+      <h3>
+        {{ typeName.get('post') }}
+      </h3>
+    </nuxt-link>
+    <Row :gutter="45">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :xl="6"
+        v-for="post in news.posts && news.posts.data"
+        :key="post._id"
+      >
+        <Card :item="post" type="post" />
+      </el-col>
     </Row>
 
     <!-- <div class="me">
@@ -54,6 +82,7 @@ import Home from '~/layouts/Home'
 import News from '~/components/News'
 import NewsItems from '~/components/NewsItems'
 import NewsSwiper from '~/components/Home/NewsSwiper'
+import Card from '~/components/Home/PostItemCard'
 import { Lines, Code } from '~/components/Icons'
 
 export default {
@@ -64,6 +93,7 @@ export default {
     Code,
     NewsItems,
     NewsSwiper,
+    Card,
     ElCol: Col,
     Row
   },
@@ -93,7 +123,7 @@ export default {
     ...mapActions('news', ['updateNews'])
   },
   computed: {
-    ...mapGetters(['config', 'news']),
+    ...mapGetters(['config', 'news', 'menus']),
     data() {
       return this.news.posts && this.news.notes
         ? Object.values(this.news)
@@ -102,6 +132,16 @@ export default {
             .sort((a, b) => a.created > b.created)
             .slice(0, 5)
         : []
+    },
+    typeName() {
+      const type = ['Post', 'Note']
+      const map = new Map()
+      this.menus.map((item, i) => {
+        if (type.includes(item.type)) {
+          map.set(item.type.toLowerCase(), item.title)
+        }
+      })
+      return map
     }
   }
 }
@@ -128,5 +168,10 @@ export default {
   .center {
     margin: 0 3rem;
   }
+}
+.section-link {
+  margin: 1rem 0;
+  font-size: 1.3rem;
+  font-family: $Heiti;
 }
 </style>

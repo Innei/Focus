@@ -1,5 +1,5 @@
 <template>
-  <swiper-slide class="card">
+  <swiper-slide class="slide-tab">
     <progressive-background :placeholder="this.img" :src="this.img" :blur="0" />
     <h1 class="title">
       {{ data.title }}
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
+.slide-tab {
   height: 300px;
   width: 100%;
   background-color: rgba(26, 26, 26, 0.28);

@@ -135,6 +135,7 @@ export default {
     filter: blur(5px) brightness(0.8);
     perspective: 300px;
     transform: scale(1.1) translateZ(-100px);
+    transition: transform 1.5s;
     &.swiper-slide-next,
     &.swiper-slide-prev {
       z-index: -99;

@@ -352,3 +352,18 @@ svg {
     }
   }
 }
+
+.small {
+  font-size: 80%;
+}
+.big {
+  font-size: 1.2rem;
+}
+.flex {
+  display: flex;
+
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+}
