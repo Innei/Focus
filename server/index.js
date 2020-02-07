@@ -8,20 +8,6 @@ async function start() {
   const app = new express()
   // bind event
   require('./event')(app)
-  // connect ws
-  const ws = expressWs(app, null, {
-    wsOptions: {
-      // <-- express-ws allows passing options nested as this property.
-      async verifyClient(info, cb) {
-        const isAuth = await require('./plugins/wsAuth')(info.req)
-        if (!isAuth) {
-          return cb(false, 401, 'Unauthorized')
-        }
-        return cb(true)
-      }
-    }
-  })
-  require('./socket/')(app, ws)
 
   if (process.env.NODE_ENV !== 'production') {
     // api docs
@@ -56,7 +42,22 @@ async function start() {
   app.use('/admin/*', (req, res) => {
     res.redirect('/admin')
   })
-
+  // connect ws
+  const ws = expressWs(app, null, {
+    // wsOptions: {
+    //   // <-- express-ws allows passing options nested as this property.
+    //   async verifyClient(info, cb) {
+    //     const isAuth = await require('./plugins/wsAuth')(info.req)
+    //     if (!isAuth) {
+    //       console.log(info)
+    //       console.log(info.cookies)
+    //       // return cb(false, 401, 'Unauthorized')
+    //     }
+    //     return cb(true)
+    //   }
+    // }
+  })
+  require('./socket/')(app, ws)
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 

@@ -1,10 +1,10 @@
-const token = require('jsonwebtoken')
+const jsonwebtoken = require('jsonwebtoken')
 const User = require('~/models/User')
-module.exports = async (req) => {
-  if (req.headers.authorization) {
+module.exports = async (token) => {
+  if (token) {
     try {
-      const { code, _id } = token.verify(
-        req.headers.authorization,
+      const { code, _id } = jsonwebtoken.verify(
+        token,
         process.env.SECRET || 'tVnVq4zDhDtQPGPrx2qSOSdmuYI24C'
       )
 
