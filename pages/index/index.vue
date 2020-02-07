@@ -10,12 +10,12 @@
       </nuxt-link>
       <Row :gutter="45">
         <el-col
+          v-for="note in news.notes && news.notes.data"
+          :key="note._id"
           :xs="24"
           :sm="12"
           :md="8"
           :xl="6"
-          v-for="note in news.notes && news.notes.data"
-          :key="note._id"
         >
           <Card :item="note" type="note" />
         </el-col>
@@ -30,12 +30,12 @@
       </nuxt-link>
       <Row :gutter="45">
         <el-col
+          v-for="post in news.posts && news.posts.data"
+          :key="post._id"
           :xs="24"
           :sm="12"
           :md="8"
           :xl="6"
-          v-for="post in news.posts && news.posts.data"
-          :key="post._id"
         >
           <Card :item="post" type="post" />
         </el-col>

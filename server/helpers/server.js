@@ -1,5 +1,5 @@
-const Express = require('express')
 const EventEmitter = require('events')
+const Express = require('express')
 module.exports = class extends Express {
   constructor() {
     super()

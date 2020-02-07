@@ -11,8 +11,11 @@
           }}</a></span
         >
         <time class="comment-time">{{ time }}</time>
+        <span :id="`comment-${comment.key}`" class="key">{{
+          comment.key
+        }}</span>
         <span class="comment-reply"
-          ><a @click="handleReply" rel="nofollow">
+          ><a rel="nofollow" @click="handleReply">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -31,44 +34,86 @@
       </div>
       <div class="comment-content" v-html="md"></div>
     </div>
+    <Box
+      v-if="reply"
+      ref="reply-box"
+      :cid="cid"
+      @replyok="handleClose"
+      @refresh="$emit('refresh')"
+      @cancel="handleClose"
+    />
     <div
-      class="comment-children"
       v-if="comment.children && comment.children.length > 0"
+      class="comment-children"
     >
-      <comment
-        :comment="comment"
-        v-for="comment in comment.children"
-        :key="comment._id"
+      <CommentItem
+        v-for="child in comment.children"
+        :key="child._id"
+        :comment="child"
+        :at="comment.author"
         class="children"
+        @refresh="$emit('refresh')"
+        @reply="$emit('reply')"
+        @over="$emit('over')"
       />
     </div>
   </div>
 </template>
 
 <script>
-import avatar from '../mixin/avatar'
-import { fromNow } from '~/utils'
+import Box from './CommentBox'
+import { fromNow, avatarFromMail, isMail } from '~/utils'
 import MD from '~/core/markdown'
 export default {
-  name: 'comment',
-  mixins: [avatar],
+  name: 'CommentItem',
+  components: {
+    Box
+  },
+
   props: {
     comment: {
       type: Object,
       required: true
+    },
+    at: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      reply: false,
+      cid: null
     }
   },
   computed: {
     md() {
-      return new MD().renderText(this.comment.text)
+      return new MD().renderText(
+        (this.at ? `@${this.at} ` : '') + this.comment.text
+      )
     },
     time() {
       return fromNow(this.comment.created)
+    },
+    avatar() {
+      return this.comment.mail && isMail(this.comment.mail)
+        ? avatarFromMail(this.comment.mail)
+        : null
     }
   },
   methods: {
-    handleReply() {
-      this.$message(this.comment._id)
+    handleReply(e) {
+      // console.log(e)
+      // console.log(this.send)
+      this.$emit('reply')
+      this.cid = this.comment._id
+      this.reply = true
+
+      // console.log(this.$refs)
+    },
+    handleClose() {
+      this.reply = false
+      this.cid = null
+      this.$emit('over')
     }
   }
 }
@@ -80,6 +125,7 @@ export default {
   margin-bottom: 1.5em;
   box-sizing: border-box;
   font-family: $Heiti;
+
   &:hover {
     .comment-meta .comment-reply a {
       opacity: 1;
@@ -112,6 +158,14 @@ export default {
         transition: color 0.5s, opacity 0.2s;
       }
     }
+  }
+  .comment-content {
+    font-size: 0.9rem;
+  }
+  time,
+  .key {
+    font-size: 0.8rem;
+    color: var(--gray);
   }
 }
 .children {

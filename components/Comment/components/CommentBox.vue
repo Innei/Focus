@@ -2,7 +2,7 @@
   <client-only>
     <div class="comment-box">
       <h1 class="comment-title">
-        快来评论吧~
+        {{ pid ? '快来评论吧~' : '快来回复吧~' }}
       </h1>
       <div
         class="user flex"
@@ -41,7 +41,13 @@
         />
       </div>
       <div style="text-align: right">
-        <el-button type="primary" @click="handleComment" round
+        <el-button v-if="cid" type="warning" round @click="$emit('cancel')"
+          >不写了啦</el-button
+        >
+        <el-button
+          type="primary"
+          round
+          @click="pid ? handleComment() : handleReply()"
           >写好了~</el-button
         >
       </div>
@@ -51,34 +57,72 @@
 <script>
 import { mapGetters } from 'vuex'
 import avatar from '../mixin/avatar'
-import { Comment } from '~/api'
+/* eslint no-unused-vars: "off" */
+import { Comment, Rest } from '~/api'
 
 export default {
   mixins: [avatar],
+
   props: {
     pid: {
-      type: String,
-      required: true
+      type: String
+    },
+    cid: {
+      type: String
     }
   },
-
+  mounted() {
+    if (!this.pid && !this.cid) {
+      throw new Error('Both pid and cid are undefined.')
+    }
+  },
   computed: {
     ...mapGetters(['viewport'])
   },
   methods: {
+    reset() {
+      this.comment = Object.assign(
+        {},
+        {
+          text: '',
+          author: '',
+          url: '',
+          mail: ''
+        }
+      )
+
+      this.$emit('refresh')
+    },
+    vaild() {
+      if (!this.comment.text || !this.comment.mail || !this.comment.author) {
+        const message = '您还没有填写相关信息呢, 哼'
+        this.$message.error(message)
+        throw new Error(message)
+      }
+    },
     async handleComment() {
-      const data = await Comment(this.$axios, 'comment')(this.pid, this.comment)
+      this.vaild()
+      const { data } = await this.$axios.post(
+        '/comments/' + this.pid,
+        this.comment
+      )
+
       if (data.ok) {
         this.$message.success('评论成功')
-        this.comment = Object.assign(
-          {},
-          {
-            text: '',
-            author: '',
-            url: '',
-            mail: ''
-          }
-        )
+        this.reset()
+      }
+    },
+    async handleReply() {
+      this.vaild()
+      const { data } = await this.$axios.post(
+        '/comments/reply/' + this.cid,
+        this.comment
+      )
+
+      if (data.ok) {
+        this.$message.success('回复成功')
+        this.reset()
+        this.$emit('replyok')
       }
     }
   }

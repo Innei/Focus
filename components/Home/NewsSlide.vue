@@ -4,7 +4,7 @@
     <h1 class="title">
       {{ data.title }}
     </h1>
-    <nuxt-link :to="link" v-text="'阅读'" class="link-btn" />
+    <nuxt-link :to="link" class="link-btn" v-text="'阅读'" />
   </swiper-slide>
 </template>
 

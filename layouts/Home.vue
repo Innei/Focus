@@ -13,10 +13,10 @@ import { mapGetters } from 'vuex'
 import Nav from '~/components/Home/Nav'
 
 export default {
-  props: ['color'],
   components: {
     Nav
   },
+  props: ['color'],
   computed: {
     ...mapGetters(['pages'])
   }

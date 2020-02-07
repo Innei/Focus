@@ -1,9 +1,9 @@
 require('dotenv').config()
-const express = require('./helpers/server')
 const consola = require('consola')
 const morgan = require('morgan')
 const expressWs = require('express-ws')
 const { Nuxt, Builder } = require('nuxt')
+const express = require('./helpers/server')
 async function start() {
   const app = new express()
   // bind event
@@ -11,8 +11,8 @@ async function start() {
   // connect ws
   const ws = expressWs(app, null, {
     wsOptions: {
-      //<-- express-ws allows passing options nested as this property.
-      verifyClient: async function(info, cb) {
+      // <-- express-ws allows passing options nested as this property.
+      async verifyClient(info, cb) {
         const isAuth = await require('./plugins/wsAuth')(info.req)
         if (!isAuth) {
           return cb(false, 401, 'Unauthorized')

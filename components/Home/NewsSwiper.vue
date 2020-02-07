@@ -1,11 +1,11 @@
 <template>
   <div class="swiper-root">
     <div class="abs bg-overlay">
-      <swiper :options="swiperOption" class="abs" ref="background">
+      <swiper ref="background" :options="swiperOption" class="abs">
         <swiper-slide
-          class="background"
           v-for="(card, i) in news"
           :key="card._id"
+          class="background"
         >
           <progressive-background
             :placeholder="
@@ -17,7 +17,7 @@
         /></swiper-slide>
       </swiper>
     </div>
-    <swiper :options="mainOptions" class="swiper" ref="main">
+    <swiper ref="main" :options="mainOptions" class="swiper">
       <slide
         v-for="(card, i) in news"
         :key="card._id"
@@ -27,9 +27,9 @@
         :data="card"
       />
 
-      <div class="swiper-button-prev" slot="button-prev"></div>
-      <div class="swiper-button-next" slot="button-next"></div>
-      <div class="swiper-pagination" slot="pagination"></div>
+      <div slot="button-prev" class="swiper-button-prev"></div>
+      <div slot="button-next" class="swiper-button-next"></div>
+      <div slot="pagination" class="swiper-pagination"></div>
     </swiper>
   </div>
 </template>
@@ -39,23 +39,18 @@ import { mapGetters } from 'vuex'
 import 'swiper/dist/css/swiper.css'
 import Slide from './NewsSlide'
 export default {
+  components: {
+    Slide
+  },
   props: {
     news: {
       type: Array,
       required: true
     }
   },
-  components: {
-    Slide
-  },
   data() {
     return {
       swiperOption: {}
-    }
-  },
-  methods: {
-    randomImg(index) {
-      return `https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302&index=${index}`
     }
   },
   mounted() {
@@ -65,6 +60,11 @@ export default {
       main.controller.control = background
       background.controller.control = main
     })
+  },
+  methods: {
+    randomImg(index) {
+      return `https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302&index=${index}`
+    }
   },
   computed: {
     mainOptions() {
