@@ -136,13 +136,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Navigation', ['setStatus']),
+    ...mapActions('sidebar', ['setStatus']),
     handleTo(nid) {
       this.$router.push('/notes/' + nid)
     }
   },
   computed: {
-    ...mapGetters(['navActive', 'config', 'scroll']),
+    ...mapGetters(['sidebar', 'config', 'scroll']),
     btnShow() {
       return this.scroll === 'up'
     }

@@ -76,13 +76,13 @@ export default {
     })
   },
   methods: {
-    ...mapActions('Navigation', ['setStatus']),
+    ...mapActions('sidebar', ['setStatus']),
     ...mapActions('viewport', ['updateViewport']),
     formatDate,
     fromNow
   },
   computed: {
-    ...mapGetters(['navActive', 'viewport'])
+    ...mapGetters(['sidebar', 'viewport'])
   }
 }
 </script>

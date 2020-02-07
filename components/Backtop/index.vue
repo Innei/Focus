@@ -1,7 +1,7 @@
 <template>
   <div class="btn-wrap">
     <Btn class="right" :class="{ show: btnShow }" @click.native="handleBackTop">
-      <i class="el-icon-arrow-up"></i>
+      <i class="el-icon-top"></i>
     </Btn>
   </div>
 </template>

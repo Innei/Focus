@@ -2,17 +2,6 @@
   <div class="swiper-root">
     <div class="abs bg-overlay">
       <swiper :options="swiperOption" class="abs" ref="background">
-        <!-- <swiper-slide
-          class="background"
-          :style="{
-            backgroundImage:
-              card.options && card.options.img
-                ? `url(${card.options.img})`
-                : `url(${randomImg(i)})`
-          }"
-          v-for="(card, i) in news"
-          :key="card._id"
-        ></swiper-slide> -->
         <swiper-slide
           class="background"
           v-for="(card, i) in news"
@@ -46,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import 'swiper/dist/css/swiper.css'
 import Slide from './NewsSlide'
 export default {
@@ -92,6 +82,16 @@ export default {
         },
         ...this.swiperOption
       }
+    },
+    ...mapGetters(['sidebar'])
+  },
+  watch: {
+    sidebar() {
+      setTimeout(() => {
+        this.$refs.main.swiper.update({
+          updateTranslate: true
+        })
+      }, 1000)
     }
   }
 }
@@ -134,7 +134,7 @@ export default {
     background: center/cover;
     filter: blur(5px) brightness(0.8);
     perspective: 300px;
-    transform: scale(1.1) translateZ(-100px);
+    transform: scale(1.2) translateZ(-100px);
     transition: transform 1.5s;
     &.swiper-slide-next,
     &.swiper-slide-prev {
@@ -145,6 +145,7 @@ export default {
 .swiper-root {
   z-index: -1;
   margin-bottom: 8rem;
+  min-height: 300px;
 }
 .abs.overlay {
   background-image: linear-gradient(

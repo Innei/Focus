@@ -35,7 +35,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('Navigation', ['setStatus'])
+    ...mapActions('sidebar', ['setStatus'])
   }
 }
 </script>

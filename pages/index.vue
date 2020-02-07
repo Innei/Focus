@@ -2,7 +2,7 @@
   <!-- 前台入口文件 -->
   <div id="app">
     <Sidebar />
-    <div id="views" :class="{ 'no-padding': !navActive }">
+    <div id="views" :class="{ 'no-padding': !sidebar }">
       <nuxt-child />
     </div>
     <Footer />
@@ -45,12 +45,12 @@ export default {
     )
   },
   computed: {
-    ...mapGetters(['navActive', 'viewport'])
+    ...mapGetters(['sidebar', 'viewport'])
   },
   methods: {
     ...mapActions({
       updateViewport: 'viewport/updateViewport',
-      setStatus: 'Navigation/setStatus',
+      setStatus: 'sidebar/setStatus',
       setLogged: 'master/setLogged',
       updateScroll: 'app/updateScroll'
     })

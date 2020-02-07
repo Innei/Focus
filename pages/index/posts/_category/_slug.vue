@@ -47,7 +47,7 @@
           v-if="!isMobile && viewport && viewport.w > 1000"
           class="post-tortree"
         >
-          <Tree :tree="tree" :class="{ hide: navActive }" class="tree" />
+          <Tree :tree="tree" :class="{ hide: sidebar }" class="tree" />
         </div>
       </client-only>
       <Comment :pid="pid" />
@@ -163,7 +163,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Navigation', ['setStatus']),
+    ...mapActions('sidebar', ['setStatus']),
 
     parseLineNumber() {
       try {
@@ -205,7 +205,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['navActive', 'config', 'viewport'])
+    ...mapGetters(['sidebar', 'config', 'viewport'])
   }
 }
 </script>

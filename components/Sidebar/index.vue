@@ -3,7 +3,7 @@
     <transition name="fade">
       <client-only>
         <OverLay
-          v-show="navActive && viewport.mobile"
+          v-show="sidebar && viewport.mobile"
           @click.native="handleClickMenu"
         />
       </client-only>
@@ -62,12 +62,12 @@ export default {
   },
   methods: {
     handleClickMenu() {
-      this.setStatus(!this.navActive)
+      this.setStatus(!this.sidebar)
     },
-    ...mapActions('Navigation', ['setStatus'])
+    ...mapActions('sidebar', ['setStatus'])
   },
   computed: {
-    ...mapGetters(['viewport', 'navActive', 'config', 'scroll'])
+    ...mapGetters(['viewport', 'sidebar', 'config', 'scroll'])
   },
   watch: {
     viewport: {

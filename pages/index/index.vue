@@ -1,72 +1,54 @@
 <template>
   <Home class="center" color="#fff">
     <news-swiper :news="data" />
+    <section>
+      <nuxt-link :to="'/notes'" class="section-link">
+        <h3 class="flex">
+          {{ typeName.get('note') }}
+          <i class="el-icon-arrow-right" />
+        </h3>
+      </nuxt-link>
+      <Row :gutter="45">
+        <el-col
+          :xs="24"
+          :sm="12"
+          :md="8"
+          :xl="6"
+          v-for="note in news.notes && news.notes.data"
+          :key="note._id"
+        >
+          <Card :item="note" type="note" />
+        </el-col>
+      </Row>
+    </section>
+    <section>
+      <nuxt-link :to="'/notes'" class="section-link">
+        <h3 class="flex">
+          {{ typeName.get('post') }}
+          <i class="el-icon-arrow-right" />
+        </h3>
+      </nuxt-link>
+      <Row :gutter="45">
+        <el-col
+          :xs="24"
+          :sm="12"
+          :md="8"
+          :xl="6"
+          v-for="post in news.posts && news.posts.data"
+          :key="post._id"
+        >
+          <Card :item="post" type="post" />
+        </el-col>
+      </Row>
+    </section>
 
-    <nuxt-link :to="'/notes'" class="section-link">
-      <h3>
-        {{ typeName.get('note') }}
-      </h3>
-    </nuxt-link>
-    <Row :gutter="45">
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :xl="6"
-        v-for="note in news.notes && news.notes.data"
-        :key="note._id"
-      >
-        <Card :item="note" type="note" />
-      </el-col>
-    </Row>
-    <nuxt-link :to="'/notes'" class="section-link">
-      <h3>
-        {{ typeName.get('post') }}
-      </h3>
-    </nuxt-link>
-    <Row :gutter="45">
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :xl="6"
-        v-for="post in news.posts && news.posts.data"
-        :key="post._id"
-      >
-        <Card :item="post" type="post" />
-      </el-col>
-    </Row>
-
-    <!-- <div class="me">
-      <div class="avatar">
-        <img :src="config.avatar" :alt="config.username" />
-      </div>
-      <h1 class="title">
-        {{ config.title }}
-      </h1>
-      <div class="desc">
-        {{ config.desc }}
-      </div>
-      <div class="links"></div>
-    </div>
-
-    <News title="最新博文" to="/posts">
-      <template #icon>
-        <Code />
-      </template>
-      <template v-if="news.posts.data">
-        <NewsItems :list="news.posts.data" type="Post" />
-      </template>
-    </News>
-    <News title="最新随记" to="/notes">
-      <template #icon>
-        <Lines />
-      </template>
-      <template v-if="news.notes.data">
-        <NewsItems :list="news.notes.data" type="Note" />
-      </template>
-    </News> -->
-    <!-- <News title="最新博文" to="/posts"> </News> -->
+    <section>
+      <nuxt-link :to="'/notes'" class="section-link">
+        <h3 class="flex">
+          更多精彩
+        </h3>
+      </nuxt-link>
+    </section>
   </Home>
 </template>
 
@@ -173,5 +155,15 @@ export default {
   margin: 1rem 0;
   font-size: 1.3rem;
   font-family: $Heiti;
+}
+section a {
+  color: #666;
+}
+h3 {
+  align-items: center;
+  i {
+    font-size: 0.8rem;
+    margin-left: 8px;
+  }
 }
 </style>

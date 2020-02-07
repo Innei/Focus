@@ -71,6 +71,7 @@ export default {
   },
   mounted() {
     this.updateViewport()
+    console.log(this.$nuxt.meta)
   },
   methods: {
     ...mapActions('viewport', ['updateViewport']),
@@ -105,6 +106,9 @@ export default {
       this.$nuxt.$loading.fail()
       return false
     }
+  },
+  meta: {
+    theme: 'dark'
   }
 }
 </script>
@@ -128,6 +132,7 @@ export default {
 
 .page-list {
   min-height: calc(100vh - 6rem);
+  margin-bottom: 3rem;
 }
 
 // responsive design

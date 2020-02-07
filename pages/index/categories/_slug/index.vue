@@ -105,4 +105,28 @@ ul,
     width: 8rem;
   }
 }
+section a {
+  color: var(--material-main);
+  text-decoration: none;
+  position: relative;
+  &:hover {
+    color: var(--material-main);
+    text-decoration: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: var(--material-main);
+    transition: width 0.5s;
+  }
+  &:hover::after {
+    width: 100%;
+  }
+}
 </style>

@@ -100,13 +100,13 @@ export default {
     })
   },
   computed: {
-    ...mapGetters(['navActive', 'menus'])
+    ...mapGetters(['sidebar', 'menus'])
   },
   methods: {
-    ...mapActions('Navigation', ['setStatus'])
+    ...mapActions('sidebar', ['setStatus'])
   },
   watch: {
-    navActive(val) {
+    sidebar(val) {
       this.active = val
     }
   }
