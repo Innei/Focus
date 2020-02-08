@@ -3,7 +3,7 @@ const { Types } = require('mongoose')
 const assert = require('http-assert')
 const { compareSync } = require('bcrypt')
 const sanitize = require('mongo-sanitize')
-const { randomStr } = require('../../utils')
+const nanoid = require('nanoid')
 const { getAvatar, getClientIP } = require('../../utils/')
 const { User, Post, Note } = require('~/models')
 const isMaster = require('~/middlewares/isMaster')
@@ -22,7 +22,7 @@ router
    */
 
   .post('/sign_up', async (req, res) => {
-    assert(await User.countDocuments(), 422, '我只能有一个主人哦~')
+    assert(!(await User.countDocuments()), 422, '我只能有一个主人哦~')
 
     const { username, password, mail = '', url = '' } = req.body
     const { name = username } = req.body
@@ -39,7 +39,7 @@ router
     }
 
     // generate authCode when modify password.
-    const authCode = randomStr()
+    const authCode = nanoid(10)
 
     const doc = await User.create({
       username,
@@ -140,7 +140,7 @@ router
 
     const doc = await User.updateOne(
       { _id: id },
-      { password, authCode: randomStr() }
+      { password, authCode: nanoid(10) }
     )
     res.send({ ok: 1, msg: '修改成功', ...doc })
   })
@@ -159,7 +159,7 @@ router
     await User.updateOne(
       { _id: id },
       {
-        authCode: randomStr()
+        authCode: nanoid(10)
       }
     )
     res.send({ ok: 1, msg: 'いってらっしゃい!' })

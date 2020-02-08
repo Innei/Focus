@@ -3,7 +3,7 @@ const consola = require('consola')
 const morgan = require('morgan')
 const expressWs = require('express-ws')
 const { Nuxt, Builder } = require('nuxt')
-const express = require('./helpers/server')
+const express = require('express')
 async function start() {
   const app = new express()
   // bind event
@@ -43,20 +43,7 @@ async function start() {
     res.redirect('/admin')
   })
   // connect ws
-  const ws = expressWs(app, null, {
-    // wsOptions: {
-    //   // <-- express-ws allows passing options nested as this property.
-    //   async verifyClient(info, cb) {
-    //     const isAuth = await require('./plugins/wsAuth')(info.req)
-    //     if (!isAuth) {
-    //       console.log(info)
-    //       console.log(info.cookies)
-    //       // return cb(false, 401, 'Unauthorized')
-    //     }
-    //     return cb(true)
-    //   }
-    // }
-  })
+  const ws = expressWs(app)
   require('./socket/')(app, ws)
   // Init Nuxt.js
   const nuxt = new Nuxt(config)

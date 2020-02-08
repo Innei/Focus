@@ -41,6 +41,7 @@
     "mongoose": "^5.7.13",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1",
+    "nanoid": "^2.1.11",
     "nuxt": "^2.11.0",
     "prismjs": "^1.17.1",
     "qs": "^6.9.1",

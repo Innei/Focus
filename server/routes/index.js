@@ -12,7 +12,11 @@ module.exports = (app) => {
   router.use('/pages', require('./api/pages'))
   router.use('/config', require('./api/config'))
   router.use('/admin', require('./api/admin'))
+  if (process.env !== 'production') {
+    router.use('/test', require('./api/test'))
+  }
   router.use('/:resource', require('./api/rest'))
+
   app.use('/api', router)
   app.use('/', require('./xml'))
 }

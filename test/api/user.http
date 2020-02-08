@@ -4,7 +4,7 @@
 get {{url}}/5df0d7927fee6f8b5bee5358
 
 ### sign up
-post {{url}}/signup
+post {{url}}/sign_up
 Content-Type: application/json
 
 {

@@ -6,19 +6,24 @@ module.exports = (app, ws) => {
   const wss = ws.getWss()
 
   app.ws('/gateway', async function(ws, req) {
+    // console.log('connect')
+    // console.log(req.app)
+
     if (!req.cookies.focus_admin_token) {
+      // console.log('cookie close')
+
       return ws.close()
     }
 
     const token = JSON.parse(req.cookies.focus_admin_token).token
     if (!(await require('~/plugins/wsAuth')(token))) {
+      // console.log('token => close')
+
       return ws.close()
     }
 
     ws.on('message', toEvent)
-    // .on('auth', async (token) => {
-    //   console.log(req.cookies)
-    // })
+
     req.app.on(E.MESSAGE_SEND, ({ type, message }) => {
       ws.send(
         JSON.stringify({
@@ -26,6 +31,11 @@ module.exports = (app, ws) => {
           message
         })
       )
+    })
+
+    ws.on('close', function() {
+      console.log('disconnected')
+      req.app.removeAllListeners(E.MESSAGE_SEND)
     })
   })
 }
