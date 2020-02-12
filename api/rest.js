@@ -25,6 +25,24 @@ export default ($axios, api, rest) => {
     async deleteOne(id) {
       const { data } = await $axios.delete(`${pluralize}/${id}`)
       return data
+    },
+    get gets() {
+      return this.getRecently
+    },
+    get get() {
+      return this.getOne
+    },
+    get post() {
+      return this.postNew
+    },
+    get update() {
+      return this.modifyOne
+    },
+    get del() {
+      return this.deleteOne
+    },
+    get delete() {
+      return this.deleteOne
     }
   }
 

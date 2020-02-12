@@ -37,7 +37,12 @@ async function start() {
   // bind admin static page
   app.use(
     '/admin',
-    express.static(require('path').join(__dirname, '/../static/admin'))
+    express.static(require('path').join(__dirname, '/../static/admin'), {
+      maxAge: '1d',
+      setHeaders: function(res, path, stat) {
+        res.set('X-timestamp', Date.now())
+      }
+    })
   )
   app.use('/admin/*', (req, res) => {
     res.redirect('/admin')

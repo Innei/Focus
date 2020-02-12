@@ -30,7 +30,7 @@ router
       created: -1
     })
     if (r) {
-      r.count.read++
+      req.header('Referrer') ? r.count.read++ : null
       await r.save()
 
       // 是否存在上一条记录 (旧记录)
@@ -120,7 +120,7 @@ router
       ...hide
     })
     if (r) {
-      r.count.read++
+      req.header('Referrer') ? r.count.read++ : null
       await r.save()
       // 获取 nid 的下一条和上一条记录
       const prev = await Note.findOne({
