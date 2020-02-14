@@ -34,6 +34,15 @@ router
       if (!req.queryOptions?.condition?.hide) {
         condition.hide = false
       }
+    } else if (req.Model.modelName === 'Comment') {
+      queryOptions.populate = {
+        path: 'pid',
+        select: 'title _id slug',
+        populate: {
+          path: 'categoryId',
+          select: 'slug name _id'
+        }
+      }
     }
     const data = await req.Model.find(condition)
       .setOptions(queryOptions)

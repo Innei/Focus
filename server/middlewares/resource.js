@@ -5,7 +5,11 @@ module.exports = (options) => {
     // try {
     // check Model
     const models = ['Post', 'Note', 'Category', 'Comment', 'Page']
-    assert(models.includes(modelName), 422, 'Empty Model')
+    assert(
+      models.includes(modelName),
+      422,
+      'Model not exists. ' + req.originalUrl
+    )
 
     req.Model = require(`../models/${modelName}`)
     next()
