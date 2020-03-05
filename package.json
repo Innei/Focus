@@ -37,7 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "markdown-it": "^10.0.0",
     "markdown-it-emoji": "^1.4.0",
-    "markdown-it-prism": "^2.0.3",
+    "markdown-it-prism": "^2.0.5",
     "moment": "^2.24.0",
     "mongo-sanitize": "^1.0.1",
     "mongoose": "^5.7.13",
