@@ -1,5 +1,5 @@
-const { Router } = require('express')
 import E from '~/event/types'
+const { Router } = require('express')
 const router = new Router()
 router.get('/ws', (req, res) => {
   req.app.emit(E.MESSAGE_SEND, {

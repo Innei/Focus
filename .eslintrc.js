@@ -20,6 +20,7 @@ module.exports = {
     'nuxt/no-cjs-in-config': 'off',
     'vue/no-unused-components': 'off',
     'vue/no-unused-vars': 'off',
-    'no-unused-vars': 'off'
+    'no-unused-vars': 'off',
+    'vue/order-in-components': 'off'
   }
 }

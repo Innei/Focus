@@ -42,7 +42,7 @@ module.exports = (app, ws) => {
 
 function toEvent(message) {
   try {
-    let { type, payload } = JSON.parse(message)
+    const { type, payload } = JSON.parse(message)
     this.emit(type, payload || message)
   } catch (ignore) {
     this.emit(undefined, message)

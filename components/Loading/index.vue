@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
 }
 #loader-wrapper .loader-container {
   text-align: center;

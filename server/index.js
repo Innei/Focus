@@ -39,7 +39,7 @@ async function start() {
     '/admin',
     express.static(require('path').join(__dirname, '/../static/admin'), {
       maxAge: '1d',
-      setHeaders: function(res, path, stat) {
+      setHeaders(res, path, stat) {
         res.set('X-timestamp', Date.now())
       }
     })

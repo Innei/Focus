@@ -41,15 +41,16 @@
         />
       </div>
       <div style="text-align: right">
-        <el-button v-if="cid" type="warning" round @click="$emit('cancel')"
-          >不写了啦</el-button
-        >
-        <el-button
-          type="primary"
-          round
-          @click="pid ? handleComment() : handleReply()"
-          >写好了~</el-button
-        >
+        <parallax-button
+          v-if="cid"
+          title="不写了啦"
+          type="warning"
+          @click.native="$emit('cancel')"
+        />
+        <parallax-button
+          title="写好了~"
+          @click.native="pid ? handleComment() : handleReply()"
+        />
       </div>
     </div>
   </client-only>
@@ -59,10 +60,12 @@ import { mapGetters } from 'vuex'
 import avatar from '../mixin/avatar'
 /* eslint no-unused-vars: "off" */
 import { Comment, Rest } from '~/api'
-
+import { ParallaxButton } from '~/components/Button'
 export default {
+  components: {
+    ParallaxButton
+  },
   mixins: [avatar],
-
   props: {
     pid: {
       type: String

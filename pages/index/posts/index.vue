@@ -13,6 +13,7 @@
       <Navigation v-if="page" :page="page" @to="handleTo" />
     </client-only>
     <backtop />
+    <heart-loading v-if="loading" />
   </div>
 </template>
 
@@ -23,19 +24,20 @@ import BigHead from '~/components/BigHead'
 import Item from '~/components/PostListItem'
 import Navigation from '~/components/Navigation'
 import Backtop from '~/components/Backtop'
-
+import { HeartLoading } from '~/components/Loading'
 export default {
   components: {
     BigHead,
     Item,
     Navigation,
-    Backtop
+    Backtop,
+    HeartLoading
   },
   data() {
     return {
       page: null,
       data: null,
-      loading: false
+      loading: true
     }
   },
   computed: {
@@ -67,6 +69,7 @@ export default {
 
       this.page = data.page
       this.data = data.data
+      this.loading = false
     }
   },
   mounted() {

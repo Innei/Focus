@@ -146,7 +146,7 @@ router
   })
   /**
    * Global Sign Out
-   * @route GET /master/sign_out
+   * @route GET /master/logout
    * @summary 全局注销用户
    * @group 主人
    * @security JWT

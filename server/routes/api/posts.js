@@ -2,7 +2,7 @@ const { Router } = require('express')
 const { Types } = require('mongoose')
 const assert = require('http-assert')
 const clean = require('mongo-sanitize')
-const { Post, Category, Option } = require('../../models/index')
+const { Post, Category, Option, Comment } = require('../../models')
 const isMaster = require('~/middlewares/isMaster')()
 const checkPermissionToSee = require('~/middlewares/checkPermissionToSee')({
   condition: {}
@@ -183,7 +183,25 @@ router
 
     res.send({ ...r, msg: r.nModified ? '修改成功' : '没有文章被修改' })
   })
+  /**
+   * 删除一篇文章
+   * @route DELETE /posts/{id}
+   * @param {integer} id.path.required
+   * @summary 删除一篇文章
+   * @group 文章
+   * @returns {Object} 200 { ok, data }
+   */
 
+  .delete('/:id', async (req, res) => {
+    const { id } = req.params
+    assert(id, 400, '记录不存在')
+
+    const r = await Post.deleteOne({ _id: id })
+    await Comment.deleteMany({
+      pid: id
+    })
+    res.send({ ...r, msg: r.deletedCount ? '删除成功' : '删除失败' })
+  })
 module.exports = router
 
 /**
