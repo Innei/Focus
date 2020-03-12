@@ -76,11 +76,11 @@ export default {
       default: 'normal',
       validator(val) {
         return ['normal', 'warning', 'danger'].includes(val)
-      },
-      forecolor: {
-        type: String,
-        default: '#fff'
       }
+    },
+    forecolor: {
+      type: String,
+      default: '#fff'
     }
   },
   mounted() {

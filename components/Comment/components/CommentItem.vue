@@ -1,9 +1,11 @@
 <template>
   <div class="comment-root">
     <div class="comment-single">
-      <el-avatar :size="50" :src="avatar" class="user-avatar">
+      <!-- <el-avatar :size="50" :src="avatar" class="user-avatar">
         <i class="el-icon-user-solid" />
-      </el-avatar>
+      </el-avatar> -->
+
+      <avatar class="user-avatar" :src="avatar" />
       <div class="comment-meta">
         <span class="comment-author"
           ><a :href="comment.url" rel="external nofollow" target="_blank">{{
@@ -64,10 +66,12 @@
 import Box from './CommentBox'
 import { fromNow, avatarFromMail, isMail } from '~/utils'
 import MD from '~/core/markdown'
+import Avatar from '~/components/Avatar'
 export default {
   name: 'CommentItem',
   components: {
-    Box
+    Box,
+    Avatar
   },
 
   props: {

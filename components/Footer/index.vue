@@ -1,12 +1,18 @@
 <template>
   <div id="footer">
-    <div class="container flex lr">
+    <div
+      class="container lr"
+      :class="{ flex: !viewport.mobile }"
+      :style="{ textAlign: viewport.mobile ? 'center' : '' }"
+    >
       <p>
         Stay Hungry. Stay Foolish. | &copy; 2019 - {{ year }}
         <a href="https://innei.ren" target="_blank">Innei.</a>
-        All rights reserved.
+        <span v-if="!viewport.mobile">All rights reserved.</span>
       </p>
+
       <p>
+        <span v-if="viewport.mobile">All rights reserved.</span>
         <a href="/feed">RSS <i class="el-icon-coffee-cup"></i></a> |
         <a href="/sitemap.xml">站点地图 <i class="el-icon-map-location"></i></a>
       </p>
@@ -14,11 +20,13 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   computed: {
     year() {
       return new Date().getFullYear()
-    }
+    },
+    ...mapGetters(['viewport'])
   }
 }
 </script>
@@ -31,5 +39,6 @@ export default {
   background: var(--gwhite);
   color: #666;
   font-size: 12px;
+  overflow: hidden;
 }
 </style>

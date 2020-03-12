@@ -8,9 +8,10 @@
         class="user flex"
         :class="{ full: viewport && (viewport.mobile || viewport.hpad) }"
       >
-        <el-avatar :size="50" :src="avatar" class="user-avatar">
+        <!-- <el-avatar :size="50" :src="avatar" >
           <i class="el-icon-user-solid" />
-        </el-avatar>
+        </el-avatar> -->
+        <avatar class="user-avatar" :src="avatar" />
         <input
           v-model="comment.author"
           type="text"
@@ -61,9 +62,11 @@ import avatar from '../mixin/avatar'
 /* eslint no-unused-vars: "off" */
 import { Comment, Rest } from '~/api'
 import { ParallaxButton } from '~/components/Button'
+import Avatar from '~/components/Avatar'
 export default {
   components: {
-    ParallaxButton
+    ParallaxButton,
+    Avatar
   },
   mixins: [avatar],
   props: {
