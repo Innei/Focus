@@ -30,6 +30,7 @@ router
       created: -1
     })
     if (r) {
+      // eslint-disable-next-line no-unused-expressions
       req.header('Referrer') ? r.count.read++ : null
       await r.save()
 
@@ -120,6 +121,7 @@ router
       ...hide
     })
     if (r) {
+      // eslint-disable-next-line no-unused-expressions
       req.header('Referrer') ? r.count.read++ : null
       await r.save()
       // 获取 nid 的下一条和上一条记录

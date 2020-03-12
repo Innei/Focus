@@ -1,7 +1,8 @@
 const { Router } = require('express')
 const assert = require('http-assert')
-const { User, Option, Post, Comment, Note } = require('./../../models/index')
 const isMaster = require('../../middlewares/isMaster')()
+const { User, Option, Post, Comment, Note } = require('./../../models/index')
+
 const Admin = new Router()
 Admin.use(isMaster)
 

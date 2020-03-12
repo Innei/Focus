@@ -43,7 +43,7 @@ module.exports = {
     if (/[A-Z]/.test(pwd)) {
       strength++
     }
-    if (/[\s|!-\.|;-\?]/.test(pwd)) {
+    if (/[\s|!-.|;-?]/.test(pwd)) {
       strength++
     }
     return strength

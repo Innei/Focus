@@ -5,6 +5,7 @@ const expressWs = require('express-ws')
 const { Nuxt, Builder } = require('nuxt')
 const express = require('express')
 async function start() {
+  // eslint-disable-next-line new-cap
   const app = new express()
   // bind event
   require('./event')(app)
