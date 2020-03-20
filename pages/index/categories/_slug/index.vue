@@ -23,10 +23,14 @@
 import rest from '~/api/rest'
 import { parseDate } from '~/utils'
 export default {
-  async asyncData({ app, error, params }) {
-    const data = await rest(app.$axios, 'getOne', 'Category')(params.slug)
-    if (data.ok) {
-      return { data: data.data }
+  async asyncData({ app, redirect, params }) {
+    try {
+      const data = await rest(app.$axios, 'getOne', 'Category')(params.slug)
+      if (data.ok) {
+        return { data: data.data }
+      }
+    } catch {
+      redirect('/404')
     }
   },
   data() {

@@ -70,7 +70,7 @@ router
       }
       res.send({ ok: 1, data: r })
     } else {
-      res.send({ ok: 0, msg: '不存在此记录' })
+      res.status(422).send({ ok: 0, msg: '不存在此记录' })
     }
   })
 module.exports = router

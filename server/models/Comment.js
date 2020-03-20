@@ -31,10 +31,10 @@ const schema = new Schema({
     type: Date,
     default: new Date()
   },
-  parentId: {
-    type: SchemaTypes.ObjectId,
-    ref: 'CommentPost'
-  },
+  // parentId: {
+  //   type: SchemaTypes.ObjectId,
+  //   ref: 'CommentPost'
+  // },
   hasParent: {
     type: Boolean,
     default: false

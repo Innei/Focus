@@ -66,9 +66,9 @@ export default {
   position: relative;
 }
 #views {
+  min-height: 90vh;
   padding-left: 192px;
   transition: padding 0.8s;
-  min-height: 90vh;
 }
 #views.no-padding {
   padding: 0;

@@ -110,9 +110,9 @@ export default {
 <style lang="scss">
 .note-wrap article {
   padding-top: 2rem;
-  p:first-child::first-letter {
+  > p:first-child::first-letter {
     float: left;
-    font-size: 3em;
+    font-size: 2.4em;
     margin: 0 0.2em 0 0;
   }
   p {
